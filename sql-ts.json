@@ -1,0 +1,21 @@
+{
+  "dialect": "postgres",
+  "connection": {
+    "host": "postgres.local",
+    "user": "postgres",
+    "password": "postgres",
+    "database": "logbook"
+  },
+  "interfaceNameFormat": "${table}Raw",
+  "tableNameCasing": "pascal",
+  "singularTableNames": true,
+  "filename": "src/__generated__/sql",
+  "typeMap": {
+    "Date": ["timestamptz"],
+    "{[key: string]: any}": ["jsonb"]
+  },
+  "typeOverrides": {
+    "public.sections.difficulty": "number"
+  },
+  "template": "./sql-ts.handlebars"
+}

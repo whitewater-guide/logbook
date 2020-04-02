@@ -1,0 +1,135 @@
+scalar Date
+scalar JSON
+
+input Page {
+  limit: Int
+  after: String
+}
+
+type PageInfo {
+  cursor: String
+  hasMore: Boolean!
+}
+
+type Section {
+  id: ID!
+
+  region: String!
+  river: String!
+  section: String!
+  difficulty: Float!
+
+  upstreamId: String
+  upstreamData: JSON
+
+  createdAt: Date
+  updatedAt: Date
+
+  # TODO: maybe it's good idea to still have put-in and take-out here
+}
+
+input SectionInput {
+  id: ID
+
+  region: String
+  river: String
+  section: String
+  difficulty: Float
+
+  upstreamId: String
+  upstreamData: JSON
+}
+
+input SectionsFilter {
+  region: String
+}
+
+type SectionEdge {
+  node: Section!
+  cursor: String!
+}
+
+type SectionsConnection {
+  edges: [SectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type Level {
+  unit: String
+  value: Float
+}
+
+input LevelInput {
+  note: String
+  unit: String
+  value: Float
+}
+
+type Descent {
+  id: ID!
+
+  section: Section!
+  startedAt: Date!
+  duration: Int
+  level: Level
+  comment: String
+  public: Boolean
+
+  upstreamData: JSON
+
+  createdAt: Date
+  updatedAt: Date
+
+  # TODO: boat type as object
+}
+
+input DescentInput {
+  id: ID
+
+  section: SectionInput!
+  startedAt: Date!
+
+  level: LevelInput
+  comment: String
+  public: Boolean
+  upstreamData: JSON
+}
+
+type DescentEdge {
+  node: Descent!
+  cursor: String!
+}
+
+type DescentsConnection {
+  edges: [DescentEdge!]!
+  pageInfo: PageInfo!
+}
+
+input DescentFilter {
+  startDate: Date
+  endDate: Date
+  difficulty: Float
+
+  userID: String
+  sectionID: String
+}
+
+type Query {
+  descent(id: ID, shareToken: String): Descent
+
+  descents(filter: DescentFilter, page: Page): DescentsConnection
+  myDescents(filter: DescentFilter, page: Page): DescentsConnection
+
+  mySection(id: ID): Section
+  mySections(filter: SectionsFilter, page: Page): SectionsConnection
+
+  # TODO: get export as csv link
+}
+
+type Mutation {
+  upsertDescent(descent: DescentInput!): Descent
+  deleteDescent(id: ID!): Boolean
+
+  upsertSection(section: SectionInput): Section
+  deleteSection(id: ID!): Boolean
+}

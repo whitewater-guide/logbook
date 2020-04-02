@@ -1,0 +1,14 @@
+{{#*inline "tablePartial"}}
+export interface {{interfaceName}} {{#if extends}}extends {{extends}} {{/if}}{
+  {{#each additionalProperties as |prop|}}
+  {{prop}}
+  {{/each}}
+  {{#each columns}}
+  "{{propertyName}}": {{propertyType}} {{#if nullable}}| null {{/if}}
+  {{/each}}
+}
+{{/inline}}
+
+{{#each tables as |table|}}
+{{> tablePartial table}}
+{{/each}}

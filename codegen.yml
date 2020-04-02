@@ -1,0 +1,27 @@
+overwrite: true
+schema: './schema.graphql'
+generates:
+  ./src/__generated__/graphql.ts:
+    plugins:
+      - 'typescript'
+    config:
+      scalars:
+        DateTime: string
+        JSON: '{ [key: string]: any }'
+
+  ./src/:
+    documents:
+      - ./src/**/__tests__/*.ts
+      - ./src/**/*.test.ts
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.ts
+      baseTypesPath: __generated__/graphql.ts
+    plugins:
+      - typescript-operations
+
+config:
+  preResolveTypes: true
+hooks:
+  afterAllFileWrite:
+    - eslint --fix

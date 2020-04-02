@@ -1,0 +1,32 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverages
+coverage
+
+# Node Modules
+node_modules/
+
+# Caches
+.cache/
+
+# Build artifacts
+dist/
+*.tsbuildinfo
+
+# Idea
+.idea/
+*.iml
+
+#
+Env files
+.env*
+!.envrc
+
+# Generated files
+**/__generated__
+**/*.generated.ts*

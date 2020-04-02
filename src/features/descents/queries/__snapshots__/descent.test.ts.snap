@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should return descent 1`] = `
+Object {
+  "comment": "descent 1 comment",
+  "createdAt": 2020-01-01T00:00:00.000Z,
+  "duration": 3600,
+  "id": "97998f67-74f2-43db-a4e4-198c2ca540a7",
+  "level": Object {
+    "unit": "m3/s",
+    "value": 99.9,
+  },
+  "public": true,
+  "section": Object {
+    "createdAt": 2020-01-01T00:00:00.000Z,
+    "difficulty": 7,
+    "id": "45e70501-5d20-449f-b854-52b06b138831",
+    "region": "Norway",
+    "river": "Sjoa",
+    "section": "Amot",
+    "updatedAt": 2020-01-01T00:00:00.000Z,
+    "upstreamData": Object {
+      "upstream": "data",
+    },
+    "upstreamId": "__upstream__id__",
+  },
+  "startedAt": 2020-01-01T00:00:00.000Z,
+  "updatedAt": 2020-01-01T00:00:00.000Z,
+  "upstreamData": Object {
+    "upstream": "data",
+  },
+}
+`;
