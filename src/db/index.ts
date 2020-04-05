@@ -1,3 +1,1 @@
-import { db } from './pool';
-
-export default db;
+export * from './db';
