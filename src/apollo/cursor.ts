@@ -34,16 +34,6 @@ export const decodeCursor = (cursor?: string): Cursor | undefined => {
   };
 };
 
-export const itemsToEdges = (items: any[], orderBy?: string) => {
-  return items.map((node) => ({
-    cursor: encodeCursor({
-      ordId: node.ordId,
-      value: orderBy ? node[orderBy] : undefined,
-    }),
-    node,
-  }));
-};
-
 export const CursorScalar = new GraphQLScalarType({
   name: 'Cursor',
   description: 'Pagination cursor',

@@ -11,6 +11,7 @@ import { SectionFieldsMap } from '../sections/fields-map';
 import clamp from 'lodash/clamp';
 import { db } from '~/db';
 import graphqlFields from 'graphql-fields';
+import { itemsToConnection } from '~/apollo/connections';
 import jwt from 'jsonwebtoken';
 import set from 'lodash/set';
 
@@ -25,8 +26,7 @@ class DescentsService extends DataSource<Context> {
     this._context = config.context;
   }
 
-  private buildSelection(info: GraphQLResolveInfo) {
-    const tree = graphqlFields(info);
+  private buildSelection(tree: any) {
     const selection: ValueExpressionType[] = [
       DescentFieldsMap.getSqlSelection(tree, {
         table: 'descents',
@@ -62,6 +62,7 @@ class DescentsService extends DataSource<Context> {
     id?: string | null,
     shareToken?: string | null,
   ): Promise<Partial<Descent> | null> {
+    const tree = graphqlFields(info);
     let identifier = id;
     let fromShareToken = false;
     if (!id && shareToken) {
@@ -77,7 +78,7 @@ class DescentsService extends DataSource<Context> {
         'either descent id or share token must be provided',
       );
     }
-    const selection = this.buildSelection(info);
+    const selection = this.buildSelection(tree);
     const row: DescentRaw | null = await db().maybeOne(sql`
       SELECT ${selection}, descents.user_id as descent_user_id
       FROM descents
@@ -112,13 +113,14 @@ class DescentsService extends DataSource<Context> {
 
   public async getMany(
     info: GraphQLResolveInfo,
-    filter?: DescentFilter,
-    page?: Page,
+    filter?: DescentFilter | null,
+    page?: Page | null,
   ) {
+    const tree = graphqlFields(info);
     const after = page?.after;
     const limit = clamp(page?.limit || 20, 1, 100);
 
-    const selection = this.buildSelection(info);
+    const selection = this.buildSelection(tree.edges.node);
 
     const wheres = [];
 
@@ -154,17 +156,22 @@ class DescentsService extends DataSource<Context> {
 
     const whereClause = wheres.length
       ? sql`WHERE ${sql.join(wheres, sql` AND `)}`
-      : '';
+      : sql``;
 
-    const result = await db().query(sql`
-      SELECT ${selection}
+    const { rows } = await db().query(sql`
+      SELECT ${selection}, count(*) OVER() total_count
       FROM descents
-      {whereClause}
-      ORDER BY started_at DESC, ord_id DESC
+      LEFT OUTER JOIN sections on descents.section_id = sections.id
+      ${whereClause}
+      ORDER BY started_at DESC, descents.ord_id DESC
       LIMIT ${limit}
     `);
+    const total: number = (rows?.[0]?.total_count as any) || 0;
 
-    return result;
+    return itemsToConnection(
+      rows.map((r) => this.collapseJoin(r)),
+      total,
+    );
   }
 }
 
