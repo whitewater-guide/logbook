@@ -2,7 +2,6 @@ import {
   DatabasePoolConnectionType,
   DatabasePoolType,
   createPool,
-  createTypeParserPreset,
 } from 'slonik';
 
 import { Client } from 'pg';
@@ -13,10 +12,6 @@ const cfg = {
   database: `logbook_test_${process.env.JEST_WORKER_ID}`,
   password: process.env.POSTGRES_PASSWORD,
 };
-
-const typeParsers = createTypeParserPreset().filter(
-  ({ name }) => !['name', 'timestamp', 'timestamptz'].includes(name),
-);
 
 let _pool: DatabasePoolType | undefined;
 
@@ -50,9 +45,6 @@ export const setupDB = async () => {
 
   _pool = createPool(
     `postgresql://${cfg.user}:${cfg.password}@${cfg.host}/${cfg.database}`,
-    {
-      typeParsers,
-    },
   );
 };
 

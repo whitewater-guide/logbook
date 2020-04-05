@@ -4,7 +4,8 @@ import { sql } from 'slonik';
 import uniq from 'lodash/uniq';
 
 interface SqlSelectionOptions {
-  prefix?: string;
+  table?: string;
+  aliasPrefix: string;
   path?: string;
 }
 
@@ -15,8 +16,8 @@ class FieldsMap<TGraphql, TSql> {
     this._map = new Map(map);
   }
 
-  public getSqlSelection(tree: any, options: SqlSelectionOptions = {}) {
-    const { path, prefix } = options;
+  public getSqlSelection(tree: any, options: SqlSelectionOptions) {
+    const { path, table, aliasPrefix } = options;
     const keys = Object.keys(path ? get(tree, path) : tree);
 
     const columns: string[] = uniq(
@@ -26,7 +27,11 @@ class FieldsMap<TGraphql, TSql> {
         .map((k: any) => snakeCase(k)),
     );
     return sql.join(
-      columns.map((col) => sql.identifier(prefix ? [prefix, col] : [col])),
+      columns.map((col) => {
+        const fullCol = sql.identifier(table ? [table, col] : [col]);
+        const aliasCol = sql.identifier([`${aliasPrefix}_${col}`]);
+        return sql`${fullCol} AS ${aliasCol}`;
+      }),
       sql`, `,
     );
   }

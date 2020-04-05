@@ -1,6 +1,6 @@
 import { Descent } from '~/__generated__/graphql';
 import { DescentRaw } from '~/__generated__/sql';
-import FieldsMap from '~/core/FieldsMap';
+import FieldsMap from '~/apollo/FieldsMap';
 
 export const DescentFieldsMap = new FieldsMap<Descent, DescentRaw>([
   ['id', 'id'],

@@ -1,4 +1,4 @@
-import FieldsMap from '~/core/FieldsMap';
+import FieldsMap from '~/apollo/FieldsMap';
 import { Section } from '~/__generated__/graphql';
 import { SectionRaw } from '~/__generated__/sql';
 

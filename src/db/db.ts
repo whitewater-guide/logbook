@@ -1,8 +1,4 @@
-import {
-  DatabasePoolConnectionType,
-  createPool,
-  createTypeParserPreset,
-} from 'slonik';
+import { DatabasePoolConnectionType, createPool } from 'slonik';
 
 const cfg = {
   host: process.env.POSTGRES_HOST,
@@ -11,15 +7,8 @@ const cfg = {
   password: process.env.POSTGRES_PASSWORD,
 };
 
-const typeParsers = createTypeParserPreset().filter(
-  ({ name }) => !['name', 'timestamp', 'timestamptz'].includes(name),
-);
-
 const pool = createPool(
   `postgresql://${cfg.user}:${cfg.password}@${cfg.host}/${cfg.database}`,
-  {
-    typeParsers,
-  },
 );
 
 export const db: () => DatabasePoolConnectionType = () => pool;

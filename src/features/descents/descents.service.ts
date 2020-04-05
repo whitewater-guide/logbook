@@ -1,16 +1,22 @@
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
+import { Descent, DescentFilter, Page } from '~/__generated__/graphql';
+import { DescentRaw, SectionRaw } from '~/__generated__/sql';
 import { ForbiddenError, UserInputError } from 'apollo-server';
 import { ValueExpressionType, sql } from 'slonik';
 
 import { Context } from '~/apollo/context';
-import { Descent } from '~/__generated__/graphql';
 import { DescentFieldsMap } from './fields-map';
-import { DescentRaw } from '~/__generated__/sql';
 import { GraphQLResolveInfo } from 'graphql';
 import { SectionFieldsMap } from '../sections/fields-map';
+import clamp from 'lodash/clamp';
 import { db } from '~/db';
 import graphqlFields from 'graphql-fields';
 import jwt from 'jsonwebtoken';
+import set from 'lodash/set';
+
+interface DescentJointRow extends DescentRaw {
+  section: SectionRaw;
+}
 
 class DescentsService extends DataSource<Context> {
   private _context!: Context;
@@ -22,25 +28,33 @@ class DescentsService extends DataSource<Context> {
   private buildSelection(info: GraphQLResolveInfo) {
     const tree = graphqlFields(info);
     const selection: ValueExpressionType[] = [
-      DescentFieldsMap.getSqlSelection(tree, {}),
+      DescentFieldsMap.getSqlSelection(tree, {
+        table: 'descents',
+        aliasPrefix: 'descent',
+      }),
     ];
     if (tree.section) {
       const sectionSelection = SectionFieldsMap.getSqlSelection(tree, {
         path: 'section',
+        table: 'sections',
+        aliasPrefix: 'section',
       });
-      const sectionsSub = sql`
-      (
-        SELECT row_to_json(sec)
-        FROM (
-          SELECT ${sectionSelection}
-          FROM sections
-          WHERE sections.id = descents.section_id
-        ) sec
-      ) AS section
-    `;
-      selection.push(sectionsSub);
+      selection.push(sectionSelection);
     }
     return sql.join(selection, sql`, `);
+  }
+
+  private collapseJoin(row: any): any {
+    return Object.entries(row).reduce((acc, [key, val]) => {
+      const [prefix, ...rest] = key.split('_');
+      const tableKey = rest.join('_');
+      if (prefix === 'descent') {
+        set(acc, tableKey, val);
+      } else {
+        set(acc, `${prefix}.${tableKey}`, val);
+      }
+      return acc;
+    }, {});
   }
 
   public async getOne(
@@ -64,15 +78,18 @@ class DescentsService extends DataSource<Context> {
       );
     }
     const selection = this.buildSelection(info);
-    const result: DescentRaw | null = await db().maybeOne(sql`
-      SELECT ${selection}, user_id
+    const row: DescentRaw | null = await db().maybeOne(sql`
+      SELECT ${selection}, descents.user_id as descent_user_id
       FROM descents
+      LEFT OUTER JOIN sections on descents.section_id = sections.id
       WHERE descents.id = ${identifier}
     `);
 
-    if (!result) {
+    if (!row) {
       return null;
     }
+
+    const result: DescentJointRow = this.collapseJoin(row);
 
     if (
       !result.public &&
@@ -91,6 +108,63 @@ class DescentsService extends DataSource<Context> {
         value: result.level_value,
       },
     };
+  }
+
+  public async getMany(
+    info: GraphQLResolveInfo,
+    filter?: DescentFilter,
+    page?: Page,
+  ) {
+    const after = page?.after;
+    const limit = clamp(page?.limit || 20, 1, 100);
+
+    const selection = this.buildSelection(info);
+
+    const wheres = [];
+
+    if (after) {
+      wheres.push(
+        sql`(descents.create_at, descents.ord_id) < (${after.value}, ${after.ordId})`,
+      );
+    }
+    if (filter?.difficulty) {
+      if (filter.difficulty.length !== 2) {
+        throw new UserInputError('difficulty filter must contain two values');
+      }
+      wheres.push(sql`sections.difficulty >= ${filter.difficulty[0]}`);
+      wheres.push(sql`sections.difficulty <= ${filter.difficulty[1]}`);
+    }
+    if (filter?.startDate) {
+      wheres.push(sql`descents.started_at >= ${filter.startDate}`);
+    }
+    if (filter?.endDate) {
+      wheres.push(sql`descents.started_at <= ${filter.endDate}`);
+    }
+    if (filter?.sectionID) {
+      wheres.push(
+        sql`(descents.section_id = ${filter.sectionID} OR sections.parent_id = ${filter.sectionID}) `,
+      );
+    }
+    if (filter?.upstreamSectionID) {
+      wheres.push(sql`sections.upstream_id = ${filter.upstreamSectionID}`);
+    }
+    if (filter?.userID) {
+      wheres.push(sql`descents.user_id = ${filter.userID}`);
+    }
+
+    const whereClause = wheres.length
+      ? sql`WHERE ${sql.join(wheres, sql` AND `)}`
+      : '';
+
+    const result = await db().query(sql`
+      SELECT ${selection}
+      FROM descents
+      {whereClause}
+      ORDER BY started_at DESC, ord_id DESC
+      LIMIT ${limit}
+    `);
+
+    return result;
   }
 }
 

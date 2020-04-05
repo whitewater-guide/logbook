@@ -8,6 +8,7 @@ generates:
       scalars:
         DateTime: string
         JSON: '{ [key: string]: any }'
+        Cursor: ~/apollo/cursor#Cursor
 
   ./src/:
     documents:

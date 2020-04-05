@@ -1,13 +1,14 @@
 scalar Date
 scalar JSON
+scalar Cursor
 
 input Page {
   limit: Int
-  after: String
+  after: Cursor
 }
 
 type PageInfo {
-  cursor: String
+  endCursor: Cursor
   hasMore: Boolean!
 }
 
@@ -46,7 +47,7 @@ input SectionsFilter {
 
 type SectionEdge {
   node: Section!
-  cursor: String!
+  cursor: Cursor!
 }
 
 type SectionsConnection {
@@ -97,7 +98,7 @@ input DescentInput {
 
 type DescentEdge {
   node: Descent!
-  cursor: String!
+  cursor: Cursor!
 }
 
 type DescentsConnection {
@@ -108,10 +109,11 @@ type DescentsConnection {
 input DescentFilter {
   startDate: Date
   endDate: Date
-  difficulty: Float
+  difficulty: [Float!]
 
   userID: String
   sectionID: String
+  upstreamSectionID: String
 }
 
 type Query {
