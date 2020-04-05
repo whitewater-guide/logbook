@@ -68,6 +68,7 @@ input LevelInput {
 
 type Descent {
   id: ID!
+  userId: ID!
 
   section: Section!
   startedAt: Date!

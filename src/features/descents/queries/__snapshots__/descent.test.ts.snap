@@ -29,5 +29,6 @@ Object {
   "upstreamData": Object {
     "upstream": "data",
   },
+  "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
 }
 `;

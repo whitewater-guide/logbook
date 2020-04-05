@@ -16,6 +16,7 @@ const query = gql`
       edges {
         node {
           id
+          userId
 
           section {
             id

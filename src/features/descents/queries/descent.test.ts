@@ -16,6 +16,7 @@ const query = gql`
   query getDescent($id: ID, $shareToken: String) {
     descent(id: $id, shareToken: $shareToken) {
       id
+      userId
 
       section {
         id

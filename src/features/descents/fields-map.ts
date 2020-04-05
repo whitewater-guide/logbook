@@ -4,6 +4,7 @@ import FieldsMap from '~/apollo/FieldsMap';
 
 export const DescentFieldsMap = new FieldsMap<Descent, DescentRaw>([
   ['id', 'id'],
+  ['userId', 'user_id'],
   ['section', 'section_id'],
   ['startedAt', 'started_at'],
   ['duration', 'duration'],

@@ -31,6 +31,7 @@ Object {
             "startedAt": 2020-01-09T00:00:00.000Z,
             "updatedAt": 2020-01-09T00:00:00.000Z,
             "upstreamData": null,
+            "userId": "8e295235-d6aa-4fbf-bf64-1f9c9decba5c",
           },
         },
         Object {
@@ -59,6 +60,7 @@ Object {
             "startedAt": 2020-01-08T00:00:00.000Z,
             "updatedAt": 2020-01-08T00:00:00.000Z,
             "upstreamData": null,
+            "userId": "8e295235-d6aa-4fbf-bf64-1f9c9decba5c",
           },
         },
         Object {
@@ -87,6 +89,7 @@ Object {
             "startedAt": 2020-01-07T00:00:00.000Z,
             "updatedAt": 2020-01-07T00:00:00.000Z,
             "upstreamData": null,
+            "userId": "8e295235-d6aa-4fbf-bf64-1f9c9decba5c",
           },
         },
         Object {
@@ -115,6 +118,7 @@ Object {
             "startedAt": 2020-01-06T00:00:00.000Z,
             "updatedAt": 2020-01-06T00:00:00.000Z,
             "upstreamData": null,
+            "userId": "60d37885-4d41-4ce2-9ae6-e413eaa28ed3",
           },
         },
         Object {
@@ -143,6 +147,7 @@ Object {
             "startedAt": 2020-01-05T00:00:00.000Z,
             "updatedAt": 2020-01-05T00:00:00.000Z,
             "upstreamData": null,
+            "userId": "60d37885-4d41-4ce2-9ae6-e413eaa28ed3",
           },
         },
         Object {
@@ -171,6 +176,7 @@ Object {
             "startedAt": 2020-01-03T00:00:00.000Z,
             "updatedAt": 2020-01-03T00:00:00.000Z,
             "upstreamData": null,
+            "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
           },
         },
         Object {
@@ -199,6 +205,7 @@ Object {
             "startedAt": 2020-01-02T00:00:00.000Z,
             "updatedAt": 2020-01-02T00:00:00.000Z,
             "upstreamData": null,
+            "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
           },
         },
         Object {
@@ -231,6 +238,7 @@ Object {
             "upstreamData": Object {
               "upstream": "data",
             },
+            "userId": "60d37885-4d41-4ce2-9ae6-e413eaa28ed3",
           },
         },
         Object {
@@ -263,6 +271,7 @@ Object {
             "upstreamData": Object {
               "upstream": "data",
             },
+            "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
           },
         },
       ],
