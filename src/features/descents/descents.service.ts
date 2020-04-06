@@ -31,6 +31,7 @@ class DescentsService extends DataSource<Context> {
       DescentFieldsMap.getSqlSelection(tree, {
         table: 'descents',
         aliasPrefix: 'descent',
+        requiredColumns: ['user_id', 'ord_id', 'created_at'],
       }),
     ];
     if (tree.section) {
@@ -38,6 +39,7 @@ class DescentsService extends DataSource<Context> {
         path: 'section',
         table: 'sections',
         aliasPrefix: 'section',
+        requiredColumns: ['user_id', 'ord_id'],
       });
       selection.push(sectionSelection);
     }
@@ -80,7 +82,7 @@ class DescentsService extends DataSource<Context> {
     }
     const selection = this.buildSelection(tree);
     const row: DescentRaw | null = await db().maybeOne(sql`
-      SELECT ${selection}, descents.user_id as descent_user_id
+      SELECT ${selection}
       FROM descents
       LEFT OUTER JOIN sections on descents.section_id = sections.id
       WHERE descents.id = ${identifier}
@@ -122,25 +124,32 @@ class DescentsService extends DataSource<Context> {
 
     const selection = this.buildSelection(tree.edges.node);
 
-    const wheres = [];
+    const wheres = [
+      this._context.uid
+        ? sql`(descents.public = TRUE OR descents.user_id = ${this._context.uid})`
+        : sql`descents.public = TRUE`,
+    ];
 
     if (after) {
+      const afterval = new Date(Number(after.value)).toISOString();
       wheres.push(
-        sql`(descents.create_at, descents.ord_id) < (${after.value}, ${after.ordId})`,
+        sql`(descents.started_at, descents.ord_id) < (${afterval}, ${after.ordId})`,
       );
     }
     if (filter?.difficulty) {
       if (filter.difficulty.length !== 2) {
         throw new UserInputError('difficulty filter must contain two values');
       }
-      wheres.push(sql`sections.difficulty >= ${filter.difficulty[0]}`);
-      wheres.push(sql`sections.difficulty <= ${filter.difficulty[1]}`);
+      wheres.push(sql`sections.difficulty >= ${2 * filter.difficulty[0]}`);
+      wheres.push(sql`sections.difficulty <= ${2 * filter.difficulty[1]}`);
     }
     if (filter?.startDate) {
-      wheres.push(sql`descents.started_at >= ${filter.startDate}`);
+      const startDate = filter.startDate.toISOString();
+      wheres.push(sql`descents.started_at >= ${startDate}`);
     }
     if (filter?.endDate) {
-      wheres.push(sql`descents.started_at <= ${filter.endDate}`);
+      const endDate = filter.endDate.toISOString();
+      wheres.push(sql`descents.started_at <= ${endDate}`);
     }
     if (filter?.sectionID) {
       wheres.push(
@@ -154,15 +163,11 @@ class DescentsService extends DataSource<Context> {
       wheres.push(sql`descents.user_id = ${filter.userID}`);
     }
 
-    const whereClause = wheres.length
-      ? sql`WHERE ${sql.join(wheres, sql` AND `)}`
-      : sql``;
-
     const { rows } = await db().query(sql`
       SELECT ${selection}, count(*) OVER() total_count
       FROM descents
       LEFT OUTER JOIN sections on descents.section_id = sections.id
-      ${whereClause}
+      WHERE ${sql.join(wheres, sql` AND `)}
       ORDER BY started_at DESC, descents.ord_id DESC
       LIMIT ${limit}
     `);
@@ -171,6 +176,7 @@ class DescentsService extends DataSource<Context> {
     return itemsToConnection(
       rows.map((r) => this.collapseJoin(r)),
       total,
+      'started_at',
     );
   }
 }

@@ -22,8 +22,8 @@ VALUES
     'Norway',
     'Sjoa',
     'Amot',
-    '__upstream__id__',
-    '{"upstream": "data"}',
+    'd749dbc1-166f-41d1-91ac-e4658d30d90f',
+    '{"upstream": "upstream section 1 data"}',
     '2020-01-01',
     '2020-01-01'
   ),
@@ -57,12 +57,12 @@ VALUES
     'f9035355-0499-4d1c-9ccd-c9909dbad49a', -- section 4
     '45e70501-5d20-449f-b854-52b06b138831', -- section 1
     '60d37885-4d41-4ce2-9ae6-e413eaa28ed3', -- user 2
-    8,
+    8, -- modified
     'Norway',
     'Sjoa',
     'Amot',
-    NULL,
-    NULL,
+    'd749dbc1-166f-41d1-91ac-e4658d30d90f',
+    '{"upstream": "upstream section 1 data"}',
     '2020-01-04',
     '2020-01-04'
   ),
@@ -120,14 +120,14 @@ VALUES
   ),
   (
     '720f5a61-a272-4552-a731-1d1d9848f9b7', -- section 9
-    NULL,
+    '45e70501-5d20-449f-b854-52b06b138831', -- section 1
     '8e295235-d6aa-4fbf-bf64-1f9c9decba5c', -- user 3
-    8,
-    'Georgia',
-    'Bzhuzha',
-    'Superfinal',
-    NULL,
-    NULL,
+    7,
+    'Norway',
+    'Sjoa',
+    'Amot',
+    'd749dbc1-166f-41d1-91ac-e4658d30d90f',
+    '{"upstream": "upstream section 1 data"}',
     '2020-01-09',
     '2020-01-09'
   );
@@ -158,7 +158,7 @@ VALUES
     3600,
     'm3/s',
     99.9,
-    '{"upstream": "data"}',
+    '{"upstream": "descent 1 upstream data"}',
     '2020-01-01',
     '2020-01-01',
     '2020-01-01'
@@ -196,14 +196,14 @@ VALUES
     (
     'ffd6ba41-d7e5-4fbf-8347-2481d583674e', -- descent 4
     '60d37885-4d41-4ce2-9ae6-e413eaa28ed3', -- user 2
-    '45e70501-5d20-449f-b854-52b06b138831', -- section 4, parent section 1
+    'f9035355-0499-4d1c-9ccd-c9909dbad49a', -- section 4, parent section 1
     '97998f67-74f2-43db-a4e4-198c2ca540a7', -- descent 1
     TRUE,
-    'descent 4 comment',
+    'descent 4, parent descent 1 comment',
     3600,
     'm3/s',
     99.9,
-    '{"upstream": "data"}',
+    '{"upstream": "descent 1 upstream data"}',
     '2020-01-01',
     '2020-01-04',
     '2020-01-04'
@@ -255,7 +255,7 @@ VALUES
   ),
   (
     '902c52f3-5165-443b-b4a7-2e9c27b48538', -- descent 8
-    '8e295235-d6aa-4fbf-bf64-1f9c9decba5c', -- user 8
+    '8e295235-d6aa-4fbf-bf64-1f9c9decba5c', -- user 3
     '8f43c474-72a5-4575-b51e-ccf3823d8014', -- section 8
     NULL,
     FALSE,
@@ -270,7 +270,7 @@ VALUES
   ),
   (
     '900ede8f-b605-4dd6-a9b2-9b2628f79254', -- descent 9
-    '8e295235-d6aa-4fbf-bf64-1f9c9decba5c', -- user 8
+    '8e295235-d6aa-4fbf-bf64-1f9c9decba5c', -- user 3
     '8f43c474-72a5-4575-b51e-ccf3823d8014', -- section 8
     NULL,
     FALSE,
@@ -282,4 +282,19 @@ VALUES
     '2020-01-09',
     '2020-01-09',
     '2020-01-09'
-  );
+  ),
+  (
+    '7f712c8a-45a9-4fd5-966a-c8b4d07f36df', -- descent 10
+    '8e295235-d6aa-4fbf-bf64-1f9c9decba5c', -- user 3
+    '720f5a61-a272-4552-a731-1d1d9848f9b7', -- section 9, parent section 1
+    '97998f67-74f2-43db-a4e4-198c2ca540a7', -- descent 1
+    TRUE,
+    'descent 10, parent descent 1 comment',
+    3600,
+    'm3/s',
+    99.9,
+    '{"upstream": "descent 1 upstream data"}',
+    '2020-01-01',
+    '2020-01-10',
+    '2020-01-10'
+  )

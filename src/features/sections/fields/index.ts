@@ -7,6 +7,7 @@ const fields: FieldResolvers<SectionRaw, Section> = {
   upstreamId: (d) => d.upstream_id || null,
   createdAt: (d) => new Date(d.created_at),
   updatedAt: (d) => new Date(d.updated_at),
+  difficulty: (d) => d.difficulty / 2,
 };
 
 export default { Section: fields };

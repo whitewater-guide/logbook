@@ -13,21 +13,21 @@ Object {
   "public": true,
   "section": Object {
     "createdAt": 2020-01-01T00:00:00.000Z,
-    "difficulty": 7,
+    "difficulty": 3.5,
     "id": "45e70501-5d20-449f-b854-52b06b138831",
     "region": "Norway",
     "river": "Sjoa",
     "section": "Amot",
     "updatedAt": 2020-01-01T00:00:00.000Z,
     "upstreamData": Object {
-      "upstream": "data",
+      "upstream": "upstream section 1 data",
     },
-    "upstreamId": "__upstream__id__",
+    "upstreamId": "d749dbc1-166f-41d1-91ac-e4658d30d90f",
   },
   "startedAt": 2020-01-01T00:00:00.000Z,
   "updatedAt": 2020-01-01T00:00:00.000Z,
   "upstreamData": Object {
-    "upstream": "data",
+    "upstream": "descent 1 upstream data",
   },
   "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
 }

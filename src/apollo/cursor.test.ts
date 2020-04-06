@@ -1,12 +1,6 @@
 import { decodeCursor, encodeCursor } from './cursor';
 
-it('should encode and decode without value', () => {
-  const cursor = encodeCursor({ ordId: 1234 });
-  const decoded = decodeCursor(cursor);
-  expect(decoded).toEqual({ ordId: 1234 });
-});
-
-it('should encode and decode with value', () => {
+it('should encode and decode', () => {
   const cursor = encodeCursor({ ordId: 1234, value: 'foo' });
   const decoded = decodeCursor(cursor);
   expect(decoded).toEqual({ ordId: 1234, value: 'foo' });

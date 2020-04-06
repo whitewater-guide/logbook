@@ -3,10 +3,11 @@ import snakeCase from 'lodash/snakeCase';
 import { sql } from 'slonik';
 import uniq from 'lodash/uniq';
 
-interface SqlSelectionOptions {
+interface SqlSelectionOptions<TSql> {
   table?: string;
   aliasPrefix: string;
   path?: string;
+  requiredColumns?: Array<keyof TSql>;
 }
 
 class FieldsMap<TGraphql, TSql> {
@@ -16,15 +17,16 @@ class FieldsMap<TGraphql, TSql> {
     this._map = new Map(map);
   }
 
-  public getSqlSelection(tree: any, options: SqlSelectionOptions) {
-    const { path, table, aliasPrefix } = options;
+  public getSqlSelection(tree: any, options: SqlSelectionOptions<TSql>) {
+    const { path, table, aliasPrefix, requiredColumns = [] } = options;
     const keys = Object.keys(path ? get(tree, path) : tree);
 
     const columns: string[] = uniq(
       keys
         .flatMap((k: any) => this._map.get(k))
         .filter((k) => !!k)
-        .map((k: any) => snakeCase(k)),
+        .map((k: any) => snakeCase(k))
+        .concat(...(requiredColumns as any[])),
     );
     return sql.join(
       columns.map((col) => {

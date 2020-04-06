@@ -6,7 +6,8 @@ generates:
       - 'typescript'
     config:
       scalars:
-        DateTime: string
+        Date: Date
+        DateTime: Date
         JSON: '{ [key: string]: any }'
         Cursor: ~/apollo/cursor#Cursor
 

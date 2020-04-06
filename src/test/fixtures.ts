@@ -12,6 +12,8 @@ export const SECTION_7 = '2186e9bf-19f8-4a26-a9a1-80de877c4084';
 export const SECTION_8 = '8f43c474-72a5-4575-b51e-ccf3823d8014';
 export const SECTION_9 = '720f5a61-a272-4552-a731-1d1d9848f9b7';
 
+export const SECTION_1_UPSTREAM = 'd749dbc1-166f-41d1-91ac-e4658d30d90f';
+
 export const DESCENT_1 = '97998f67-74f2-43db-a4e4-198c2ca540a7';
 export const DESCENT_2 = '3fb2b1da-6649-429e-8b0e-0cbbda055da7';
 export const DESCENT_3 = '7deddd48-9f7f-4a76-9ff9-811f694f52a4';
@@ -21,6 +23,7 @@ export const DESCENT_6 = 'f56a3887-34ba-493e-b681-43b0b4547df7';
 export const DESCENT_7 = 'ac323bc5-47e7-43cf-b3dd-e029cf96fcf4';
 export const DESCENT_8 = '902c52f3-5165-443b-b4a7-2e9c27b48538';
 export const DESCENT_9 = '900ede8f-b605-4dd6-a9b2-9b2628f79254';
+export const DESCENT_10 = '7f712c8a-45a9-4fd5-966a-c8b4d07f36df';
 
 export const USER1_JWT =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3aGl0ZXdhdGVyLmd1aWRlIiwiaWF0IjoxNTg1OTIxOTg4LCJleHAiOjIyNDg2MDk5OTgsImF1ZCI6IiIsInN1YiI6ImFkODA4ZDgwLTdkMWQtNGJlZS04Mjc2LTBiOTIwNGU0NmIyZiJ9.zA71WdhStIMlFKSgqz7pUWrhNNEOZVs5sxDfMvrslp8';
