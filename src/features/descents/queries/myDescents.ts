@@ -1,4 +1,4 @@
-import { DescentFilter, QueryDescentsArgs } from '~/__generated__/graphql';
+import { DescentsFilter, QueryDescentsArgs } from '~/__generated__/graphql';
 
 import { AuthenticationError } from 'apollo-server';
 import { TopLevelResolver } from '~/apollo/types';
@@ -12,7 +12,7 @@ const myDescents: TopLevelResolver<QueryDescentsArgs> = (
   if (!uid) {
     throw new AuthenticationError('unauthenticated');
   }
-  const myFilter: DescentFilter = { ...filter, userID: uid };
+  const myFilter: DescentsFilter = { ...filter, userID: uid };
   return dataSources?.descents.getMany(info, myFilter, page);
 };
 

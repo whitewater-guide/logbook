@@ -17,7 +17,7 @@ import {
 } from './descents.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
-import { DescentFilter } from '~/__generated__/graphql';
+import { DescentsFilter } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -25,7 +25,7 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const query = gql`
-  query listDescents($filter: DescentFilter, $page: Page) {
+  query listDescents($filter: DescentsFilter, $page: Page) {
     descents(filter: $filter, page: $page) {
       edges {
         node {
@@ -106,7 +106,7 @@ it.each([
   expect(actual).toBe(visible);
 });
 
-type FilterTestCase = [string, DescentFilter, string[]];
+type FilterTestCase = [string, DescentsFilter, string[]];
 // use snapshot as a baseline
 it.each<FilterTestCase>([
   ['difficulty', { difficulty: [2.5, 3] }, [DESCENT_7, DESCENT_3, DESCENT_2]],

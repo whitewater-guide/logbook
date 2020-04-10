@@ -57,6 +57,7 @@ input SectionInput {
 
 input SectionsFilter {
   region: String
+  difficulty: [Float!]
 }
 
 type SectionEdge {
@@ -121,7 +122,7 @@ type DescentsConnection {
   pageInfo: PageInfo!
 }
 
-input DescentFilter {
+input DescentsFilter {
   startDate: Date
   endDate: Date
   difficulty: [Float!]
@@ -134,10 +135,10 @@ input DescentFilter {
 type Query {
   descent(id: ID, shareToken: String): Descent
 
-  descents(filter: DescentFilter, page: Page): DescentsConnection
-  myDescents(filter: DescentFilter, page: Page): DescentsConnection
+  descents(filter: DescentsFilter, page: Page): DescentsConnection
+  myDescents(filter: DescentsFilter, page: Page): DescentsConnection
 
-  mySection(id: ID): Section
+  mySection(id: ID!): Section
   mySections(filter: SectionsFilter, page: Page): SectionsConnection
 
   # TODO: get export as csv link

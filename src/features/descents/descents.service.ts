@@ -1,5 +1,5 @@
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
-import { Descent, DescentFilter, Page } from '~/__generated__/graphql';
+import { Descent, DescentsFilter, Page } from '~/__generated__/graphql';
 import { DescentRaw, SectionRaw } from '~/__generated__/sql';
 import { ForbiddenError, UserInputError } from 'apollo-server';
 import { ValueExpressionType, sql } from 'slonik';
@@ -103,7 +103,7 @@ class DescentsService extends DataSource<Context> {
 
   public async getMany(
     info: GraphQLResolveInfo,
-    filter?: DescentFilter | null,
+    filter?: DescentsFilter | null,
     page?: Page | null,
   ) {
     const tree = graphqlFields(info);

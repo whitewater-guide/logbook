@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+Object {
+  "data": Object {
+    "mySections": Object {
+      "edges": Array [
+        Object {
+          "cursor": "djE6Mw==",
+          "node": Object {
+            "createdAt": 2020-01-03T00:00:00.000Z,
+            "difficulty": 2.5,
+            "id": "7565d9ee-0fc0-4b49-be34-a62d59223067",
+            "putIn": null,
+            "region": "Norway",
+            "river": "Sjoa",
+            "section": "Asengjuvet",
+            "takeOut": null,
+            "updatedAt": 2020-01-03T00:00:00.000Z,
+            "upstreamData": null,
+            "upstreamId": null,
+          },
+        },
+        Object {
+          "cursor": "djE6Mg==",
+          "node": Object {
+            "createdAt": 2020-01-02T00:00:00.000Z,
+            "difficulty": 3,
+            "id": "e7d03e01-4927-4ae1-82bf-a9e195e59db6",
+            "putIn": null,
+            "region": "Norway",
+            "river": "Sjoa",
+            "section": "Playrun",
+            "takeOut": null,
+            "updatedAt": 2020-01-02T00:00:00.000Z,
+            "upstreamData": null,
+            "upstreamId": null,
+          },
+        },
+        Object {
+          "cursor": "djE6MQ==",
+          "node": Object {
+            "createdAt": 2020-01-01T00:00:00.000Z,
+            "difficulty": 3.5,
+            "id": "45e70501-5d20-449f-b854-52b06b138831",
+            "putIn": Object {
+              "lat": 49,
+              "lng": 0,
+            },
+            "region": "Norway",
+            "river": "Sjoa",
+            "section": "Amot",
+            "takeOut": Object {
+              "lat": 49,
+              "lng": 1,
+            },
+            "updatedAt": 2020-01-01T00:00:00.000Z,
+            "upstreamData": Object {
+              "upstream": "upstream section 1 data",
+            },
+            "upstreamId": "d749dbc1-166f-41d1-91ac-e4658d30d90f",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "djE6MQ==",
+        "hasMore": false,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
