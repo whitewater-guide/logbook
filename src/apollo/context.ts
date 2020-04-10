@@ -1,6 +1,7 @@
 import * as koa from 'koa';
 
-import type { TDescentsService } from '../features/descents/descents.service';
+import type { TDescentsService } from '~/features/descents/descents.service';
+import type { TSectionsService } from '~/features/sections/sections.service';
 import get from 'lodash/get';
 
 export interface Context {
@@ -10,6 +11,7 @@ export interface Context {
 
 export interface DataSources {
   descents: TDescentsService;
+  sections: TSectionsService;
 }
 
 interface Ctx {

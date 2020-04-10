@@ -9,11 +9,11 @@ import { DescentFieldsMap } from './fields-map';
 import { GraphQLResolveInfo } from 'graphql';
 import { SectionFieldsMap } from '../sections/fields-map';
 import clamp from 'lodash/clamp';
+import collapseJoinResults from '~/utils/collapseJoinResult';
 import { db } from '~/db';
 import graphqlFields from 'graphql-fields';
 import { itemsToConnection } from '~/apollo/connections';
 import jwt from 'jsonwebtoken';
-import set from 'lodash/set';
 
 interface DescentJointRow extends DescentRaw {
   section: SectionRaw;
@@ -44,19 +44,6 @@ class DescentsService extends DataSource<Context> {
       selection.push(sectionSelection);
     }
     return sql.join(selection, sql`, `);
-  }
-
-  private collapseJoin(row: any): any {
-    return Object.entries(row).reduce((acc, [key, val]) => {
-      const [prefix, ...rest] = key.split('_');
-      const tableKey = rest.join('_');
-      if (prefix === 'descent') {
-        set(acc, tableKey, val);
-      } else {
-        set(acc, `${prefix}.${tableKey}`, val);
-      }
-      return acc;
-    }, {});
   }
 
   public async getOne(
@@ -93,7 +80,7 @@ class DescentsService extends DataSource<Context> {
       return null;
     }
 
-    const result: DescentJointRow = this.collapseJoin(row);
+    const result: DescentJointRow = collapseJoinResults(row, 'descent');
 
     if (
       !result.public &&
@@ -175,7 +162,7 @@ class DescentsService extends DataSource<Context> {
     const total: number = (rows?.[0]?.total_count as any) || 0;
 
     return itemsToConnection(
-      rows.map((r) => this.collapseJoin(r)),
+      rows.map((r) => collapseJoinResults(r, 'descent')),
       total,
       'started_at',
     );

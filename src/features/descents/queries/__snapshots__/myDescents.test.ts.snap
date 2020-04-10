@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+Object {
+  "data": Object {
+    "myDescents": Object {
+      "edges": Array [
+        Object {
+          "cursor": "djE6MzoxNTc4MDA5NjAwMDAw",
+          "node": Object {
+            "comment": "descent 3 comment",
+            "createdAt": 2020-01-03T00:00:00.000Z,
+            "duration": null,
+            "id": "7deddd48-9f7f-4a76-9ff9-811f694f52a4",
+            "level": Object {
+              "unit": null,
+              "value": null,
+            },
+            "public": true,
+            "section": Object {
+              "createdAt": 2020-01-03T00:00:00.000Z,
+              "difficulty": 2.5,
+              "id": "7565d9ee-0fc0-4b49-be34-a62d59223067",
+              "putIn": null,
+              "region": "Norway",
+              "river": "Sjoa",
+              "section": "Asengjuvet",
+              "takeOut": null,
+              "updatedAt": 2020-01-03T00:00:00.000Z,
+              "upstreamData": null,
+              "upstreamId": null,
+            },
+            "startedAt": 2020-01-03T00:00:00.000Z,
+            "updatedAt": 2020-01-03T00:00:00.000Z,
+            "upstreamData": null,
+            "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
+          },
+        },
+        Object {
+          "cursor": "djE6MjoxNTc3OTIzMjAwMDAw",
+          "node": Object {
+            "comment": "descent 2 comment",
+            "createdAt": 2020-01-02T00:00:00.000Z,
+            "duration": 3000,
+            "id": "3fb2b1da-6649-429e-8b0e-0cbbda055da7",
+            "level": Object {
+              "unit": "m",
+              "value": 0.9,
+            },
+            "public": false,
+            "section": Object {
+              "createdAt": 2020-01-02T00:00:00.000Z,
+              "difficulty": 3,
+              "id": "e7d03e01-4927-4ae1-82bf-a9e195e59db6",
+              "putIn": null,
+              "region": "Norway",
+              "river": "Sjoa",
+              "section": "Playrun",
+              "takeOut": null,
+              "updatedAt": 2020-01-02T00:00:00.000Z,
+              "upstreamData": null,
+              "upstreamId": null,
+            },
+            "startedAt": 2020-01-02T00:00:00.000Z,
+            "updatedAt": 2020-01-02T00:00:00.000Z,
+            "upstreamData": null,
+            "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
+          },
+        },
+        Object {
+          "cursor": "djE6MToxNTc3ODM2ODAwMDAw",
+          "node": Object {
+            "comment": "descent 1 comment",
+            "createdAt": 2020-01-01T00:00:00.000Z,
+            "duration": 3600,
+            "id": "97998f67-74f2-43db-a4e4-198c2ca540a7",
+            "level": Object {
+              "unit": "m3/s",
+              "value": 99.9,
+            },
+            "public": true,
+            "section": Object {
+              "createdAt": 2020-01-01T00:00:00.000Z,
+              "difficulty": 3.5,
+              "id": "45e70501-5d20-449f-b854-52b06b138831",
+              "putIn": Object {
+                "lat": 49,
+                "lng": 0,
+              },
+              "region": "Norway",
+              "river": "Sjoa",
+              "section": "Amot",
+              "takeOut": Object {
+                "lat": 49,
+                "lng": 1,
+              },
+              "updatedAt": 2020-01-01T00:00:00.000Z,
+              "upstreamData": Object {
+                "upstream": "upstream section 1 data",
+              },
+              "upstreamId": "d749dbc1-166f-41d1-91ac-e4658d30d90f",
+            },
+            "startedAt": 2020-01-01T00:00:00.000Z,
+            "updatedAt": 2020-01-01T00:00:00.000Z,
+            "upstreamData": Object {
+              "upstream": "descent 1 upstream data",
+            },
+            "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "djE6MToxNTc3ODM2ODAwMDAw",
+        "hasMore": false,
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

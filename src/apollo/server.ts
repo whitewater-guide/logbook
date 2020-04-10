@@ -4,9 +4,15 @@ import { Context, context } from './context';
 
 import { ApolloServer } from 'apollo-server-koa';
 import DescentsService from '~/features/descents/descents.service';
+import SectionsService from '~/features/sections/sections.service';
 import { formatError } from './formatError';
 import loadSchema from './schema';
 import { logger } from './logger';
+
+const dataSources = () => ({
+  descents: new DescentsService(),
+  sections: new SectionsService(),
+});
 
 export const createApolloServer = async (app: Koa) => {
   const schema = await loadSchema();
@@ -17,9 +23,7 @@ export const createApolloServer = async (app: Koa) => {
     debug: process.env.NODE_ENV === 'development',
     introspection: process.env.APOLLO_EXPOSE_SCHEMA === 'true',
     playground: process.env.APOLLO_EXPOSE_PLAYGROUND === 'true',
-    dataSources: () => ({
-      descents: new DescentsService(),
-    }),
+    dataSources,
   });
 
   server.applyMiddleware({
@@ -40,8 +44,6 @@ export const createTestApolloServer = async (ctx: Context) => {
     debug: false,
     introspection: false,
     playground: false,
-    dataSources: () => ({
-      descents: new DescentsService(),
-    }),
+    dataSources,
   });
 };
