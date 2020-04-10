@@ -1,19 +1,25 @@
+import { ValueExpressionType, sql } from 'slonik';
+
 import get from 'lodash/get';
 import snakeCase from 'lodash/snakeCase';
-import { sql } from 'slonik';
 import uniq from 'lodash/uniq';
 
 interface SqlSelectionOptions<TSql> {
   table?: string;
   aliasPrefix: string;
   path?: string;
-  requiredColumns?: Array<keyof TSql>;
+  requiredColumns?: Array<Extract<keyof TSql, string>>;
 }
 
-class FieldsMap<TGraphql, TSql> {
-  private _map: Map<keyof TGraphql, keyof TSql | Array<keyof TSql>>;
+type Column<TSql> =
+  | Extract<keyof TSql, string>
+  | { raw: ValueExpressionType; alias: string };
+type MappedSql<TSql> = Column<TSql> | Array<Column<TSql>>;
 
-  constructor(map: Array<[keyof TGraphql, keyof TSql | Array<keyof TSql>]>) {
+class FieldsMap<TGraphql, TSql> {
+  private _map: Map<Extract<keyof TGraphql, string>, MappedSql<TSql>>;
+
+  constructor(map: Array<[Extract<keyof TGraphql, string>, MappedSql<TSql>]>) {
     this._map = new Map(map);
   }
 
@@ -21,15 +27,19 @@ class FieldsMap<TGraphql, TSql> {
     const { path, table, aliasPrefix, requiredColumns = [] } = options;
     const keys = Object.keys(path ? get(tree, path) : tree);
 
-    const columns: string[] = uniq(
+    const columns: Column<TSql>[] = uniq(
       keys
         .flatMap((k: any) => this._map.get(k))
-        .filter((k) => !!k)
-        .map((k: any) => snakeCase(k))
+        .filter((v) => !!v)
+        .map((v) => (typeof v === 'string' ? snakeCase(v) : v))
         .concat(...(requiredColumns as any[])),
-    );
+    ) as any;
     return sql.join(
       columns.map((col) => {
+        if (typeof col !== 'string') {
+          const aliasCol = sql.identifier([`${aliasPrefix}_${col.alias}`]);
+          return sql.join([col.raw, aliasCol], sql` AS `);
+        }
         const fullCol = sql.identifier(table ? [table, col] : [col]);
         const aliasCol = sql.identifier([`${aliasPrefix}_${col}`]);
         return sql`${fullCol} AS ${aliasCol}`;

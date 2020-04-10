@@ -6,6 +6,7 @@
     "password": "postgres",
     "database": "logbook"
   },
+  "schemas": ["public"],
   "interfaceNameFormat": "${table}Raw",
   "tableNameCasing": "pascal",
   "singularTableNames": true,

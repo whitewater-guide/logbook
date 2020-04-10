@@ -26,6 +26,15 @@ const query = gql`
         section
         difficulty
 
+        putIn {
+          lat
+          lng
+        }
+        takeOut {
+          lat
+          lng
+        }
+
         upstreamId
         upstreamData
 
@@ -103,7 +112,10 @@ describe('permissions', () => {
 });
 
 it('should return descent', async () => {
-  const result = await runQuery(query, { id: DESCENT_1 });
+  const result = await runQuery<GetDescentQuery, GetDescentQueryVariables>(
+    query,
+    { id: DESCENT_1 },
+  );
   expect(result.errors).toBeUndefined();
-  expect(result.data!.descent).toMatchSnapshot();
+  expect(result.data?.descent).toMatchSnapshot();
 });

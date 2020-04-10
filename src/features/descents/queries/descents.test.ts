@@ -40,6 +40,15 @@ const query = gql`
             section
             difficulty
 
+            putIn {
+              lat
+              lng
+            }
+            takeOut {
+              lat
+              lng
+            }
+
             upstreamId
             upstreamData
 
@@ -122,7 +131,7 @@ it.each<FilterTestCase>([
     [DESCENT_3, DESCENT_2, DESCENT_1],
   ],
   [
-    'section id',
+    'section id', // including derived sections
     {
       sectionID: SECTION_1,
     },

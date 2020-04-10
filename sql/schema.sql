@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS sections (
     river           TEXT            NOT NULL,
     section         TEXT            NOT NULL,
     difficulty      SMALLINT        NOT NULL,
+    put_in          GEOGRAPHY(POINTZ,4326),
+    take_out        GEOGRAPHY(POINTZ,4326),
 
     upstream_id     VARCHAR(128),
     upstream_data   JSONB

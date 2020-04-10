@@ -24,7 +24,7 @@ services:
   postgres:
     <<: *project-label
     container_name: postgres
-    image: postgres:11.7
+    image: postgis/postgis:11-3.0
     restart: always
     command:
       # Speeding Up Integration Tests with PostgreSQL

@@ -12,6 +12,16 @@ type PageInfo {
   hasMore: Boolean!
 }
 
+type LatLng {
+  lat: Float!
+  lng: Float!
+}
+
+input LatLngInput {
+  lat: Float!
+  lng: Float!
+}
+
 type Section {
   id: ID!
 
@@ -19,6 +29,8 @@ type Section {
   river: String!
   section: String!
   difficulty: Float!
+  putIn: LatLng
+  takeOut: LatLng
 
   upstreamId: String
   upstreamData: JSON
@@ -36,6 +48,8 @@ input SectionInput {
   river: String
   section: String
   difficulty: Float
+  putIn: LatLngInput
+  takeOut: LatLngInput
 
   upstreamId: String
   upstreamData: JSON

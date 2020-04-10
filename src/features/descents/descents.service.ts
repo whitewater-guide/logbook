@@ -81,6 +81,7 @@ class DescentsService extends DataSource<Context> {
       );
     }
     const selection = this.buildSelection(tree);
+
     const row: DescentRaw | null = await db().maybeOne(sql`
       SELECT ${selection}
       FROM descents
