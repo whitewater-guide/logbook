@@ -55,7 +55,7 @@ Object {
               "putIn": null,
               "region": "Mexico",
               "river": "Alseseca",
-              "section": "Roadside",
+              "section": "Roadside (no portage)",
               "takeOut": null,
               "updatedAt": 2020-01-05T00:00:00.000Z,
               "upstreamData": null,

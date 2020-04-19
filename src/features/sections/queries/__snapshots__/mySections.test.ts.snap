@@ -6,7 +6,7 @@ Object {
     "mySections": Object {
       "edges": Array [
         Object {
-          "cursor": "djE6Mw==",
+          "cursor": "djE6MzpOb3J3YXkgU2pvYSBBc2VuZ2p1dmV0",
           "node": Object {
             "createdAt": 2020-01-03T00:00:00.000Z,
             "difficulty": 2.5,
@@ -22,7 +22,7 @@ Object {
           },
         },
         Object {
-          "cursor": "djE6Mg==",
+          "cursor": "djE6MjpOb3J3YXkgU2pvYSBQbGF5cnVu",
           "node": Object {
             "createdAt": 2020-01-02T00:00:00.000Z,
             "difficulty": 3,
@@ -38,7 +38,7 @@ Object {
           },
         },
         Object {
-          "cursor": "djE6MQ==",
+          "cursor": "djE6MTpOb3J3YXkgU2pvYSBBbW90",
           "node": Object {
             "createdAt": 2020-01-01T00:00:00.000Z,
             "difficulty": 3.5,
@@ -63,7 +63,7 @@ Object {
         },
       ],
       "pageInfo": Object {
-        "endCursor": "djE6MQ==",
+        "endCursor": "djE6MTpOb3J3YXkgU2pvYSBBbW90",
         "hasMore": false,
       },
     },

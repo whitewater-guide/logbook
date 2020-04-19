@@ -83,7 +83,7 @@ VALUES
     7,
     'Mexico',
     'Alseseca',
-    'Roadside',
+    'Roadside (no portage)',
     NULL,
     NULL,
     NULL,

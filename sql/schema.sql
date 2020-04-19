@@ -35,6 +35,7 @@ CREATE INDEX sections_idx_ord ON sections(ord_id);
 CREATE INDEX sections_idx_user ON sections(user_id);
 CREATE INDEX sections_idx_created ON sections(created_at);
 CREATE INDEX sections_idx_difficulty ON sections(difficulty);
+CREATE INDEX sections_idx_fullname ON sections ((region || ' ' || river || ' ' || section) varchar_pattern_ops);
 
 CREATE TRIGGER set_sections_timestamp
 BEFORE UPDATE ON sections

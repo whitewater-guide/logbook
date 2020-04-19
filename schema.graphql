@@ -56,7 +56,7 @@ input SectionInput {
 }
 
 input SectionsFilter {
-  region: String
+  name: String
   difficulty: [Float!]
 }
 
@@ -129,6 +129,7 @@ input DescentsFilter {
 
   userID: String
   sectionID: String
+  sectionName: String
   upstreamSectionID: String
 }
 

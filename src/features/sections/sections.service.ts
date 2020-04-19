@@ -61,7 +61,7 @@ class SectionsService extends DataSource<Context> {
     page?: Page | null,
   ) {
     if (!this._context.uid) {
-      throw new AuthenticationError('sectiona are private');
+      throw new AuthenticationError('sections are private');
     }
 
     const tree = graphqlFields(info);
@@ -82,15 +82,21 @@ class SectionsService extends DataSource<Context> {
       wheres.push(sql`sections.difficulty >= ${2 * filter.difficulty[0]}`);
       wheres.push(sql`sections.difficulty <= ${2 * filter.difficulty[1]}`);
     }
-    if (filter?.region) {
-      wheres.push(sql`sections.region ILIKE '%${filter.region}%'`);
+    if (filter?.name) {
+      const likeName = `%${filter.name}%`;
+      wheres.push(
+        sql`(sections.region || ' ' || sections.river || ' ' || sections.section) ILIKE ${likeName}`,
+      );
     }
 
     const { rows } = await db().query(sql`
-      SELECT ${selection}, count(*) OVER() total_count
+      SELECT
+        ${selection},
+        (sections.region || ' ' || sections.river || ' ' || sections.section) AS section_fullname,
+        count(*) OVER() total_count
       FROM sections
       WHERE ${sql.join(wheres, sql` AND `)}
-      ORDER BY sections.ord_id DESC
+      ORDER BY sections.ord_id DESC, section_fullname ASC
       LIMIT ${limit}
     `);
     const total: number = (rows?.[0]?.total_count as any) || 0;
@@ -98,6 +104,7 @@ class SectionsService extends DataSource<Context> {
     return itemsToConnection(
       rows.map((r) => collapseJoinResult(r, 'section')),
       total,
+      'fullname',
     );
   }
 }

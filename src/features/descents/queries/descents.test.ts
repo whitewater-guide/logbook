@@ -144,6 +144,21 @@ it.each<FilterTestCase>([
     },
     [DESCENT_10, DESCENT_4, DESCENT_1],
   ],
+  [
+    'section (full) name',
+    {
+      sectionName: 'oR',
+    },
+    [
+      DESCENT_7,
+      DESCENT_5,
+      DESCENT_3,
+      DESCENT_2,
+      DESCENT_10,
+      DESCENT_4,
+      DESCENT_1,
+    ],
+  ],
 ])(
   `should filter and paginate by %s`,
   async (_, filter, [id1, id2, ...restIds]) => {

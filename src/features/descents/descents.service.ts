@@ -147,6 +147,12 @@ class DescentsService extends DataSource<Context> {
     if (filter?.upstreamSectionID) {
       wheres.push(sql`sections.upstream_id = ${filter.upstreamSectionID}`);
     }
+    if (filter?.sectionName) {
+      const likeName = `%${filter.sectionName}%`;
+      wheres.push(
+        sql`(sections.region || ' ' || sections.river || ' ' || sections.section) ILIKE ${likeName}`,
+      );
+    }
     if (filter?.userID) {
       wheres.push(sql`descents.user_id = ${filter.userID}`);
     }
