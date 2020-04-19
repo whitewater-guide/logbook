@@ -87,7 +87,7 @@ it.each<FilterTestCase>([
     {
       name: 'oR',
     },
-    [SECTION_3, SECTION_2, SECTION_1],
+    [SECTION_1, SECTION_3, SECTION_2],
   ],
 ])(
   `should filter and paginate by %s`,

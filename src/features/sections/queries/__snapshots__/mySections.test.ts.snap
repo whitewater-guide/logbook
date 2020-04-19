@@ -6,6 +6,30 @@ Object {
     "mySections": Object {
       "edges": Array [
         Object {
+          "cursor": "djE6MTpOb3J3YXkgU2pvYSBBbW90",
+          "node": Object {
+            "createdAt": 2020-01-01T00:00:00.000Z,
+            "difficulty": 3.5,
+            "id": "45e70501-5d20-449f-b854-52b06b138831",
+            "putIn": Object {
+              "lat": 49,
+              "lng": 0,
+            },
+            "region": "Norway",
+            "river": "Sjoa",
+            "section": "Amot",
+            "takeOut": Object {
+              "lat": 49,
+              "lng": 1,
+            },
+            "updatedAt": 2020-01-01T00:00:00.000Z,
+            "upstreamData": Object {
+              "upstream": "upstream section 1 data",
+            },
+            "upstreamId": "d749dbc1-166f-41d1-91ac-e4658d30d90f",
+          },
+        },
+        Object {
           "cursor": "djE6MzpOb3J3YXkgU2pvYSBBc2VuZ2p1dmV0",
           "node": Object {
             "createdAt": 2020-01-03T00:00:00.000Z,
@@ -37,33 +61,9 @@ Object {
             "upstreamId": null,
           },
         },
-        Object {
-          "cursor": "djE6MTpOb3J3YXkgU2pvYSBBbW90",
-          "node": Object {
-            "createdAt": 2020-01-01T00:00:00.000Z,
-            "difficulty": 3.5,
-            "id": "45e70501-5d20-449f-b854-52b06b138831",
-            "putIn": Object {
-              "lat": 49,
-              "lng": 0,
-            },
-            "region": "Norway",
-            "river": "Sjoa",
-            "section": "Amot",
-            "takeOut": Object {
-              "lat": 49,
-              "lng": 1,
-            },
-            "updatedAt": 2020-01-01T00:00:00.000Z,
-            "upstreamData": Object {
-              "upstream": "upstream section 1 data",
-            },
-            "upstreamId": "d749dbc1-166f-41d1-91ac-e4658d30d90f",
-          },
-        },
       ],
       "pageInfo": Object {
-        "endCursor": "djE6MTpOb3J3YXkgU2pvYSBBbW90",
+        "endCursor": "djE6MjpOb3J3YXkgU2pvYSBQbGF5cnVu",
         "hasMore": false,
       },
     },

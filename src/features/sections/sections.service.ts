@@ -72,7 +72,9 @@ class SectionsService extends DataSource<Context> {
 
     const wheres = [sql`(sections.user_id = ${this._context.uid})`];
     if (after) {
-      wheres.push(sql`sections.ord_id < ${after.ordId}`);
+      wheres.push(
+        sql`((sections.region || ' ' || sections.river || ' ' || sections.section), sections.ord_id) > (${after.value}, ${after.ordId})`,
+      );
     }
 
     if (filter?.difficulty) {
@@ -96,7 +98,7 @@ class SectionsService extends DataSource<Context> {
         count(*) OVER() total_count
       FROM sections
       WHERE ${sql.join(wheres, sql` AND `)}
-      ORDER BY sections.ord_id DESC, section_fullname ASC
+      ORDER BY section_fullname ASC, sections.ord_id DESC
       LIMIT ${limit}
     `);
     const total: number = (rows?.[0]?.total_count as any) || 0;
