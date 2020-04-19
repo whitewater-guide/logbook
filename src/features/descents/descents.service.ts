@@ -1,7 +1,11 @@
+import {
+  AuthenticationError,
+  ForbiddenError,
+  UserInputError,
+} from 'apollo-server';
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { Descent, DescentsFilter, Page } from '~/__generated__/graphql';
 import { DescentRaw, SectionRaw } from '~/__generated__/sql';
-import { ForbiddenError, UserInputError } from 'apollo-server';
 import { ValueExpressionType, sql } from 'slonik';
 
 import { Context } from '~/apollo/context';
@@ -172,6 +176,19 @@ class DescentsService extends DataSource<Context> {
       total,
       'started_at',
     );
+  }
+
+  public async deleteById(id: string) {
+    if (!this._context.uid) {
+      throw new AuthenticationError('unauthenticated');
+    }
+    const ownerId = await db().maybeOneFirst(
+      sql`SELECT user_id FROM descents WHERE id = ${id}`,
+    );
+    if (ownerId !== this._context.uid) {
+      throw new ForbiddenError('forbidden');
+    }
+    await db().query(sql`DELETE FROM descents WHERE id = ${id}`);
   }
 }
 
