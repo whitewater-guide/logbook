@@ -1,4 +1,8 @@
-import { AuthenticationError, UserInputError } from 'apollo-server';
+import {
+  AuthenticationError,
+  ForbiddenError,
+  UserInputError,
+} from 'apollo-server';
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import { Page, SectionsFilter } from '~/__generated__/graphql';
 import { ValueExpressionType, sql } from 'slonik';
@@ -108,6 +112,19 @@ class SectionsService extends DataSource<Context> {
       total,
       'fullname',
     );
+  }
+
+  public async deleteById(id: string) {
+    if (!this._context.uid) {
+      throw new AuthenticationError('unauthenticated');
+    }
+    const ownerId = await db().maybeOneFirst(
+      sql`SELECT user_id FROM sections WHERE id = ${id}`,
+    );
+    if (ownerId !== this._context.uid) {
+      throw new ForbiddenError('forbidden');
+    }
+    await db().query(sql`DELETE FROM sections WHERE id = ${id}`);
   }
 }
 
