@@ -1,5 +1,6 @@
 import { MutationDeleteSectionArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
+import { isAuthenticatedResolver } from '~/apollo/enhancedResolvers';
 
 const deleteSection: TopLevelResolver<MutationDeleteSectionArgs> = async (
   _,
@@ -10,4 +11,4 @@ const deleteSection: TopLevelResolver<MutationDeleteSectionArgs> = async (
   return true;
 };
 
-export default deleteSection;
+export default isAuthenticatedResolver(deleteSection);

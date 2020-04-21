@@ -44,10 +44,10 @@ type Section {
 input SectionInput {
   id: ID
 
-  region: String
-  river: String
-  section: String
-  difficulty: Float
+  region: String!
+  river: String!
+  section: String!
+  difficulty: Float!
   putIn: LatLngInput
   takeOut: LatLngInput
 
@@ -149,6 +149,6 @@ type Mutation {
   upsertDescent(descent: DescentInput!): Descent
   deleteDescent(id: ID!): Boolean
 
-  upsertSection(section: SectionInput): Section
+  upsertSection(section: SectionInput!): Section
   deleteSection(id: ID!): Boolean
 }

@@ -4,7 +4,7 @@ import {
   UserInputError,
 } from 'apollo-server';
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
-import { Page, SectionsFilter } from '~/__generated__/graphql';
+import { Page, SectionInput, SectionsFilter } from '~/__generated__/graphql';
 import { ValueExpressionType, sql } from 'slonik';
 
 import { Context } from '~/apollo/context';
@@ -24,10 +24,10 @@ class SectionsService extends DataSource<Context> {
     this._context = config.context;
   }
 
-  private buildSelection(tree: any) {
+  private buildSelection(tree: any, table = 'sections') {
     const selection: ValueExpressionType[] = [
       SectionFieldsMap.getSqlSelection(tree, {
-        table: 'sections',
+        table,
         aliasPrefix: 'section',
         requiredColumns: ['user_id', 'ord_id'],
       }),
@@ -115,9 +115,6 @@ class SectionsService extends DataSource<Context> {
   }
 
   public async deleteById(id: string) {
-    if (!this._context.uid) {
-      throw new AuthenticationError('unauthenticated');
-    }
     const ownerId = await db().maybeOneFirst(
       sql`SELECT user_id FROM sections WHERE id = ${id}`,
     );
@@ -125,6 +122,60 @@ class SectionsService extends DataSource<Context> {
       throw new ForbiddenError('forbidden');
     }
     await db().query(sql`DELETE FROM sections WHERE id = ${id}`);
+  }
+
+  public async upsert(info: GraphQLResolveInfo, input: SectionInput) {
+    const tree = graphqlFields(info);
+    const selection = this.buildSelection(tree, 'inserted');
+
+    const putIn = input.putIn
+      ? sql`ST_MakePoint(${input.putIn.lng}, ${input.putIn.lat}, 0)`
+      : sql`NULL`;
+    const takeOut = input.takeOut
+      ? sql`ST_MakePoint(${input.takeOut.lng}, ${input.takeOut.lat}, 0)`
+      : sql`NULL`;
+    const row = await db().maybeOne(sql`
+      WITH inserted AS (
+        INSERT INTO sections (
+          id,
+          -- parent_id
+          user_id,
+          region,
+          river,
+          section,
+          difficulty,
+          put_in,
+          take_out,
+          upstream_id,
+          upstream_data
+        ) VALUES (
+          COALESCE (${input.id || null}, uuid_generate_v4()),
+          ${this._context.uid!},
+          ${input.region},
+          ${input.river},
+          ${input.section},
+          ${input.difficulty * 2},
+          ${putIn},
+          ${takeOut},
+          ${input.upstreamId || null},
+          ${JSON.stringify(input.upstreamData || null)}
+        )
+        ON CONFLICT (id) DO UPDATE SET
+          user_id = EXCLUDED.user_id,
+          region = EXCLUDED.region,
+          river = EXCLUDED.river,
+          section = EXCLUDED.section,
+          difficulty = EXCLUDED.difficulty,
+          put_in = EXCLUDED.put_in,
+          take_out = EXCLUDED.take_out,
+          upstream_id = EXCLUDED.upstream_id,
+          upstream_data = EXCLUDED.upstream_data
+        RETURNING *
+      ) SELECT ${selection} FROM inserted
+    `);
+
+    const result = collapseJoinResult(row, 'section');
+    return result;
   }
 }
 

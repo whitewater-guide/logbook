@@ -21,6 +21,7 @@
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "@slonik/migrator": "^0.4.0",
+    "@whitewater-guide/validation": "^1.0.1",
     "apollo-datasource": "^0.7.0",
     "apollo-server": "^2.12.0",
     "apollo-server-caching": "^0.5.1",
@@ -48,7 +49,8 @@
     "shortid": "^2.2.15",
     "slonik": "^22.4.4",
     "tldts": "^5.6.23",
-    "tslib": "^1.11.1"
+    "tslib": "^1.11.1",
+    "yup": "^0.28.4"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
@@ -76,6 +78,7 @@
     "@types/shortid": "^0.0.29",
     "@types/slonik": "^22.1.2",
     "@types/supertest": "^2.0.8",
+    "@types/yup": "^0.26.37",
     "@typescript-eslint/eslint-plugin": "^2.28.0",
     "@typescript-eslint/parser": "^2.28.0",
     "apollo-server-testing": "^2.12.0",

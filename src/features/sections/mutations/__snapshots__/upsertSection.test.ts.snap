@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should insert section 1`] = `
+Object {
+  "createdAt": Any<Date>,
+  "difficulty": 5,
+  "id": Any<String>,
+  "putIn": Object {
+    "lat": 10,
+    "lng": 10,
+  },
+  "region": "Altai",
+  "river": "Chuya",
+  "section": "Mazhoy Gorge",
+  "takeOut": Object {
+    "lat": 20,
+    "lng": 20,
+  },
+  "updatedAt": Any<Date>,
+  "upstreamData": Object {
+    "foo": "bar ",
+  },
+  "upstreamId": "__upstream_id__",
+}
+`;

@@ -1,6 +1,27 @@
+import * as yup from 'yup';
+
+import {
+  isAuthenticatedResolver,
+  isInputValidResolver,
+} from '~/apollo/enhancedResolvers';
+
 import { MutationUpsertSectionArgs } from '~/__generated__/graphql';
+import { SectionInputSchema } from '../schema';
 import { TopLevelResolver } from '~/apollo/types';
 
-const upsertSection: TopLevelResolver<MutationUpsertSectionArgs> = () => {};
+const Schema = yup.object<MutationUpsertSectionArgs>({
+  section: SectionInputSchema.clone(),
+});
 
-export default upsertSection;
+const upsertSection: TopLevelResolver<MutationUpsertSectionArgs> = (
+  _,
+  { section },
+  { dataSources },
+  info,
+) => {
+  return dataSources?.sections.upsert(info, section);
+};
+
+export default isAuthenticatedResolver(
+  isInputValidResolver(Schema, upsertSection),
+);
