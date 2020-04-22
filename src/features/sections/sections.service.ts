@@ -35,6 +35,53 @@ class SectionsService extends DataSource<Context> {
     return sql.join(selection, sql`, `);
   }
 
+  public buildUpsertCTE(input: SectionInput) {
+    const putIn = input.putIn
+      ? sql`ST_MakePoint(${input.putIn.lng}, ${input.putIn.lat}, 0)`
+      : sql`NULL`;
+    const takeOut = input.takeOut
+      ? sql`ST_MakePoint(${input.takeOut.lng}, ${input.takeOut.lat}, 0)`
+      : sql`NULL`;
+    const upsert = sql`
+      INSERT INTO sections (
+          id,
+          -- parent_id
+          user_id,
+          region,
+          river,
+          section,
+          difficulty,
+          put_in,
+          take_out,
+          upstream_id,
+          upstream_data
+        ) VALUES (
+          COALESCE (${input.id || null}, uuid_generate_v4()),
+          ${this._context.uid!},
+          ${input.region},
+          ${input.river},
+          ${input.section},
+          ${input.difficulty * 2},
+          ${putIn},
+          ${takeOut},
+          ${input.upstreamId || null},
+          ${JSON.stringify(input.upstreamData || null)}
+        )
+        ON CONFLICT (id) DO UPDATE SET
+          user_id = EXCLUDED.user_id,
+          region = EXCLUDED.region,
+          river = EXCLUDED.river,
+          section = EXCLUDED.section,
+          difficulty = EXCLUDED.difficulty,
+          put_in = EXCLUDED.put_in,
+          take_out = EXCLUDED.take_out,
+          upstream_id = EXCLUDED.upstream_id,
+          upstream_data = EXCLUDED.upstream_data
+        RETURNING *
+    `;
+    return upsert;
+  }
+
   public async getOne(
     info: GraphQLResolveInfo,
     id: string,
@@ -126,52 +173,13 @@ class SectionsService extends DataSource<Context> {
 
   public async upsert(info: GraphQLResolveInfo, input: SectionInput) {
     const tree = graphqlFields(info);
-    const selection = this.buildSelection(tree, 'inserted');
+    const selection = this.buildSelection(tree, 'upserted_section');
+    const upsert = this.buildUpsertCTE(input);
 
-    const putIn = input.putIn
-      ? sql`ST_MakePoint(${input.putIn.lng}, ${input.putIn.lat}, 0)`
-      : sql`NULL`;
-    const takeOut = input.takeOut
-      ? sql`ST_MakePoint(${input.takeOut.lng}, ${input.takeOut.lat}, 0)`
-      : sql`NULL`;
     const row = await db().maybeOne(sql`
-      WITH inserted AS (
-        INSERT INTO sections (
-          id,
-          -- parent_id
-          user_id,
-          region,
-          river,
-          section,
-          difficulty,
-          put_in,
-          take_out,
-          upstream_id,
-          upstream_data
-        ) VALUES (
-          COALESCE (${input.id || null}, uuid_generate_v4()),
-          ${this._context.uid!},
-          ${input.region},
-          ${input.river},
-          ${input.section},
-          ${input.difficulty * 2},
-          ${putIn},
-          ${takeOut},
-          ${input.upstreamId || null},
-          ${JSON.stringify(input.upstreamData || null)}
-        )
-        ON CONFLICT (id) DO UPDATE SET
-          user_id = EXCLUDED.user_id,
-          region = EXCLUDED.region,
-          river = EXCLUDED.river,
-          section = EXCLUDED.section,
-          difficulty = EXCLUDED.difficulty,
-          put_in = EXCLUDED.put_in,
-          take_out = EXCLUDED.take_out,
-          upstream_id = EXCLUDED.upstream_id,
-          upstream_data = EXCLUDED.upstream_data
-        RETURNING *
-      ) SELECT ${selection} FROM inserted
+      WITH upserted_section AS (
+        ${upsert}
+      ) SELECT ${selection} FROM upserted_section
     `);
 
     const result = collapseJoinResult(row, 'section');
