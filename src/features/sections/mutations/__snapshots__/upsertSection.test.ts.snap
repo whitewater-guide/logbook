@@ -1,10 +1,172 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should fail validation check 1`] = `
+Object {
+  "code": "BAD_USER_INPUT",
+  "exception": Object {
+    "stacktrace": undefined,
+    "validationErrors": Object {
+      "section": Object {
+        "difficulty": Object {
+          "key": "yup:number.max",
+          "options": Object {
+            "max": 6,
+            "path": "section.difficulty",
+          },
+        },
+        "putIn": Object {
+          "lat": Object {
+            "key": "yup:number.max",
+            "options": Object {
+              "max": 90,
+              "path": "section.putIn.lat",
+            },
+          },
+          "lng": Object {
+            "key": "yup:number.max",
+            "options": Object {
+              "max": 180,
+              "path": "section.putIn.lng",
+            },
+          },
+        },
+        "region": Object {
+          "key": "yup:string.min",
+          "options": Object {
+            "min": 2,
+            "path": "section.region",
+          },
+        },
+        "river": Object {
+          "key": "yup:string.min",
+          "options": Object {
+            "min": 2,
+            "path": "section.river",
+          },
+        },
+        "section": Object {
+          "key": "yup:string.min",
+          "options": Object {
+            "min": 2,
+            "path": "section.section",
+          },
+        },
+        "takeOut": Object {
+          "lat": Object {
+            "key": "yup:number.max",
+            "options": Object {
+              "max": 90,
+              "path": "section.takeOut.lat",
+            },
+          },
+          "lng": Object {
+            "key": "yup:number.max",
+            "options": Object {
+              "max": 180,
+              "path": "section.takeOut.lng",
+            },
+          },
+        },
+      },
+    },
+  },
+  "id": Any<String>,
+  "validationErrors": Object {
+    "section": Object {
+      "difficulty": Object {
+        "key": "yup:number.max",
+        "options": Object {
+          "max": 6,
+          "path": "section.difficulty",
+        },
+      },
+      "putIn": Object {
+        "lat": Object {
+          "key": "yup:number.max",
+          "options": Object {
+            "max": 90,
+            "path": "section.putIn.lat",
+          },
+        },
+        "lng": Object {
+          "key": "yup:number.max",
+          "options": Object {
+            "max": 180,
+            "path": "section.putIn.lng",
+          },
+        },
+      },
+      "region": Object {
+        "key": "yup:string.min",
+        "options": Object {
+          "min": 2,
+          "path": "section.region",
+        },
+      },
+      "river": Object {
+        "key": "yup:string.min",
+        "options": Object {
+          "min": 2,
+          "path": "section.river",
+        },
+      },
+      "section": Object {
+        "key": "yup:string.min",
+        "options": Object {
+          "min": 2,
+          "path": "section.section",
+        },
+      },
+      "takeOut": Object {
+        "lat": Object {
+          "key": "yup:number.max",
+          "options": Object {
+            "max": 90,
+            "path": "section.takeOut.lat",
+          },
+        },
+        "lng": Object {
+          "key": "yup:number.max",
+          "options": Object {
+            "max": 180,
+            "path": "section.takeOut.lng",
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
 exports[`should insert section 1`] = `
 Object {
   "createdAt": Any<Date>,
   "difficulty": 5,
   "id": Any<String>,
+  "putIn": Object {
+    "lat": 10,
+    "lng": 10,
+  },
+  "region": "Altai",
+  "river": "Chuya",
+  "section": "Mazhoy Gorge",
+  "takeOut": Object {
+    "lat": 20,
+    "lng": 20,
+  },
+  "updatedAt": Any<Date>,
+  "upstreamData": Object {
+    "foo": "bar ",
+  },
+  "upstreamId": "__upstream_id__",
+}
+`;
+
+exports[`should update section 1`] = `
+Object {
+  "createdAt": 2020-01-01T00:00:00.000Z,
+  "difficulty": 5,
+  "id": "45e70501-5d20-449f-b854-52b06b138831",
   "putIn": Object {
     "lat": 10,
     "lng": 10,

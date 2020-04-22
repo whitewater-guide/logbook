@@ -146,7 +146,7 @@ type Query {
 }
 
 type Mutation {
-  upsertDescent(descent: DescentInput!): Descent
+  upsertDescent(descent: DescentInput!, shareToken: String): Descent
   deleteDescent(id: ID!): Boolean
 
   upsertSection(section: SectionInput!): Section

@@ -1,9 +1,11 @@
 import { createApolloServer } from './apollo/server';
 import { createApp } from './koa';
+import { initYup } from '@whitewater-guide/validation';
 import log from './log';
 import startServer from './server';
 
 async function startup() {
+  initYup();
   const app = createApp();
   await createApolloServer(app);
   startServer(app);

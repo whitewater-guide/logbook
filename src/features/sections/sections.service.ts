@@ -35,7 +35,7 @@ class SectionsService extends DataSource<Context> {
     return sql.join(selection, sql`, `);
   }
 
-  public buildUpsertCTE(input: SectionInput) {
+  public buildUpsertCTE(input: SectionInput, parentId?: string) {
     const putIn = input.putIn
       ? sql`ST_MakePoint(${input.putIn.lng}, ${input.putIn.lat}, 0)`
       : sql`NULL`;
@@ -45,7 +45,7 @@ class SectionsService extends DataSource<Context> {
     const upsert = sql`
       INSERT INTO sections (
           id,
-          -- parent_id
+          parent_id,
           user_id,
           region,
           river,
@@ -57,6 +57,7 @@ class SectionsService extends DataSource<Context> {
           upstream_data
         ) VALUES (
           COALESCE (${input.id || null}, uuid_generate_v4()),
+          ${parentId || null},
           ${this._context.uid!},
           ${input.region},
           ${input.river},
@@ -68,6 +69,7 @@ class SectionsService extends DataSource<Context> {
           ${JSON.stringify(input.upstreamData || null)}
         )
         ON CONFLICT (id) DO UPDATE SET
+          -- parent_id cannot be updated
           user_id = EXCLUDED.user_id,
           region = EXCLUDED.region,
           river = EXCLUDED.river,
@@ -175,6 +177,15 @@ class SectionsService extends DataSource<Context> {
     const tree = graphqlFields(info);
     const selection = this.buildSelection(tree, 'upserted_section');
     const upsert = this.buildUpsertCTE(input);
+
+    if (input.id) {
+      const ownerId = await db().maybeOneFirst(
+        sql`SELECT user_id FROM sections WHERE id = ${input.id}`,
+      );
+      if (ownerId !== this._context.uid) {
+        throw new ForbiddenError('uanthorized');
+      }
+    }
 
     const row = await db().maybeOne(sql`
       WITH upserted_section AS (

@@ -1,3 +1,4 @@
+import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
 import {
   UpsertSectionMutation,
   UpsertSectionMutationVariables,
@@ -5,7 +6,6 @@ import {
 import { setupDB, teardownDB } from '~/db';
 
 import { SectionInput } from '~/__generated__/graphql';
-import { USER_1 } from '~/test/fixtures';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -50,6 +50,36 @@ const section: SectionInput = {
   upstreamData: { foo: 'bar ' },
 };
 
+it('anon should fail to upsert section', async () => {
+  const result = await runQuery<
+    UpsertSectionMutation,
+    UpsertSectionMutationVariables
+  >(mutation, { section });
+  expect(result.errors).toBeDefined();
+  expect(result.data.upsertSection).toBeNull();
+});
+
+it('should fail validation check', async () => {
+  const badSection: SectionInput = {
+    region: 'A',
+    river: 'C',
+    section: 'M',
+    difficulty: 15,
+    putIn: { lat: 110, lng: 1000 },
+    takeOut: { lat: 200, lng: 200 },
+    upstreamId: '__upstream_id__',
+    upstreamData: null,
+  };
+  const result = await runQuery<
+    UpsertSectionMutation,
+    UpsertSectionMutationVariables
+  >(mutation, { section: badSection }, USER_1);
+  expect(result.errors?.[0]?.extensions).toMatchSnapshot({
+    id: expect.any(String),
+  });
+  expect(result.data.upsertSection).toBeNull();
+});
+
 it('should insert section', async () => {
   const result = await runQuery<
     UpsertSectionMutation,
@@ -63,4 +93,23 @@ it('should insert section', async () => {
   });
 });
 
-it.todo('upsert with parent_id');
+it('should update section', async () => {
+  const result = await runQuery<
+    UpsertSectionMutation,
+    UpsertSectionMutationVariables
+  >(mutation, { section: { ...section, id: SECTION_1 } }, USER_1);
+  expect(result.errors).toBeUndefined();
+  expect(result.data.upsertSection).toMatchSnapshot({
+    updatedAt: expect.any(Date),
+    id: SECTION_1,
+  });
+});
+
+it('should fail to update other users section', async () => {
+  const result = await runQuery<
+    UpsertSectionMutation,
+    UpsertSectionMutationVariables
+  >(mutation, { section: { ...section, id: SECTION_1 } }, USER_2);
+  expect(result.errors).toBeDefined();
+  expect(result.data.upsertSection).toBeNull();
+});
