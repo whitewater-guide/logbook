@@ -15,6 +15,7 @@ generates:
     documents:
       - ./src/**/__tests__/*.ts
       - ./src/**/*.test.ts
+      - ./src/**/*.fragments.ts
     preset: near-operation-file
     presetConfig:
       extension: .generated.ts

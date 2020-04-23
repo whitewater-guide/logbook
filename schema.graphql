@@ -142,7 +142,7 @@ type Query {
   mySection(id: ID!): Section
   mySections(filter: SectionsFilter, page: Page): SectionsConnection
 
-  # TODO: get export as csv link
+  # TODO: get export/import as csv link
 }
 
 type Mutation {

@@ -5,8 +5,9 @@ import {
 } from './upsertSection.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
+import SectionFragments from '../sections.fragments';
 import { SectionInput } from '~/__generated__/graphql';
-import { gql } from 'apollo-server';
+import gql from 'graphql-tag';
 import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
@@ -15,28 +16,10 @@ afterEach(teardownDB);
 const mutation = gql`
   mutation upsertSection($section: SectionInput!) {
     upsertSection(section: $section) {
-      id
-
-      region
-      river
-      section
-      difficulty
-      putIn {
-        lat
-        lng
-      }
-      takeOut {
-        lat
-        lng
-      }
-
-      upstreamId
-      upstreamData
-
-      createdAt
-      updatedAt
+      ...sectionAll
     }
   }
+  ${SectionFragments.All}
 `;
 
 const section: SectionInput = {

@@ -11,6 +11,7 @@ import {
 } from '~/test/fixtures';
 import { setupDB, teardownDB } from '~/db';
 
+import SectionFragments from '../sections.fragments';
 import { SectionsFilter } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
@@ -26,27 +27,7 @@ const query = gql`
     mySections(filter: $filter, page: $page) {
       edges {
         node {
-          id
-
-          region
-          river
-          section
-          difficulty
-
-          putIn {
-            lat
-            lng
-          }
-          takeOut {
-            lat
-            lng
-          }
-
-          upstreamId
-          upstreamData
-
-          createdAt
-          updatedAt
+          ...sectionAll
         }
         cursor
       }
@@ -56,6 +37,7 @@ const query = gql`
       }
     }
   }
+  ${SectionFragments.All}
 `;
 
 it('should match snapshot', async () => {
