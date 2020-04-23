@@ -4,6 +4,7 @@ import {
 } from './myDescents.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
+import DescentFragments from '../descents.fragments';
 import { USER_1 } from '~/test/fixtures';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
@@ -16,46 +17,7 @@ const query = gql`
     myDescents(filter: $filter, page: $page) {
       edges {
         node {
-          id
-          userId
-
-          section {
-            id
-
-            region
-            river
-            section
-            difficulty
-
-            putIn {
-              lat
-              lng
-            }
-            takeOut {
-              lat
-              lng
-            }
-
-            upstreamId
-            upstreamData
-
-            createdAt
-            updatedAt
-          }
-
-          startedAt
-          duration
-          level {
-            value
-            unit
-          }
-          comment
-          public
-
-          upstreamData
-
-          createdAt
-          updatedAt
+          ...descentAll
         }
         cursor
       }
@@ -65,6 +27,7 @@ const query = gql`
       }
     }
   }
+  ${DescentFragments.All}
 `;
 
 it('should match snapshot', async () => {
