@@ -183,7 +183,7 @@ class SectionsService extends DataSource<Context> {
         sql`SELECT user_id FROM sections WHERE id = ${input.id}`,
       );
       if (ownerId !== this._context.uid) {
-        throw new ForbiddenError('uanthorized');
+        throw new ForbiddenError('unauthorized');
       }
     }
 

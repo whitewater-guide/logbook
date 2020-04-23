@@ -4,9 +4,14 @@ import {
   UserInputError,
 } from 'apollo-server';
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
-import { Descent, DescentsFilter, Page } from '~/__generated__/graphql';
+import {
+  Descent,
+  DescentInput,
+  DescentsFilter,
+  Page,
+} from '~/__generated__/graphql';
 import { DescentRaw, SectionRaw } from '~/__generated__/sql';
-import { ValueExpressionType, sql } from 'slonik';
+import { IdentifierSqlTokenType, ValueExpressionType, sql } from 'slonik';
 
 import { Context } from '~/apollo/context';
 import { DescentFieldsMap } from './fields-map';
@@ -30,10 +35,14 @@ class DescentsService extends DataSource<Context> {
     this._context = config.context;
   }
 
-  private buildSelection(tree: any) {
+  private buildSelection(
+    tree: any,
+    table = 'descents',
+    sectionsTable = 'sections',
+  ) {
     const selection: ValueExpressionType[] = [
       DescentFieldsMap.getSqlSelection(tree, {
-        table: 'descents',
+        table,
         aliasPrefix: 'descent',
         requiredColumns: ['user_id', 'ord_id', 'created_at'],
       }),
@@ -41,13 +50,61 @@ class DescentsService extends DataSource<Context> {
     if (tree.section) {
       const sectionSelection = SectionFieldsMap.getSqlSelection(tree, {
         path: 'section',
-        table: 'sections',
+        table: sectionsTable,
         aliasPrefix: 'section',
         requiredColumns: ['user_id', 'ord_id'],
       });
       selection.push(sectionSelection);
     }
     return sql.join(selection, sql`, `);
+  }
+
+  private buildUpsertCTE(
+    input: DescentInput,
+    sectionId: IdentifierSqlTokenType,
+    parentId?: string,
+  ) {
+    const upsert = sql`
+      INSERT INTO descents (
+        id,
+        parent_id,
+        user_id,
+        section_id,
+        comment,
+        started_at,
+        duration,
+        level_value,
+        level_unit,
+        public,
+        upstream_data
+        ) SELECT
+          COALESCE (${input.id || null}, uuid_generate_v4()),
+          ${parentId || null},
+          ${this._context.uid!},
+          ${sectionId},
+          ${input.comment || null},
+          ${input.startedAt.toISOString()},
+          ${input.duration || null},
+          ${input.level?.value || null},
+          ${input.level?.unit || null},
+          ${input.public || false},
+          ${JSON.stringify(input.upstreamData || null)}
+        FROM upserted_section
+        ON CONFLICT (id) DO UPDATE SET
+          -- parent_id cannot be updated
+          parent_id = EXCLUDED.parent_id,
+          user_id = EXCLUDED.user_id,
+          section_id = EXCLUDED.section_id,
+          comment = EXCLUDED.comment,
+          started_at = EXCLUDED.started_at,
+          duration = EXCLUDED.duration,
+          level_value = EXCLUDED.level_value,
+          level_unit = EXCLUDED.level_unit,
+          public = EXCLUDED.public,
+          upstream_data = EXCLUDED.upstream_data
+        RETURNING *
+    `;
+    return upsert;
   }
 
   public async getOne(
@@ -189,6 +246,44 @@ class DescentsService extends DataSource<Context> {
       throw new ForbiddenError('forbidden');
     }
     await db().query(sql`DELETE FROM descents WHERE id = ${id}`);
+  }
+
+  public async upsert(info: GraphQLResolveInfo, input: DescentInput) {
+    const tree = graphqlFields(info);
+    const selection = this.buildSelection(
+      tree,
+      'upserted_descent',
+      'upserted_section',
+    );
+    const upsertSection = this._context.dataSources?.sections.buildUpsertCTE(
+      input.section,
+    )!;
+    const upsert = this.buildUpsertCTE(
+      input,
+      sql.identifier(['upserted_section', 'id']),
+    );
+
+    if (input.id) {
+      const ownerId = await db().maybeOneFirst(
+        sql`SELECT user_id FROM descents WHERE id = ${input.id}`,
+      );
+      if (ownerId !== this._context.uid) {
+        throw new ForbiddenError('unauthorized');
+      }
+    }
+
+    const row = await db().maybeOne(sql`
+      WITH upserted_section AS (
+        ${upsertSection}
+      ),
+      upserted_descent AS (
+        ${upsert}
+      ) SELECT ${selection} FROM upserted_descent
+      LEFT OUTER JOIN upserted_section on upserted_descent.section_id = upserted_section.id
+    `);
+
+    const result = collapseJoinResults(row, 'descent');
+    return result;
   }
 }
 

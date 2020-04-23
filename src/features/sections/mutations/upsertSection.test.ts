@@ -69,7 +69,7 @@ it('should insert section', async () => {
     UpsertSectionMutationVariables
   >(mutation, { section }, USER_1);
   expect(result.errors).toBeUndefined();
-  expect(result.data.upsertSection).toMatchSnapshot({
+  expect(result.data.upsertSection).toMatchSnapshot<any>({
     createdAt: expect.any(Date),
     updatedAt: expect.any(Date),
     id: expect.any(String),
@@ -82,7 +82,7 @@ it('should update section', async () => {
     UpsertSectionMutationVariables
   >(mutation, { section: { ...section, id: SECTION_1 } }, USER_1);
   expect(result.errors).toBeUndefined();
-  expect(result.data.upsertSection).toMatchSnapshot({
+  expect(result.data.upsertSection).toMatchSnapshot<any>({
     updatedAt: expect.any(Date),
     id: SECTION_1,
   });

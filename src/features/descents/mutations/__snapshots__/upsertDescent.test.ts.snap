@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should fail on validation check 1`] = `
+Object {
+  "code": "BAD_USER_INPUT",
+  "exception": Object {
+    "stacktrace": undefined,
+    "validationErrors": Object {
+      "descent": Object {
+        "section": Object {
+          "difficulty": Object {
+            "key": "yup:number.max",
+            "options": Object {
+              "max": 6,
+              "path": "descent.section.difficulty",
+            },
+          },
+          "region": Object {
+            "key": "yup:string.min",
+            "options": Object {
+              "min": 2,
+              "path": "descent.section.region",
+            },
+          },
+          "river": Object {
+            "key": "yup:string.min",
+            "options": Object {
+              "min": 2,
+              "path": "descent.section.river",
+            },
+          },
+          "section": Object {
+            "key": "yup:string.min",
+            "options": Object {
+              "min": 2,
+              "path": "descent.section.section",
+            },
+          },
+        },
+      },
+    },
+  },
+  "id": Any<String>,
+  "validationErrors": Object {
+    "descent": Object {
+      "section": Object {
+        "difficulty": Object {
+          "key": "yup:number.max",
+          "options": Object {
+            "max": 6,
+            "path": "descent.section.difficulty",
+          },
+        },
+        "region": Object {
+          "key": "yup:string.min",
+          "options": Object {
+            "min": 2,
+            "path": "descent.section.region",
+          },
+        },
+        "river": Object {
+          "key": "yup:string.min",
+          "options": Object {
+            "min": 2,
+            "path": "descent.section.river",
+          },
+        },
+        "section": Object {
+          "key": "yup:string.min",
+          "options": Object {
+            "min": 2,
+            "path": "descent.section.section",
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`should insert 1`] = `
+Object {
+  "createdAt": Any<Date>,
+  "difficulty": 2,
+  "id": Any<String>,
+  "putIn": null,
+  "region": "Georgia",
+  "river": "Bzhuzha",
+  "section": "Lower",
+  "takeOut": null,
+  "updatedAt": Any<Date>,
+  "upstreamData": null,
+  "upstreamId": null,
+}
+`;
+
+exports[`should insert 2`] = `
+Object {
+  "comment": "comment",
+  "createdAt": Any<Date>,
+  "duration": 3600,
+  "id": Any<String>,
+  "level": Object {
+    "unit": "cfs",
+    "value": 20,
+  },
+  "public": true,
+  "startedAt": 2000-02-01T00:00:00.000Z,
+  "updatedAt": Any<Date>,
+  "upstreamData": Object {
+    "foo": "bar",
+  },
+  "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
+}
+`;
+
+exports[`should update 1`] = `
+Object {
+  "createdAt": 2020-01-01T00:00:00.000Z,
+  "difficulty": 2,
+  "id": "45e70501-5d20-449f-b854-52b06b138831",
+  "putIn": null,
+  "region": "Georgia",
+  "river": "Bzhuzha",
+  "section": "Lower",
+  "takeOut": null,
+  "updatedAt": Any<Date>,
+  "upstreamData": null,
+  "upstreamId": null,
+}
+`;
+
+exports[`should update 2`] = `
+Object {
+  "comment": "comment",
+  "createdAt": 2020-01-01T00:00:00.000Z,
+  "duration": 3600,
+  "id": "97998f67-74f2-43db-a4e4-198c2ca540a7",
+  "level": Object {
+    "unit": "cfs",
+    "value": 20,
+  },
+  "public": true,
+  "startedAt": 2000-02-01T00:00:00.000Z,
+  "updatedAt": Any<Date>,
+  "upstreamData": Object {
+    "foo": "bar",
+  },
+  "userId": "ad808d80-7d1d-4bee-8276-0b9204e46b2f",
+}
+`;
