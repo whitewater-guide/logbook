@@ -7816,10 +7816,10 @@ pino-std-serializers@^2.4.2:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-2.4.2.tgz#cb5e3e58c358b26f88969d7e619ae54bdfcc1ae1"
   integrity sha512-WaL504dO8eGs+vrK+j4BuQQq6GLKeCCcHaMB2ItygzVURcL1CycwNEUHTD/lHFHs/NL5qAz2UKrjYWXKSf4aMQ==
 
-pino@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-6.2.0.tgz#eef83cd0d9beb2f79102ff15d7946254a1f7846b"
-  integrity sha512-UzrsiT5Wyscw7dxHa8Ec8G2kY45mwFk7rrZhMkCMg8s9F8VWDVj+WFcaSIKproTDyxlqerMaHw+11jlNXgeiCg==
+pino@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-6.2.1.tgz#d2b86306b3998e8f6bb33bdf23910d418ed696cf"
+  integrity sha512-5F5A+G25Ex2rMOBEe3XYGyLSF4dikQZsFvPojwsqnDBX+rfg7+kw9s5i7pHuVAJImekjwb+MR9jQyHWPLENlvQ==
   dependencies:
     fast-redact "^2.0.0"
     fast-safe-stringify "^2.0.7"
@@ -9390,17 +9390,17 @@ tildify@1.2.0:
   dependencies:
     os-homedir "^1.0.0"
 
-tldts-core@^5.6.23:
-  version "5.6.23"
-  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-5.6.23.tgz#f25c4ece2bfe49242cba9b27e5ae2a98d8d1e0a7"
-  integrity sha512-Nd4JG/Ar04Yd4zcgGmZfuQaMm9gioPLNKJnSj1nYe2FPRw/OyypPdOl1oD0ZvBOW0n+p8zboy9vADJBBUxmG4g==
+tldts-core@^5.6.24:
+  version "5.6.24"
+  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-5.6.24.tgz#f3bd202889d002619a4675cd4f211d810fab164f"
+  integrity sha512-gspu13kFN1+EByPqdC6btt/Ka5jYHTjQ32m5qsxOVSBwweFd989YydMCfYA430OPcRqi8fx1tSemzUAmUI+cPA==
 
-tldts@^5.6.23:
-  version "5.6.23"
-  resolved "https://registry.yarnpkg.com/tldts/-/tldts-5.6.23.tgz#63896b75295f17548c8e91c392db5b9ef9b7a621"
-  integrity sha512-1E9ZLhavz8sd8ZiaB7jJJ8RNV/LOcg/UcMPoQRR4xlEvX+cUPJaxgFBti/uBI95RlAjYh+nioI9R4mrjE0AwSA==
+tldts@^5.6.24:
+  version "5.6.24"
+  resolved "https://registry.yarnpkg.com/tldts/-/tldts-5.6.24.tgz#3b37fbfc8f13faaa3585b7e6c1f042bffde482f8"
+  integrity sha512-zIv7N1laTQVZmUO0L19N/1sj0CIIKieSDyPU1YNlzaSMImvDU+QiwmpKZP/3uhmolaAaco6Wd9H5W+wnyxgcew==
   dependencies:
-    tldts-core "^5.6.23"
+    tldts-core "^5.6.24"
 
 tmp@^0.0.33:
   version "0.0.33"

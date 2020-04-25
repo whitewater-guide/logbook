@@ -44,11 +44,11 @@
     "merge-graphql-schemas": "^1.7.8",
     "module-alias": "^2.2.2",
     "pg": "^8.0.3",
-    "pino": "^6.2.0",
+    "pino": "^6.2.1",
     "pino-pretty": "^4.0.0",
     "shortid": "^2.2.15",
     "slonik": "^22.4.4",
-    "tldts": "^5.6.23",
+    "tldts": "^5.6.24",
     "tslib": "^1.11.1",
     "yup": "^0.28.4"
   },
