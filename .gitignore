@@ -26,6 +26,7 @@ dist/
 Env files
 .env*
 !.envrc
+!.devcontainer/.env
 
 # Generated files
 **/__generated__

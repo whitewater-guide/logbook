@@ -1,5 +1,6 @@
 import { MutationDeleteDescentArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
+import { isAuthenticatedResolver } from '~/apollo/enhancedResolvers';
 
 const upsertDescent: TopLevelResolver<MutationDeleteDescentArgs> = async (
   _,
@@ -10,4 +11,4 @@ const upsertDescent: TopLevelResolver<MutationDeleteDescentArgs> = async (
   return true;
 };
 
-export default upsertDescent;
+export default isAuthenticatedResolver(upsertDescent);

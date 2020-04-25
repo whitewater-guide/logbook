@@ -1,8 +1,3 @@
-import {
-  AuthenticationError,
-  ForbiddenError,
-  UserInputError,
-} from 'apollo-server';
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import {
   Descent,
@@ -11,6 +6,7 @@ import {
   Page,
 } from '~/__generated__/graphql';
 import { DescentRaw, SectionRaw } from '~/__generated__/sql';
+import { ForbiddenError, UserInputError } from 'apollo-server';
 import { IdentifierSqlTokenType, ValueExpressionType, sql } from 'slonik';
 
 import { Context } from '~/apollo/context';
@@ -23,6 +19,11 @@ import { db } from '~/db';
 import graphqlFields from 'graphql-fields';
 import { itemsToConnection } from '~/apollo/connections';
 import jwt from 'jsonwebtoken';
+
+interface ShareToken {
+  descent: string;
+  section: string;
+}
 
 interface DescentJointRow extends DescentRaw {
   section: SectionRaw;
@@ -107,6 +108,20 @@ class DescentsService extends DataSource<Context> {
     return upsert;
   }
 
+  public async getShareToken(id: string) {
+    const row = await db().one(
+      sql`SELECT user_id, section_id FROM descents WHERE id = ${id}`,
+    );
+    if (row.user_id !== this._context.uid) {
+      throw new ForbiddenError('forbidden');
+    }
+    const token: ShareToken = {
+      descent: id,
+      section: row.section_id as any,
+    };
+    return jwt.sign(token, process.env.JWT_SECRET, { noTimestamp: true });
+  }
+
   public async getOne(
     info: GraphQLResolveInfo,
     id?: string | null,
@@ -116,7 +131,10 @@ class DescentsService extends DataSource<Context> {
     let identifier = id;
     let fromShareToken = false;
     if (!id && shareToken) {
-      const decoded: any = jwt.verify(shareToken, process.env.JWT_SECRET);
+      const decoded: ShareToken = jwt.verify(
+        shareToken,
+        process.env.JWT_SECRET,
+      ) as any;
       if (!decoded.descent) {
         throw new ForbiddenError('share token does not contain descent id');
       }
@@ -236,9 +254,6 @@ class DescentsService extends DataSource<Context> {
   }
 
   public async deleteById(id: string) {
-    if (!this._context.uid) {
-      throw new AuthenticationError('unauthenticated');
-    }
     const ownerId = await db().maybeOneFirst(
       sql`SELECT user_id FROM descents WHERE id = ${id}`,
     );

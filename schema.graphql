@@ -135,6 +135,7 @@ input DescentsFilter {
 
 type Query {
   descent(id: ID, shareToken: String): Descent
+  descentShareToken(id: ID!): String
 
   descents(filter: DescentsFilter, page: Page): DescentsConnection
   myDescents(filter: DescentsFilter, page: Page): DescentsConnection
