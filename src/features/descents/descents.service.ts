@@ -66,21 +66,33 @@ class DescentsService extends DataSource<Context> {
     parentId?: string,
   ) {
     const upsert = sql`
-      INSERT INTO descents (
-        id,
-        parent_id,
-        user_id,
-        section_id,
-        comment,
-        started_at,
-        duration,
-        level_value,
-        level_unit,
-        public,
-        upstream_data
+      WITH RECURSIVE parent_descents( id, parent_id ) AS (
+        SELECT id, parent_id
+        FROM descents
+        WHERE id = ${parentId || null}
+
+        UNION ALL
+
+        -- get all parent_descents
+        SELECT d.id, d.parent_id
+        FROM parent_descents p
+        JOIN descents d
+        ON p.parent_id = d.id
+      ) INSERT INTO descents (
+          id,
+          parent_id,
+          user_id,
+          section_id,
+          comment,
+          started_at,
+          duration,
+          level_value,
+          level_unit,
+          public,
+          upstream_data
         ) SELECT
           COALESCE (${input.id || null}, uuid_generate_v4()),
-          ${parentId || null},
+          (SELECT parent_descents.id FROM parent_descents WHERE parent_descents.parent_id IS NULL ) as parent_id,
           ${this._context.uid!},
           ${sectionId},
           ${input.comment || null},
@@ -263,19 +275,29 @@ class DescentsService extends DataSource<Context> {
     await db().query(sql`DELETE FROM descents WHERE id = ${id}`);
   }
 
-  public async upsert(info: GraphQLResolveInfo, input: DescentInput) {
+  public async upsert(
+    info: GraphQLResolveInfo,
+    input: DescentInput,
+    token?: string | null,
+  ) {
     const tree = graphqlFields(info);
     const selection = this.buildSelection(
       tree,
       'upserted_descent',
       'upserted_section',
     );
+    let shared: ShareToken | undefined;
+    if (token) {
+      shared = jwt.verify(token, process.env.JWT_SECRET) as any;
+    }
     const upsertSection = this._context.dataSources?.sections.buildUpsertCTE(
       input.section,
+      shared?.section,
     )!;
     const upsert = this.buildUpsertCTE(
       input,
       sql.identifier(['upserted_section', 'id']),
+      shared?.descent,
     );
 
     if (input.id) {

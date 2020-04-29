@@ -1,14 +1,24 @@
-import { DESCENT_1, SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
+import {
+  DESCENT_1,
+  DESCENT_2,
+  DESCENT_2_SHARE_TOKEN,
+  DESCENT_4_SHARE_TOKEN,
+  SECTION_1,
+  SECTION_2,
+  USER_1,
+  USER_2,
+} from '~/test/fixtures';
 import {
   UpsertDescentMutation,
   UpsertDescentMutationVariables,
 } from './upsertDescent.test.generated';
-import { setupDB, teardownDB } from '~/db';
+import { db, setupDB, teardownDB } from '~/db';
 
 import DescentFragments from '../descents.fragments';
 import { DescentInput } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
+import { sql } from 'slonik';
 
 beforeEach(setupDB);
 afterEach(teardownDB);
@@ -122,4 +132,35 @@ it('should update', async () => {
   });
 });
 
-it.todo('should set parent references when token is provided');
+type ParentTestCase = [string, string, string, string];
+
+it.each<ParentTestCase>([
+  [' ', DESCENT_2_SHARE_TOKEN, DESCENT_2, SECTION_2],
+  [' recursive ', DESCENT_4_SHARE_TOKEN, DESCENT_1, SECTION_1],
+])(
+  'should set%sparent references when token is provided',
+  async (_, shareToken, expectedParentDescentId, expectedParentSectionId) => {
+    const result = await runQuery<
+      UpsertDescentMutation,
+      UpsertDescentMutationVariables
+    >(
+      mutation,
+      {
+        descent,
+        shareToken,
+      },
+      USER_2,
+    );
+    expect(result.errors).toBeUndefined();
+    const id = result.data.upsertDescent?.id!;
+    const sectionId = result.data.upsertDescent?.section.id!;
+    const parentDescId = await db().oneFirst(
+      sql`SELECT parent_id FROM descents WHERE id = ${id}`,
+    );
+    const parentSectionId = await db().oneFirst(
+      sql`SELECT parent_id FROM sections WHERE id = ${sectionId}`,
+    );
+    expect(parentDescId).toBe(expectedParentDescentId);
+    expect(parentSectionId).toBe(expectedParentSectionId);
+  },
+);

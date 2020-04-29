@@ -16,11 +16,11 @@ const Schema = yup.object<MutationUpsertDescentArgs>({
 
 const upsertDescent: TopLevelResolver<MutationUpsertDescentArgs> = (
   _,
-  { descent },
+  { descent, shareToken },
   { dataSources },
   info,
 ) => {
-  return dataSources?.descents.upsert(info, descent);
+  return dataSources?.descents.upsert(info, descent, shareToken);
 };
 
 export default isAuthenticatedResolver(

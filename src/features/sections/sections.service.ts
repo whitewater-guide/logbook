@@ -43,6 +43,19 @@ class SectionsService extends DataSource<Context> {
       ? sql`ST_MakePoint(${input.takeOut.lng}, ${input.takeOut.lat}, 0)`
       : sql`NULL`;
     const upsert = sql`
+      WITH RECURSIVE parent_sections( id, parent_id ) AS (
+        SELECT id, parent_id
+        FROM sections
+        WHERE id = ${parentId || null}
+
+        UNION ALL
+
+        -- get all parent_sections
+        SELECT d.id, d.parent_id
+        FROM parent_sections p
+        JOIN sections d
+        ON p.parent_id = d.id
+      )
       INSERT INTO sections (
           id,
           parent_id,
@@ -57,7 +70,7 @@ class SectionsService extends DataSource<Context> {
           upstream_data
         ) VALUES (
           COALESCE (${input.id || null}, uuid_generate_v4()),
-          ${parentId || null},
+          (SELECT parent_sections.id FROM parent_sections WHERE parent_sections.parent_id IS NULL),
           ${this._context.uid!},
           ${input.region},
           ${input.river},
