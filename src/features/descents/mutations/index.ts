@@ -1,7 +1,7 @@
-import deleteDescent from './deleteDescent';
-import upsertDescent from './upsertDescent';
+import deleteLogbookDescent from './deleteLogbookDescent';
+import upsertLogbookDescent from './upsertLogbookDescent';
 
 export default {
-  deleteDescent,
-  upsertDescent,
+  deleteLogbookDescent,
+  upsertLogbookDescent,
 };

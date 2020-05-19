@@ -1,7 +1,7 @@
-import deleteSection from './deleteSection';
-import upsertSection from './upsertSection';
+import deleteLogbookSection from './deleteLogbookSection';
+import upsertLogbookSection from './upsertLogbookSection';
 
 export default {
-  deleteSection,
-  upsertSection,
+  deleteLogbookSection,
+  upsertLogbookSection,
 };

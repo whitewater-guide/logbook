@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { LatLngInput, SectionInput } from '~/__generated__/graphql';
+import { LatLngInput, LogbookSectionInput } from '~/__generated__/graphql';
 
 import { yupTypes } from '@whitewater-guide/validation';
 
@@ -9,7 +9,7 @@ export const LatLngInputSchema = yup.object<LatLngInput>({
   lng: yup.number().required().min(-180).max(180),
 });
 
-export const SectionInputSchema = yup.object<SectionInput>({
+export const LogbookSectionInputSchema = yup.object<LogbookSectionInput>({
   id: yupTypes.uuid(true, true),
   region: yup.string().required().min(2),
   river: yup.string().required().min(2),

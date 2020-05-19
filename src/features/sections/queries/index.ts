@@ -1,7 +1,7 @@
-import mySection from './mySection';
-import mySections from './mySections';
+import myLogbookSection from './myLogbookSection';
+import myLogbookSections from './myLogbookSections';
 
 export default {
-  mySection,
-  mySections,
+  myLogbookSection,
+  myLogbookSections,
 };

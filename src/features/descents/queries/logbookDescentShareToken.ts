@@ -1,8 +1,8 @@
-import { QueryDescentShareTokenArgs } from '~/__generated__/graphql';
+import { QueryLogbookDescentShareTokenArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
 import { isAuthenticatedResolver } from '~/apollo/enhancedResolvers';
 
-const descentShareToken: TopLevelResolver<QueryDescentShareTokenArgs> = async (
+const descentShareToken: TopLevelResolver<QueryLogbookDescentShareTokenArgs> = async (
   _,
   { id },
   { dataSources },

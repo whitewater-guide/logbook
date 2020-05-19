@@ -6,9 +6,9 @@ import {
   USER_2,
 } from '~/test/fixtures';
 import {
-  DeleteDescentMutation,
-  DeleteDescentMutationVariables,
-} from './deleteDescent.test.generated';
+  DeleteLogbookDescentMutation,
+  DeleteLogbookDescentMutationVariables,
+} from './deleteLogbookDescent.test.generated';
 import { db, setupDB, teardownDB } from '~/db';
 
 import { gql } from 'apollo-server';
@@ -19,8 +19,8 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const mutation = gql`
-  mutation deleteDescent($id: ID!) {
-    deleteDescent(id: $id)
+  mutation deleteLogbookDescent($id: ID!) {
+    deleteLogbookDescent(id: $id)
   }
 `;
 
@@ -32,34 +32,33 @@ it.each<PermissionsTestCase>([
   ['owner should delete descent', USER_1, true],
 ])('%s', async (_, uid, allowed) => {
   const result = await runQuery<
-    DeleteDescentMutation,
-    DeleteDescentMutationVariables
+    DeleteLogbookDescentMutation,
+    DeleteLogbookDescentMutationVariables
   >(mutation, { id: DESCENT_1 }, uid);
   if (allowed) {
     expect(result.errors).toBeUndefined();
-    expect(result.data?.deleteDescent).toBe(true);
+    expect(result.data?.deleteLogbookDescent).toBe(true);
   } else {
     expect(result.errors).toBeTruthy();
-    expect(result.data?.deleteDescent).toBeNull();
+    expect(result.data?.deleteLogbookDescent).toBeNull();
   }
 });
 
 it('should delete descent, keep section and nullify parent references', async () => {
-  await runQuery<DeleteDescentMutation, DeleteDescentMutationVariables>(
-    mutation,
-    { id: DESCENT_1 },
-    USER_1,
-  );
+  await runQuery<
+    DeleteLogbookDescentMutation,
+    DeleteLogbookDescentMutationVariables
+  >(mutation, { id: DESCENT_1 }, USER_1);
   const noId = await db().maybeOneFirst(
-    sql`SELECT id FROM descents WHERE id = ${DESCENT_1}`,
+    sql`SELECT id FROM logbook_descents WHERE id = ${DESCENT_1}`,
   );
   expect(noId).toBeNull();
   const secID = await db().maybeOneFirst(
-    sql`SELECT id FROM sections WHERE id = ${SECTION_1}`,
+    sql`SELECT id FROM logbook_sections WHERE id = ${SECTION_1}`,
   );
   expect(secID).toBe(SECTION_1);
   const parentId = await db().maybeOneFirst(
-    sql`SELECT parent_id FROM descents WHERE id = ${DESCENT_4}`,
+    sql`SELECT parent_id FROM logbook_descents WHERE id = ${DESCENT_4}`,
   );
   expect(parentId).toBeNull();
 });

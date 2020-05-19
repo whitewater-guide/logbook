@@ -2,7 +2,7 @@ import { DESCENT_2, USER_1, USER_2 } from '~/test/fixtures';
 import {
   GetShareTokenQuery,
   GetShareTokenQueryVariables,
-} from './descentShareToken.test.generated';
+} from './logbookDescentShareToken.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
 import { DESCENT_2_SHARE_TOKEN } from '../../../test/fixtures';
@@ -14,7 +14,7 @@ afterEach(teardownDB);
 
 const query = gql`
   query getShareToken($id: ID!) {
-    descentShareToken(id: $id)
+    logbookDescentShareToken(id: $id)
   }
 `;
 
@@ -30,10 +30,10 @@ it.each<PermissionsTestCase>([
   >(query, { id: DESCENT_2 }, uid);
   if (allowed) {
     expect(result.errors).toBeUndefined();
-    expect(result.data?.descentShareToken).toBeTruthy();
+    expect(result.data?.logbookDescentShareToken).toBeTruthy();
   } else {
     expect(result.errors).toBeTruthy();
-    expect(result.data?.descentShareToken).toBeNull();
+    expect(result.data?.logbookDescentShareToken).toBeNull();
   }
 });
 
@@ -43,5 +43,5 @@ it('should return descent share token', async () => {
     GetShareTokenQueryVariables
   >(query, { id: DESCENT_2 }, USER_1);
   expect(result.errors).toBeUndefined();
-  expect(result.data?.descentShareToken).toEqual(DESCENT_2_SHARE_TOKEN);
+  expect(result.data?.logbookDescentShareToken).toEqual(DESCENT_2_SHARE_TOKEN);
 });

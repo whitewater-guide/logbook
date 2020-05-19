@@ -1,10 +1,10 @@
 import {
-  ListMyDescentsQuery,
-  ListMyDescentsQueryVariables,
-} from './myDescents.test.generated';
+  ListMyLogbookDescentsQuery,
+  ListMyLogbookDescentsQueryVariables,
+} from './myLogbookDescents.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
-import DescentFragments from '../descents.fragments';
+import LogbookDescentFragments from '../fragments';
 import { USER_1 } from '~/test/fixtures';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
@@ -13,11 +13,11 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const query = gql`
-  query listMyDescents($filter: DescentsFilter, $page: Page) {
-    myDescents(filter: $filter, page: $page) {
+  query listMyLogbookDescents($filter: LogbookDescentsFilter, $page: Page) {
+    myLogbookDescents(filter: $filter, page: $page) {
       edges {
         node {
-          ...descentAll
+          ...logbookDescentAll
         }
         cursor
       }
@@ -27,22 +27,22 @@ const query = gql`
       }
     }
   }
-  ${DescentFragments.All}
+  ${LogbookDescentFragments.All}
 `;
 
 it('should match snapshot', async () => {
   const result = await runQuery<
-    ListMyDescentsQuery,
-    ListMyDescentsQueryVariables
+    ListMyLogbookDescentsQuery,
+    ListMyLogbookDescentsQueryVariables
   >(query, {}, USER_1);
   expect(result).toMatchSnapshot();
 });
 
 it('anon should fail', async () => {
   const result = await runQuery<
-    ListMyDescentsQuery,
-    ListMyDescentsQueryVariables
+    ListMyLogbookDescentsQuery,
+    ListMyLogbookDescentsQueryVariables
   >(query);
   expect(result.errors).toBeTruthy();
-  expect(result.data.myDescents).toBeNull();
+  expect(result.data.myLogbookDescents).toBeNull();
 });

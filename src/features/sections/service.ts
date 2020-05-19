@@ -4,12 +4,16 @@ import {
   UserInputError,
 } from 'apollo-server';
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
-import { Page, SectionInput, SectionsFilter } from '~/__generated__/graphql';
+import {
+  LogbookSectionInput,
+  LogbookSectionsFilter,
+  Page,
+} from '~/__generated__/graphql';
 import { ValueExpressionType, sql } from 'slonik';
 
 import { Context } from '~/apollo/context';
 import { GraphQLResolveInfo } from 'graphql';
-import { SectionFieldsMap } from './fields-map';
+import { LogbookSectionFieldsMap } from './fields-map';
 import { SectionRaw } from '~/__generated__/sql';
 import clamp from 'lodash/clamp';
 import collapseJoinResult from '~/utils/collapseJoinResult';
@@ -24,9 +28,9 @@ class SectionsService extends DataSource<Context> {
     this._context = config.context;
   }
 
-  private buildSelection(tree: any, table = 'sections') {
+  private buildSelection(tree: any, table = 'logbook_sections') {
     const selection: ValueExpressionType[] = [
-      SectionFieldsMap.getSqlSelection(tree, {
+      LogbookSectionFieldsMap.getSqlSelection(tree, {
         table,
         aliasPrefix: 'section',
         requiredColumns: ['user_id', 'ord_id'],
@@ -35,7 +39,7 @@ class SectionsService extends DataSource<Context> {
     return sql.join(selection, sql`, `);
   }
 
-  public buildUpsertCTE(input: SectionInput, parentId?: string) {
+  public buildUpsertCTE(input: LogbookSectionInput, parentId?: string) {
     const putIn = input.putIn
       ? sql`ST_MakePoint(${input.putIn.lng}, ${input.putIn.lat}, 0)`
       : sql`NULL`;
@@ -45,7 +49,7 @@ class SectionsService extends DataSource<Context> {
     const upsert = sql`
       WITH RECURSIVE parent_sections( id, parent_id ) AS (
         SELECT id, parent_id
-        FROM sections
+        FROM logbook_sections
         WHERE id = ${parentId || null}
 
         UNION ALL
@@ -53,10 +57,10 @@ class SectionsService extends DataSource<Context> {
         -- get all parent_sections
         SELECT d.id, d.parent_id
         FROM parent_sections p
-        JOIN sections d
+        JOIN logbook_sections d
         ON p.parent_id = d.id
       )
-      INSERT INTO sections (
+      INSERT INTO logbook_sections (
           id,
           parent_id,
           user_id,
@@ -110,8 +114,8 @@ class SectionsService extends DataSource<Context> {
 
     const row: Partial<SectionRaw> | null = await db().maybeOne(sql`
       SELECT ${selection}
-      FROM sections
-      WHERE sections.id = ${id}
+      FROM logbook_sections
+      WHERE logbook_sections.id = ${id}
     `);
 
     const result = collapseJoinResult(row, 'section');
@@ -123,7 +127,7 @@ class SectionsService extends DataSource<Context> {
 
   public async getMany(
     info: GraphQLResolveInfo,
-    filter?: SectionsFilter | null,
+    filter?: LogbookSectionsFilter | null,
     page?: Page | null,
   ) {
     if (!this._context.uid) {
@@ -136,10 +140,10 @@ class SectionsService extends DataSource<Context> {
 
     const selection = this.buildSelection(tree.edges.node);
 
-    const wheres = [sql`(sections.user_id = ${this._context.uid})`];
+    const wheres = [sql`(logbook_sections.user_id = ${this._context.uid})`];
     if (after) {
       wheres.push(
-        sql`((sections.region || ' ' || sections.river || ' ' || sections.section), sections.ord_id) > (${after.value}, ${after.ordId})`,
+        sql`((logbook_sections.region || ' ' || logbook_sections.river || ' ' || logbook_sections.section), logbook_sections.ord_id) > (${after.value}, ${after.ordId})`,
       );
     }
 
@@ -147,24 +151,28 @@ class SectionsService extends DataSource<Context> {
       if (filter.difficulty.length !== 2) {
         throw new UserInputError('difficulty filter must contain two values');
       }
-      wheres.push(sql`sections.difficulty >= ${2 * filter.difficulty[0]}`);
-      wheres.push(sql`sections.difficulty <= ${2 * filter.difficulty[1]}`);
+      wheres.push(
+        sql`logbook_sections.difficulty >= ${2 * filter.difficulty[0]}`,
+      );
+      wheres.push(
+        sql`logbook_sections.difficulty <= ${2 * filter.difficulty[1]}`,
+      );
     }
     if (filter?.name) {
       const likeName = `%${filter.name}%`;
       wheres.push(
-        sql`(sections.region || ' ' || sections.river || ' ' || sections.section) ILIKE ${likeName}`,
+        sql`(logbook_sections.region || ' ' || logbook_sections.river || ' ' || logbook_sections.section) ILIKE ${likeName}`,
       );
     }
 
     const { rows } = await db().query(sql`
       SELECT
         ${selection},
-        (sections.region || ' ' || sections.river || ' ' || sections.section) AS section_fullname,
+        (logbook_sections.region || ' ' || logbook_sections.river || ' ' || logbook_sections.section) AS section_fullname,
         count(*) OVER() total_count
-      FROM sections
+      FROM logbook_sections
       WHERE ${sql.join(wheres, sql` AND `)}
-      ORDER BY section_fullname ASC, sections.ord_id DESC
+      ORDER BY section_fullname ASC, logbook_sections.ord_id DESC
       LIMIT ${limit}
     `);
     const total: number = (rows?.[0]?.total_count as any) || 0;
@@ -178,22 +186,22 @@ class SectionsService extends DataSource<Context> {
 
   public async deleteById(id: string) {
     const ownerId = await db().maybeOneFirst(
-      sql`SELECT user_id FROM sections WHERE id = ${id}`,
+      sql`SELECT user_id FROM logbook_sections WHERE id = ${id}`,
     );
     if (ownerId !== this._context.uid) {
       throw new ForbiddenError('forbidden');
     }
-    await db().query(sql`DELETE FROM sections WHERE id = ${id}`);
+    await db().query(sql`DELETE FROM logbook_sections WHERE id = ${id}`);
   }
 
-  public async upsert(info: GraphQLResolveInfo, input: SectionInput) {
+  public async upsert(info: GraphQLResolveInfo, input: LogbookSectionInput) {
     const tree = graphqlFields(info);
     const selection = this.buildSelection(tree, 'upserted_section');
     const upsert = this.buildUpsertCTE(input);
 
     if (input.id) {
       const ownerId = await db().maybeOneFirst(
-        sql`SELECT user_id FROM sections WHERE id = ${input.id}`,
+        sql`SELECT user_id FROM logbook_sections WHERE id = ${input.id}`,
       );
       if (ownerId !== this._context.uid) {
         throw new ForbiddenError('unauthorized');

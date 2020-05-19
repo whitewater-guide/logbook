@@ -1,11 +1,11 @@
 import {
-  MySectionQuery,
-  MySectionQueryVariables,
-} from './mySection.test.generated';
+  MyLogbookSectionQuery,
+  MyLogbookSectionQueryVariables,
+} from './myLogbookSection.test.generated';
 import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
 import { setupDB, teardownDB } from '~/db';
 
-import SectionFragments from '../sections.fragments';
+import LogbookSectionFragments from '../fragments';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -13,12 +13,12 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const query = gql`
-  query mySection($id: ID!) {
-    mySection(id: $id) {
-      ...sectionAll
+  query myLogbookSection($id: ID!) {
+    myLogbookSection(id: $id) {
+      ...logbookSectionAll
     }
   }
-  ${SectionFragments.All}
+  ${LogbookSectionFragments.All}
 `;
 
 describe('permissions', () => {
@@ -29,27 +29,25 @@ describe('permissions', () => {
     ['other user should not', USER_2, false],
     ['owner should', USER_1, true],
   ])('%s get section', async (_, uid, allowed) => {
-    const result = await runQuery<MySectionQuery, MySectionQueryVariables>(
-      query,
-      { id: SECTION_1 },
-      uid,
-    );
+    const result = await runQuery<
+      MyLogbookSectionQuery,
+      MyLogbookSectionQueryVariables
+    >(query, { id: SECTION_1 }, uid);
     if (allowed) {
       expect(result.errors).toBeUndefined();
-      expect(result.data?.mySection).toBeTruthy();
+      expect(result.data?.myLogbookSection).toBeTruthy();
     } else {
       expect(result.errors).toBeTruthy();
-      expect(result.data?.mySection).toBeNull();
+      expect(result.data?.myLogbookSection).toBeNull();
     }
   });
 });
 
 it('should return section', async () => {
-  const result = await runQuery<MySectionQuery, MySectionQueryVariables>(
-    query,
-    { id: SECTION_1 },
-    USER_1,
-  );
+  const result = await runQuery<
+    MyLogbookSectionQuery,
+    MyLogbookSectionQueryVariables
+  >(query, { id: SECTION_1 }, USER_1);
   expect(result.errors).toBeUndefined();
-  expect(result.data?.mySection).toMatchSnapshot();
+  expect(result.data?.myLogbookSection).toMatchSnapshot();
 });

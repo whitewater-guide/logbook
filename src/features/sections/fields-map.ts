@@ -1,9 +1,12 @@
 import FieldsMap from '~/apollo/FieldsMap';
-import { Section } from '~/__generated__/graphql';
+import { LogbookSection } from '~/__generated__/graphql';
 import { SectionRaw } from '~/__generated__/sql';
 import { sql } from 'slonik';
 
-export const SectionFieldsMap = new FieldsMap<Section, SectionRaw>([
+export const LogbookSectionFieldsMap = new FieldsMap<
+  LogbookSection,
+  SectionRaw
+>([
   ['id', 'id'],
   ['region', 'region'],
   ['river', 'river'],

@@ -5,16 +5,16 @@ import {
   isInputValidResolver,
 } from '~/apollo/enhancedResolvers';
 
-import { DescentInputSchema } from '../schema';
-import { MutationUpsertDescentArgs } from '~/__generated__/graphql';
+import { LogbookDescentInputSchema } from '../schema';
+import { MutationUpsertLogbookDescentArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
 
-const Schema = yup.object<MutationUpsertDescentArgs>({
-  descent: DescentInputSchema.clone().required(),
+const Schema = yup.object<MutationUpsertLogbookDescentArgs>({
+  descent: LogbookDescentInputSchema.clone().required(),
   shareToken: yup.string().notRequired().nullable(),
 });
 
-const upsertDescent: TopLevelResolver<MutationUpsertDescentArgs> = (
+const upsertLogbookDescent: TopLevelResolver<MutationUpsertLogbookDescentArgs> = (
   _,
   { descent, shareToken },
   { dataSources },
@@ -24,5 +24,5 @@ const upsertDescent: TopLevelResolver<MutationUpsertDescentArgs> = (
 };
 
 export default isAuthenticatedResolver(
-  isInputValidResolver(Schema, upsertDescent),
+  isInputValidResolver(Schema, upsertLogbookDescent),
 );

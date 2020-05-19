@@ -1,12 +1,12 @@
 import { DESCENT_1, DESCENT_2, USER_1, USER_2 } from '~/test/fixtures';
 import {
-  GetDescentQuery,
-  GetDescentQueryVariables,
-} from './descent.test.generated';
+  GetLogbookDescentQuery,
+  GetLogbookDescentQueryVariables,
+} from './logbookDescent.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
 import { DESCENT_2_SHARE_TOKEN } from '../../../test/fixtures';
-import DescentFragments from '../descents.fragments';
+import LogbookDescentFragments from '../fragments';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -14,18 +14,18 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const query = gql`
-  query getDescent($id: ID, $shareToken: String) {
-    descent(id: $id, shareToken: $shareToken) {
-      ...descentAll
+  query getLogbookDescent($id: ID, $shareToken: String) {
+    logbookDescent(id: $id, shareToken: $shareToken) {
+      ...logbookDescentAll
     }
   }
-  ${DescentFragments.All}
+  ${LogbookDescentFragments.All}
 `;
 
 describe('permissions', () => {
   type PermissionsTestCase = [
     string,
-    GetDescentQueryVariables,
+    GetLogbookDescentQueryVariables,
     string | undefined,
     boolean,
   ];
@@ -59,26 +59,25 @@ describe('permissions', () => {
       false,
     ],
   ])('%s', async (_, vars, uid, allowed) => {
-    const result = await runQuery<GetDescentQuery, GetDescentQueryVariables>(
-      query,
-      vars,
-      uid,
-    );
+    const result = await runQuery<
+      GetLogbookDescentQuery,
+      GetLogbookDescentQueryVariables
+    >(query, vars, uid);
     if (allowed) {
       expect(result.errors).toBeUndefined();
-      expect(result.data?.descent).toBeTruthy();
+      expect(result.data?.logbookDescent).toBeTruthy();
     } else {
       expect(result.errors).toBeTruthy();
-      expect(result.data?.descent).toBeNull();
+      expect(result.data?.logbookDescent).toBeNull();
     }
   });
 });
 
 it('should return descent', async () => {
-  const result = await runQuery<GetDescentQuery, GetDescentQueryVariables>(
-    query,
-    { id: DESCENT_1 },
-  );
+  const result = await runQuery<
+    GetLogbookDescentQuery,
+    GetLogbookDescentQueryVariables
+  >(query, { id: DESCENT_1 });
   expect(result.errors).toBeUndefined();
-  expect(result.data?.descent).toMatchSnapshot();
+  expect(result.data?.logbookDescent).toMatchSnapshot();
 });

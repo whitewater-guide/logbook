@@ -1,0 +1,52 @@
+version: '3.7'
+
+x-project-label: &project-label
+  labels:
+    project: 'logbook'
+
+services:
+  logbook:
+    <<: *project-label
+    container_name: logbook
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - '3333:3333'
+    env_file: ./.devcontainer/.env
+
+  postgres:
+    <<: *project-label
+    container_name: postgres
+    image: postgis/postgis:11-3.0
+    restart: always
+    command:
+      # Speeding Up Integration Tests with PostgreSQL
+      # https://www.endpoint.com/blog/2012/06/22/speeding-up-integration-tests-with
+      - postgres
+      - -cfsync=off
+      - -cfull_page_writes=off
+      # - -clog_statement=mod
+    env_file: ./.devcontainer/.env
+    volumes:
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /run/postgresql
+      - type: tmpfs
+        target: /var/lib/postgresql/data
+      - type: bind
+        source: ./sql/schema.sql
+        target: /docker-entrypoint-initdb.d/schema.sql
+      - type: bind
+        source: ./sql/seeds.sql
+        target: /docker-entrypoint-initdb.d/seeds.sql
+    ports:
+      - '5432:5432'
+    networks:
+      default:
+        aliases:
+          - postgres.local

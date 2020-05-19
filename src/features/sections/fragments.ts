@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const All = gql`
-  fragment sectionAll on Section {
+  fragment logbookSectionAll on LogbookSection {
     id
 
     region
@@ -25,8 +25,8 @@ const All = gql`
   }
 `;
 
-const SectionFragments = {
+const LogbookSectionFragments = {
   All,
 };
 
-export default SectionFragments;
+export default LogbookSectionFragments;

@@ -1,20 +1,23 @@
+import { buildFederatedSchema } from '@apollo/federation';
+import gql from 'graphql-tag';
 import { logger } from './logger';
-import { makeExecutableSchema } from 'apollo-server';
 import { readFile } from 'fs-extra';
 import { resolve } from 'path';
 import resolvers from './resolvers';
 
-const loadSchema = async () => {
+export const prepareServiceSchema = async () => {
   const typeDefs = await readFile(resolve(process.cwd(), 'schema.graphql'), {
     encoding: 'utf8',
   });
-  const result = makeExecutableSchema({
-    typeDefs,
+  return {
+    typeDefs: gql(typeDefs),
     resolvers,
-    allowUndefinedInResolve: false,
-  });
+  };
+};
+
+export const loadSchema = async () => {
+  const schema = await prepareServiceSchema();
+  const result = buildFederatedSchema([schema]);
   logger.info('Initialized GRAPHQL schema');
   return result;
 };
-
-export default loadSchema;

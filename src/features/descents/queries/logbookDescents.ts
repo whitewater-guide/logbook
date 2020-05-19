@@ -1,7 +1,7 @@
-import { QueryDescentsArgs } from '~/__generated__/graphql';
+import { QueryLogbookDescentsArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
 
-const descents: TopLevelResolver<QueryDescentsArgs> = (
+const descents: TopLevelResolver<QueryLogbookDescentsArgs> = (
   _,
   { filter, page },
   { dataSources },

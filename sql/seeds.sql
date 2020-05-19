@@ -1,6 +1,6 @@
-TRUNCATE descents, sections;
+TRUNCATE logbook_descents, logbook_sections;
 
-INSERT INTO sections (
+INSERT INTO logbook_sections (
     id,
     parent_id,
     user_id,
@@ -152,7 +152,7 @@ VALUES
     '2020-01-09'
   );
 
-INSERT INTO descents (
+INSERT INTO logbook_descents (
     id,
     user_id,
     section_id,

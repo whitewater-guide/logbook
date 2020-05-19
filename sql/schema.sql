@@ -8,7 +8,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TABLE IF NOT EXISTS sections (
+CREATE TABLE IF NOT EXISTS logbook_sections (
     id              UUID            PRIMARY KEY DEFAULT uuid_generate_v4(),
     parent_id       UUID,
     ord_id          SERIAL,
@@ -27,22 +27,22 @@ CREATE TABLE IF NOT EXISTS sections (
     upstream_data   JSONB
 );
 
-ALTER TABLE sections
-ADD CONSTRAINT sections_parent_id FOREIGN KEY (parent_id) REFERENCES sections (id)
+ALTER TABLE logbook_sections
+ADD CONSTRAINT logbook_sections_parent_id FOREIGN KEY (parent_id) REFERENCES logbook_sections (id)
 ON DELETE SET NULL;
 
-CREATE INDEX sections_idx_ord ON sections(ord_id);
-CREATE INDEX sections_idx_user ON sections(user_id);
-CREATE INDEX sections_idx_created ON sections(created_at);
-CREATE INDEX sections_idx_difficulty ON sections(difficulty);
-CREATE INDEX sections_idx_fullname ON sections ((region || ' ' || river || ' ' || section) varchar_pattern_ops);
+CREATE INDEX logbook_sections_idx_ord ON logbook_sections(ord_id);
+CREATE INDEX logbook_sections_idx_user ON logbook_sections(user_id);
+CREATE INDEX logbook_sections_idx_created ON logbook_sections(created_at);
+CREATE INDEX logbook_sections_idx_difficulty ON logbook_sections(difficulty);
+CREATE INDEX logbook_sections_idx_fullname ON logbook_sections ((region || ' ' || river || ' ' || section) varchar_pattern_ops);
 
-CREATE TRIGGER set_sections_timestamp
-BEFORE UPDATE ON sections
+CREATE TRIGGER set_logbook_sections_timestamp
+BEFORE UPDATE ON logbook_sections
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TABLE IF NOT EXISTS descents (
+CREATE TABLE IF NOT EXISTS logbook_descents (
     id              UUID            PRIMARY KEY DEFAULT uuid_generate_v4(),
     parent_id       UUID,
     ord_id          SERIAL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS descents (
     created_at      TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
     updated_at      TIMESTAMPTZ     NOT NULL DEFAULT NOW(),
 
-    section_id      UUID            NOT NULL REFERENCES sections(id) ON DELETE CASCADE,
+    section_id      UUID            NOT NULL REFERENCES logbook_sections(id) ON DELETE CASCADE,
 
     comment         TEXT,
     started_at      TIMESTAMPTZ     NOT NULL,
@@ -64,11 +64,11 @@ CREATE TABLE IF NOT EXISTS descents (
 
 -- TODO indexes
 
-ALTER TABLE descents
-ADD CONSTRAINT descent_parent_id FOREIGN KEY (parent_id) REFERENCES descents (id)
+ALTER TABLE logbook_descents
+ADD CONSTRAINT logbook_descent_parent_id FOREIGN KEY (parent_id) REFERENCES logbook_descents (id)
 ON DELETE SET NULL;
 
-CREATE TRIGGER set_descent_timestamp
-BEFORE UPDATE ON descents
+CREATE TRIGGER set_logbook_descent_timestamp
+BEFORE UPDATE ON logbook_descents
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();

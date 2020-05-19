@@ -1,6 +1,0 @@
-{
-  "verbose": true,
-  "watch": ["dist"],
-  "ext": "js,json",
-  "signal": "SIGINT"
-}

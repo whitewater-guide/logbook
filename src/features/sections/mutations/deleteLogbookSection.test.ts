@@ -7,9 +7,9 @@ import {
   USER_2,
 } from '~/test/fixtures';
 import {
-  DeleteSectionMutation,
-  DeleteSectionMutationVariables,
-} from './deleteSection.test.generated';
+  DeleteLogbookSectionMutation,
+  DeleteLogbookSectionMutationVariables,
+} from './deleteLogbookSection.test.generated';
 import { db, setupDB, teardownDB } from '~/db';
 
 import { gql } from 'apollo-server';
@@ -20,8 +20,8 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const mutation = gql`
-  mutation deleteSection($id: ID!) {
-    deleteSection(id: $id)
+  mutation deleteLogbookSection($id: ID!) {
+    deleteLogbookSection(id: $id)
   }
 `;
 
@@ -33,42 +33,41 @@ it.each<PermissionsTestCase>([
   ['owner should delete section', USER_1, true],
 ])('%s', async (_, uid, allowed) => {
   const result = await runQuery<
-    DeleteSectionMutation,
-    DeleteSectionMutationVariables
+    DeleteLogbookSectionMutation,
+    DeleteLogbookSectionMutationVariables
   >(mutation, { id: SECTION_1 }, uid);
   if (allowed) {
     expect(result.errors).toBeUndefined();
-    expect(result.data?.deleteSection).toBe(true);
+    expect(result.data?.deleteLogbookSection).toBe(true);
   } else {
     expect(result.errors).toBeTruthy();
-    expect(result.data?.deleteSection).toBeNull();
+    expect(result.data?.deleteLogbookSection).toBeNull();
   }
 });
 
 it('should delete section, descents and nullify parent references', async () => {
-  await runQuery<DeleteSectionMutation, DeleteSectionMutationVariables>(
-    mutation,
-    { id: SECTION_1 },
-    USER_1,
-  );
-  // Section itself is deleted
+  await runQuery<
+    DeleteLogbookSectionMutation,
+    DeleteLogbookSectionMutationVariables
+  >(mutation, { id: SECTION_1 }, USER_1);
+  // LogbookSection itself is deleted
   const noId = await db().maybeOneFirst(
-    sql`SELECT id FROM sections WHERE id = ${SECTION_1}`,
+    sql`SELECT id FROM logbook_sections WHERE id = ${SECTION_1}`,
   );
   expect(noId).toBeNull();
   // Cloned section remains, but parent_id is null
   const parentId = await db().maybeOneFirst(
-    sql`SELECT parent_id FROM sections WHERE id = ${SECTION_4}`,
+    sql`SELECT parent_id FROM logbook_sections WHERE id = ${SECTION_4}`,
   );
   expect(parentId).toBeNull();
-  // Descent of this section is deleted
+  // LogbookDescent of this section is deleted
   const descId = await db().maybeOneFirst(
-    sql`SELECT id FROM descents WHERE id = ${DESCENT_1}`,
+    sql`SELECT id FROM logbook_descents WHERE id = ${DESCENT_1}`,
   );
   expect(descId).toBeNull();
   // Cloned descent of this section remains
   const parentDescId = await db().maybeOneFirst(
-    sql`SELECT parent_id FROM descents WHERE id = ${DESCENT_4}`,
+    sql`SELECT parent_id FROM logbook_descents WHERE id = ${DESCENT_4}`,
   );
   expect(parentDescId).toBeNull();
 });

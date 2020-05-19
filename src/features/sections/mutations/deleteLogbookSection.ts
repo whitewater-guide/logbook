@@ -1,8 +1,8 @@
-import { MutationDeleteSectionArgs } from '~/__generated__/graphql';
+import { MutationDeleteLogbookSectionArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
 import { isAuthenticatedResolver } from '~/apollo/enhancedResolvers';
 
-const deleteSection: TopLevelResolver<MutationDeleteSectionArgs> = async (
+const deleteLogbookSection: TopLevelResolver<MutationDeleteLogbookSectionArgs> = async (
   _,
   { id },
   { dataSources },
@@ -11,4 +11,4 @@ const deleteSection: TopLevelResolver<MutationDeleteSectionArgs> = async (
   return true;
 };
 
-export default isAuthenticatedResolver(deleteSection);
+export default isAuthenticatedResolver(deleteLogbookSection);

@@ -1,12 +1,12 @@
 import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
 import {
-  UpsertSectionMutation,
-  UpsertSectionMutationVariables,
-} from './upsertSection.test.generated';
+  UpsertLogbookSectionMutation,
+  UpsertLogbookSectionMutationVariables,
+} from './upsertLogbookSection.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
-import SectionFragments from '../sections.fragments';
-import { SectionInput } from '~/__generated__/graphql';
+import LogbookSectionFragments from '../fragments';
+import { LogbookSectionInput } from '~/__generated__/graphql';
 import gql from 'graphql-tag';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -14,15 +14,15 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const mutation = gql`
-  mutation upsertSection($section: SectionInput!) {
-    upsertSection(section: $section) {
-      ...sectionAll
+  mutation upsertLogbookSection($section: LogbookSectionInput!) {
+    upsertLogbookSection(section: $section) {
+      ...logbookSectionAll
     }
   }
-  ${SectionFragments.All}
+  ${LogbookSectionFragments.All}
 `;
 
-const section: SectionInput = {
+const section: LogbookSectionInput = {
   region: 'Altai',
   river: 'Chuya',
   section: 'Mazhoy Gorge',
@@ -35,15 +35,15 @@ const section: SectionInput = {
 
 it('anon should fail to upsert section', async () => {
   const result = await runQuery<
-    UpsertSectionMutation,
-    UpsertSectionMutationVariables
+    UpsertLogbookSectionMutation,
+    UpsertLogbookSectionMutationVariables
   >(mutation, { section });
   expect(result.errors).toBeDefined();
-  expect(result.data.upsertSection).toBeNull();
+  expect(result.data.upsertLogbookSection).toBeNull();
 });
 
 it('should fail validation check', async () => {
-  const badSection: SectionInput = {
+  const badLogbookSection: LogbookSectionInput = {
     region: 'A',
     river: 'C',
     section: 'M',
@@ -54,22 +54,22 @@ it('should fail validation check', async () => {
     upstreamData: null,
   };
   const result = await runQuery<
-    UpsertSectionMutation,
-    UpsertSectionMutationVariables
-  >(mutation, { section: badSection }, USER_1);
+    UpsertLogbookSectionMutation,
+    UpsertLogbookSectionMutationVariables
+  >(mutation, { section: badLogbookSection }, USER_1);
   expect(result.errors?.[0]?.extensions).toMatchSnapshot({
     id: expect.any(String),
   });
-  expect(result.data.upsertSection).toBeNull();
+  expect(result.data.upsertLogbookSection).toBeNull();
 });
 
 it('should insert section', async () => {
   const result = await runQuery<
-    UpsertSectionMutation,
-    UpsertSectionMutationVariables
+    UpsertLogbookSectionMutation,
+    UpsertLogbookSectionMutationVariables
   >(mutation, { section }, USER_1);
   expect(result.errors).toBeUndefined();
-  expect(result.data.upsertSection).toMatchSnapshot<any>({
+  expect(result.data.upsertLogbookSection).toMatchSnapshot<any>({
     createdAt: expect.any(Date),
     updatedAt: expect.any(Date),
     id: expect.any(String),
@@ -78,11 +78,11 @@ it('should insert section', async () => {
 
 it('should update section', async () => {
   const result = await runQuery<
-    UpsertSectionMutation,
-    UpsertSectionMutationVariables
+    UpsertLogbookSectionMutation,
+    UpsertLogbookSectionMutationVariables
   >(mutation, { section: { ...section, id: SECTION_1 } }, USER_1);
   expect(result.errors).toBeUndefined();
-  expect(result.data.upsertSection).toMatchSnapshot<any>({
+  expect(result.data.upsertLogbookSection).toMatchSnapshot<any>({
     updatedAt: expect.any(Date),
     id: SECTION_1,
   });
@@ -90,9 +90,9 @@ it('should update section', async () => {
 
 it('should fail to update other users section', async () => {
   const result = await runQuery<
-    UpsertSectionMutation,
-    UpsertSectionMutationVariables
+    UpsertLogbookSectionMutation,
+    UpsertLogbookSectionMutationVariables
   >(mutation, { section: { ...section, id: SECTION_1 } }, USER_2);
   expect(result.errors).toBeDefined();
-  expect(result.data.upsertSection).toBeNull();
+  expect(result.data.upsertLogbookSection).toBeNull();
 });

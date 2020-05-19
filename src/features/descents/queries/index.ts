@@ -1,11 +1,11 @@
-import descent from './descent';
-import descentShareToken from './descentShareToken';
-import descents from './descents';
-import myDescents from './myDescents';
+import logbookDescent from './logbookDescent';
+import logbookDescentShareToken from './logbookDescentShareToken';
+import logbookDescents from './logbookDescents';
+import myLogbookDescents from './myLogbookDescents';
 
 export default {
-  descent,
-  descentShareToken,
-  descents,
-  myDescents,
+  logbookDescent,
+  logbookDescentShareToken,
+  logbookDescents,
+  myLogbookDescents,
 };

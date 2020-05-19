@@ -7,8 +7,8 @@ const resolversArray = fileLoader(
   resolve(
     process.cwd(),
     process.env.NODE_ENV === 'test'
-      ? 'src/**/*.resolver.ts*'
-      : 'dist/**/*.resolver.js*',
+      ? 'src/features/**/resolvers.ts'
+      : 'dist/features/**/resolvers.js',
   ),
 );
 

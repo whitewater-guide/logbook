@@ -1,18 +1,18 @@
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
-import {
-  Descent,
-  DescentInput,
-  DescentsFilter,
-  Page,
-} from '~/__generated__/graphql';
 import { DescentRaw, SectionRaw } from '~/__generated__/sql';
 import { ForbiddenError, UserInputError } from 'apollo-server';
 import { IdentifierSqlTokenType, ValueExpressionType, sql } from 'slonik';
+import {
+  LogbookDescent,
+  LogbookDescentInput,
+  LogbookDescentsFilter,
+  Page,
+} from '~/__generated__/graphql';
 
 import { Context } from '~/apollo/context';
-import { DescentFieldsMap } from './fields-map';
 import { GraphQLResolveInfo } from 'graphql';
-import { SectionFieldsMap } from '../sections/fields-map';
+import { LogbookDescentFieldsMap } from './fields-map';
+import { LogbookSectionFieldsMap } from '../sections/fields-map';
 import clamp from 'lodash/clamp';
 import collapseJoinResults from '~/utils/collapseJoinResult';
 import { db } from '~/db';
@@ -38,18 +38,18 @@ class DescentsService extends DataSource<Context> {
 
   private buildSelection(
     tree: any,
-    table = 'descents',
-    sectionsTable = 'sections',
+    table = 'logbook_descents',
+    sectionsTable = 'logbook_sections',
   ) {
     const selection: ValueExpressionType[] = [
-      DescentFieldsMap.getSqlSelection(tree, {
+      LogbookDescentFieldsMap.getSqlSelection(tree, {
         table,
         aliasPrefix: 'descent',
         requiredColumns: ['user_id', 'ord_id', 'created_at'],
       }),
     ];
     if (tree.section) {
-      const sectionSelection = SectionFieldsMap.getSqlSelection(tree, {
+      const sectionSelection = LogbookSectionFieldsMap.getSqlSelection(tree, {
         path: 'section',
         table: sectionsTable,
         aliasPrefix: 'section',
@@ -61,14 +61,14 @@ class DescentsService extends DataSource<Context> {
   }
 
   private buildUpsertCTE(
-    input: DescentInput,
+    input: LogbookDescentInput,
     sectionId: IdentifierSqlTokenType,
     parentId?: string,
   ) {
     const upsert = sql`
       WITH RECURSIVE parent_descents( id, parent_id ) AS (
         SELECT id, parent_id
-        FROM descents
+        FROM logbook_descents
         WHERE id = ${parentId || null}
 
         UNION ALL
@@ -76,9 +76,9 @@ class DescentsService extends DataSource<Context> {
         -- get all parent_descents
         SELECT d.id, d.parent_id
         FROM parent_descents p
-        JOIN descents d
+        JOIN logbook_descents d
         ON p.parent_id = d.id
-      ) INSERT INTO descents (
+      ) INSERT INTO logbook_descents (
           id,
           parent_id,
           user_id,
@@ -122,7 +122,7 @@ class DescentsService extends DataSource<Context> {
 
   public async getShareToken(id: string) {
     const row = await db().one(
-      sql`SELECT user_id, section_id FROM descents WHERE id = ${id}`,
+      sql`SELECT user_id, section_id FROM logbook_descents WHERE id = ${id}`,
     );
     if (row.user_id !== this._context.uid) {
       throw new ForbiddenError('forbidden');
@@ -138,7 +138,7 @@ class DescentsService extends DataSource<Context> {
     info: GraphQLResolveInfo,
     id?: string | null,
     shareToken?: string | null,
-  ): Promise<Partial<Descent> | null> {
+  ): Promise<Partial<LogbookDescent> | null> {
     const tree = graphqlFields(info);
     let identifier = id;
     let fromShareToken = false;
@@ -162,9 +162,9 @@ class DescentsService extends DataSource<Context> {
 
     const row: DescentRaw | null = await db().maybeOne(sql`
       SELECT ${selection}
-      FROM descents
-      LEFT OUTER JOIN sections on descents.section_id = sections.id
-      WHERE descents.id = ${identifier}
+      FROM logbook_descents
+      LEFT OUTER JOIN logbook_sections on logbook_descents.section_id = logbook_sections.id
+      WHERE logbook_descents.id = ${identifier}
     `);
 
     if (!row) {
@@ -194,7 +194,7 @@ class DescentsService extends DataSource<Context> {
 
   public async getMany(
     info: GraphQLResolveInfo,
-    filter?: DescentsFilter | null,
+    filter?: LogbookDescentsFilter | null,
     page?: Page | null,
   ) {
     const tree = graphqlFields(info);
@@ -205,55 +205,61 @@ class DescentsService extends DataSource<Context> {
 
     const wheres = [
       this._context.uid
-        ? sql`(descents.public = TRUE OR descents.user_id = ${this._context.uid})`
-        : sql`descents.public = TRUE`,
+        ? sql`(logbook_descents.public = TRUE OR logbook_descents.user_id = ${this._context.uid})`
+        : sql`logbook_descents.public = TRUE`,
     ];
 
     if (after) {
       const afterval = new Date(Number(after.value)).toISOString();
       wheres.push(
-        sql`(descents.started_at, descents.ord_id) < (${afterval}, ${after.ordId})`,
+        sql`(logbook_descents.started_at, logbook_descents.ord_id) < (${afterval}, ${after.ordId})`,
       );
     }
     if (filter?.difficulty) {
       if (filter.difficulty.length !== 2) {
         throw new UserInputError('difficulty filter must contain two values');
       }
-      wheres.push(sql`sections.difficulty >= ${2 * filter.difficulty[0]}`);
-      wheres.push(sql`sections.difficulty <= ${2 * filter.difficulty[1]}`);
+      wheres.push(
+        sql`logbook_sections.difficulty >= ${2 * filter.difficulty[0]}`,
+      );
+      wheres.push(
+        sql`logbook_sections.difficulty <= ${2 * filter.difficulty[1]}`,
+      );
     }
     if (filter?.startDate) {
       const startDate = filter.startDate.toISOString();
-      wheres.push(sql`descents.started_at >= ${startDate}`);
+      wheres.push(sql`logbook_descents.started_at >= ${startDate}`);
     }
     if (filter?.endDate) {
       const endDate = filter.endDate.toISOString();
-      wheres.push(sql`descents.started_at <= ${endDate}`);
+      wheres.push(sql`logbook_descents.started_at <= ${endDate}`);
     }
     if (filter?.sectionID) {
       wheres.push(
-        sql`(descents.section_id = ${filter.sectionID} OR sections.parent_id = ${filter.sectionID}) `,
+        sql`(logbook_descents.section_id = ${filter.sectionID} OR logbook_sections.parent_id = ${filter.sectionID}) `,
       );
     }
     if (filter?.upstreamSectionID) {
-      wheres.push(sql`sections.upstream_id = ${filter.upstreamSectionID}`);
+      wheres.push(
+        sql`logbook_sections.upstream_id = ${filter.upstreamSectionID}`,
+      );
     }
     if (filter?.sectionName) {
       const likeName = `%${filter.sectionName}%`;
       wheres.push(
-        sql`(sections.region || ' ' || sections.river || ' ' || sections.section) ILIKE ${likeName}`,
+        sql`(logbook_sections.region || ' ' || logbook_sections.river || ' ' || logbook_sections.section) ILIKE ${likeName}`,
       );
     }
     if (filter?.userID) {
-      wheres.push(sql`descents.user_id = ${filter.userID}`);
+      wheres.push(sql`logbook_descents.user_id = ${filter.userID}`);
     }
 
     const { rows } = await db().query(sql`
       SELECT ${selection}, count(*) OVER() total_count
-      FROM descents
-      LEFT OUTER JOIN sections on descents.section_id = sections.id
+      FROM logbook_descents
+      LEFT OUTER JOIN logbook_sections on logbook_descents.section_id = logbook_sections.id
       WHERE ${sql.join(wheres, sql` AND `)}
-      ORDER BY started_at DESC, descents.ord_id DESC
+      ORDER BY started_at DESC, logbook_descents.ord_id DESC
       LIMIT ${limit}
     `);
     const total: number = (rows?.[0]?.total_count as any) || 0;
@@ -267,17 +273,17 @@ class DescentsService extends DataSource<Context> {
 
   public async deleteById(id: string) {
     const ownerId = await db().maybeOneFirst(
-      sql`SELECT user_id FROM descents WHERE id = ${id}`,
+      sql`SELECT user_id FROM logbook_descents WHERE id = ${id}`,
     );
     if (ownerId !== this._context.uid) {
       throw new ForbiddenError('forbidden');
     }
-    await db().query(sql`DELETE FROM descents WHERE id = ${id}`);
+    await db().query(sql`DELETE FROM logbook_descents WHERE id = ${id}`);
   }
 
   public async upsert(
     info: GraphQLResolveInfo,
-    input: DescentInput,
+    input: LogbookDescentInput,
     token?: string | null,
   ) {
     const tree = graphqlFields(info);
@@ -290,7 +296,7 @@ class DescentsService extends DataSource<Context> {
     if (token) {
       shared = jwt.verify(token, process.env.JWT_SECRET) as any;
     }
-    const upsertSection = this._context.dataSources?.sections.buildUpsertCTE(
+    const upsertLogbookSection = this._context.dataSources?.sections.buildUpsertCTE(
       input.section,
       shared?.section,
     )!;
@@ -302,7 +308,7 @@ class DescentsService extends DataSource<Context> {
 
     if (input.id) {
       const ownerId = await db().maybeOneFirst(
-        sql`SELECT user_id FROM descents WHERE id = ${input.id}`,
+        sql`SELECT user_id FROM logbook_descents WHERE id = ${input.id}`,
       );
       if (ownerId !== this._context.uid) {
         throw new ForbiddenError('unauthorized');
@@ -311,7 +317,7 @@ class DescentsService extends DataSource<Context> {
 
     const row = await db().maybeOne(sql`
       WITH upserted_section AS (
-        ${upsertSection}
+        ${upsertLogbookSection}
       ),
       upserted_descent AS (
         ${upsert}

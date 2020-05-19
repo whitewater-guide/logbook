@@ -2,6 +2,15 @@ scalar Date
 scalar JSON
 scalar Cursor
 
+# This is a stub of User from external service
+extend type User @key(fields: "id") {
+  id: ID! @external
+}
+# This is a stub of Section from external service
+extend type Section @key(fields: "id") {
+  id: ID! @external
+}
+
 input Page {
   limit: Int
   after: Cursor
@@ -22,7 +31,7 @@ input LatLngInput {
   lng: Float!
 }
 
-type Section {
+type LogbookSection @key(fields: "id") {
   id: ID!
 
   region: String!
@@ -32,16 +41,15 @@ type Section {
   putIn: LatLng
   takeOut: LatLng
 
-  upstreamId: String
+  upstreamId: ID
+  upstreamSection: Section
   upstreamData: JSON
 
   createdAt: Date
   updatedAt: Date
-
-  # TODO: maybe it's good idea to still have put-in and take-out here
 }
 
-input SectionInput {
+input LogbookSectionInput {
   id: ID
 
   region: String!
@@ -55,18 +63,18 @@ input SectionInput {
   upstreamData: JSON
 }
 
-input SectionsFilter {
+input LogbookSectionsFilter {
   name: String
   difficulty: [Float!]
 }
 
-type SectionEdge {
-  node: Section!
+type LogbookSectionEdge {
+  node: LogbookSection!
   cursor: Cursor!
 }
 
-type SectionsConnection {
-  edges: [SectionEdge!]!
+type LogbookSectionsConnection {
+  edges: [LogbookSectionEdge!]!
   pageInfo: PageInfo!
 }
 
@@ -80,11 +88,13 @@ input LevelInput {
   value: Float!
 }
 
-type Descent {
+type LogbookDescent @key(fields: "id") {
   id: ID!
-  userId: ID!
 
-  section: Section!
+  userId: ID!
+  user: User
+
+  section: LogbookSection!
   startedAt: Date!
   duration: Int
   level: Level
@@ -99,10 +109,10 @@ type Descent {
   # TODO: boat type as object
 }
 
-input DescentInput {
+input LogbookDescentInput {
   id: ID
 
-  section: SectionInput!
+  section: LogbookSectionInput!
   startedAt: Date!
   duration: Int
 
@@ -112,17 +122,17 @@ input DescentInput {
   upstreamData: JSON
 }
 
-type DescentEdge {
-  node: Descent!
+type LogbookDescentEdge {
+  node: LogbookDescent!
   cursor: Cursor!
 }
 
-type DescentsConnection {
-  edges: [DescentEdge!]!
+type LogbookDescentsConnection {
+  edges: [LogbookDescentEdge!]!
   pageInfo: PageInfo!
 }
 
-input DescentsFilter {
+input LogbookDescentsFilter {
   startDate: Date
   endDate: Date
   difficulty: [Float!]
@@ -134,22 +144,34 @@ input DescentsFilter {
 }
 
 type Query {
-  descent(id: ID, shareToken: String): Descent
-  descentShareToken(id: ID!): String
+  logbookDescent(id: ID, shareToken: String): LogbookDescent
+  logbookDescentShareToken(id: ID!): String
 
-  descents(filter: DescentsFilter, page: Page): DescentsConnection
-  myDescents(filter: DescentsFilter, page: Page): DescentsConnection
+  logbookDescents(
+    filter: LogbookDescentsFilter
+    page: Page
+  ): LogbookDescentsConnection
+  myLogbookDescents(
+    filter: LogbookDescentsFilter
+    page: Page
+  ): LogbookDescentsConnection
 
-  mySection(id: ID!): Section
-  mySections(filter: SectionsFilter, page: Page): SectionsConnection
+  myLogbookSection(id: ID!): LogbookSection
+  myLogbookSections(
+    filter: LogbookSectionsFilter
+    page: Page
+  ): LogbookSectionsConnection
 
   # TODO: get export/import as csv link
 }
 
 type Mutation {
-  upsertDescent(descent: DescentInput!, shareToken: String): Descent
-  deleteDescent(id: ID!): Boolean
+  upsertLogbookDescent(
+    descent: LogbookDescentInput!
+    shareToken: String
+  ): LogbookDescent
+  deleteLogbookDescent(id: ID!): Boolean
 
-  upsertSection(section: SectionInput!): Section
-  deleteSection(id: ID!): Boolean
+  upsertLogbookSection(section: LogbookSectionInput!): LogbookSection
+  deleteLogbookSection(id: ID!): Boolean
 }

@@ -12,13 +12,13 @@ import {
   USER_2,
 } from '~/test/fixtures';
 import {
-  ListDescentsQuery,
-  ListDescentsQueryVariables,
-} from './descents.test.generated';
+  ListLogbookDescentsQuery,
+  ListLogbookDescentsQueryVariables,
+} from './logbookDescents.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
-import DescentFragments from '../descents.fragments';
-import { DescentsFilter } from '~/__generated__/graphql';
+import LogbookDescentFragments from '../fragments';
+import { LogbookDescentsFilter } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -26,11 +26,11 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const query = gql`
-  query listDescents($filter: DescentsFilter, $page: Page) {
-    descents(filter: $filter, page: $page) {
+  query listLogbookDescents($filter: LogbookDescentsFilter, $page: Page) {
+    logbookDescents(filter: $filter, page: $page) {
       edges {
         node {
-          ...descentAll
+          ...logbookDescentAll
         }
         cursor
       }
@@ -40,18 +40,17 @@ const query = gql`
       }
     }
   }
-  ${DescentFragments.All}
+  ${LogbookDescentFragments.All}
 `;
 
-const getIds = (result: ListDescentsQuery): string[] =>
-  result.descents?.edges.map(({ node }) => node.id) || [];
+const getIds = (result: ListLogbookDescentsQuery): string[] =>
+  result.logbookDescents?.edges.map(({ node }) => node.id) || [];
 
 it('should match snapshot', async () => {
-  const result = await runQuery<ListDescentsQuery, ListDescentsQueryVariables>(
-    query,
-    {},
-    USER_1,
-  );
+  const result = await runQuery<
+    ListLogbookDescentsQuery,
+    ListLogbookDescentsQueryVariables
+  >(query, {}, USER_1);
   expect(result).toMatchSnapshot();
 });
 
@@ -60,16 +59,15 @@ it.each([
   ['non-owner should not see private sections', USER_2, false],
   ['owner should see private sections', USER_1, true],
 ])('%s', async (_, uid, visible) => {
-  const result = await runQuery<ListDescentsQuery, ListDescentsQueryVariables>(
-    query,
-    {},
-    uid,
-  );
+  const result = await runQuery<
+    ListLogbookDescentsQuery,
+    ListLogbookDescentsQueryVariables
+  >(query, {}, uid);
   const actual = getIds(result.data).includes(DESCENT_2);
   expect(actual).toBe(visible);
 });
 
-type FilterTestCase = [string, DescentsFilter, string[]];
+type FilterTestCase = [string, LogbookDescentsFilter, string[]];
 // use snapshot as a baseline
 it.each<FilterTestCase>([
   ['difficulty', { difficulty: [2.5, 3] }, [DESCENT_7, DESCENT_3, DESCENT_2]],
@@ -125,35 +123,46 @@ it.each<FilterTestCase>([
 ])(
   `should filter and paginate by %s`,
   async (_, filter, [id1, id2, ...restIds]) => {
-    let result = await runQuery<ListDescentsQuery, ListDescentsQueryVariables>(
-      query,
-      { filter, page: { limit: 1 } },
-      USER_1,
-    );
+    let result = await runQuery<
+      ListLogbookDescentsQuery,
+      ListLogbookDescentsQueryVariables
+    >(query, { filter, page: { limit: 1 } }, USER_1);
     expect(result.errors).toBeUndefined();
     expect(getIds(result.data)).toEqual([id1]);
-    expect(result.data.descents?.pageInfo.hasMore).toBe(true);
-    result = await runQuery<ListDescentsQuery, ListDescentsQueryVariables>(
+    expect(result.data.logbookDescents?.pageInfo.hasMore).toBe(true);
+    result = await runQuery<
+      ListLogbookDescentsQuery,
+      ListLogbookDescentsQueryVariables
+    >(
       query,
       {
         filter,
-        page: { limit: 1, after: result.data.descents?.pageInfo.endCursor },
+        page: {
+          limit: 1,
+          after: result.data.logbookDescents?.pageInfo.endCursor,
+        },
       },
       USER_1,
     );
     expect(result.errors).toBeUndefined();
     expect(getIds(result.data)).toEqual([id2]);
-    expect(result.data.descents?.pageInfo.hasMore).toBe(true);
-    result = await runQuery<ListDescentsQuery, ListDescentsQueryVariables>(
+    expect(result.data.logbookDescents?.pageInfo.hasMore).toBe(true);
+    result = await runQuery<
+      ListLogbookDescentsQuery,
+      ListLogbookDescentsQueryVariables
+    >(
       query,
       {
         filter,
-        page: { limit: 99, after: result.data.descents?.pageInfo.endCursor },
+        page: {
+          limit: 99,
+          after: result.data.logbookDescents?.pageInfo.endCursor,
+        },
       },
       USER_1,
     );
     expect(result.errors).toBeUndefined();
     expect(getIds(result.data)).toEqual(restIds);
-    expect(result.data.descents?.pageInfo.hasMore).toBe(false);
+    expect(result.data.logbookDescents?.pageInfo.hasMore).toBe(false);
   },
 );

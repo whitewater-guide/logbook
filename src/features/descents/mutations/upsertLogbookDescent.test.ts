@@ -9,13 +9,13 @@ import {
   USER_2,
 } from '~/test/fixtures';
 import {
-  UpsertDescentMutation,
-  UpsertDescentMutationVariables,
-} from './upsertDescent.test.generated';
+  UpsertLogbookDescentMutation,
+  UpsertLogbookDescentMutationVariables,
+} from './upsertLogbookDescent.test.generated';
 import { db, setupDB, teardownDB } from '~/db';
 
-import DescentFragments from '../descents.fragments';
-import { DescentInput } from '~/__generated__/graphql';
+import LogbookDescentFragments from '../fragments';
+import { LogbookDescentInput } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 import { sql } from 'slonik';
@@ -24,15 +24,18 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const mutation = gql`
-  mutation upsertDescent($descent: DescentInput!, $shareToken: String) {
-    upsertDescent(descent: $descent, shareToken: $shareToken) {
-      ...descentAll
+  mutation upsertLogbookDescent(
+    $descent: LogbookDescentInput!
+    $shareToken: String
+  ) {
+    upsertLogbookDescent(descent: $descent, shareToken: $shareToken) {
+      ...logbookDescentAll
     }
   }
-  ${DescentFragments.All}
+  ${LogbookDescentFragments.All}
 `;
 
-const descent: DescentInput = {
+const descent: LogbookDescentInput = {
   section: {
     region: 'Georgia',
     river: 'Bzhuzha',
@@ -52,24 +55,24 @@ const descent: DescentInput = {
 
 it('anon should fail to insert descent', async () => {
   const result = await runQuery<
-    UpsertDescentMutation,
-    UpsertDescentMutationVariables
+    UpsertLogbookDescentMutation,
+    UpsertLogbookDescentMutationVariables
   >(mutation, { descent });
   expect(result.errors).toBeDefined();
-  expect(result.data.upsertDescent).toBeNull();
+  expect(result.data.upsertLogbookDescent).toBeNull();
 });
 
 it('non-owner should fail to update descent', async () => {
   const result = await runQuery<
-    UpsertDescentMutation,
-    UpsertDescentMutationVariables
+    UpsertLogbookDescentMutation,
+    UpsertLogbookDescentMutationVariables
   >(mutation, { descent: { ...descent, id: DESCENT_1 } }, USER_2);
   expect(result.errors).toBeDefined();
-  expect(result.data.upsertDescent).toBeNull();
+  expect(result.data.upsertLogbookDescent).toBeNull();
 });
 
 it('should fail on validation check', async () => {
-  const badDescent: DescentInput = {
+  const badLogbookDescent: LogbookDescentInput = {
     section: {
       region: 'G',
       river: 'B',
@@ -79,22 +82,22 @@ it('should fail on validation check', async () => {
     startedAt: new Date(2000, 1, 1),
   };
   const result = await runQuery<
-    UpsertDescentMutation,
-    UpsertDescentMutationVariables
-  >(mutation, { descent: badDescent }, USER_1);
+    UpsertLogbookDescentMutation,
+    UpsertLogbookDescentMutationVariables
+  >(mutation, { descent: badLogbookDescent }, USER_1);
   expect(result.errors?.[0]?.extensions).toMatchSnapshot({
     id: expect.any(String),
   });
-  expect(result.data.upsertDescent).toBeNull();
+  expect(result.data.upsertLogbookDescent).toBeNull();
 });
 
 it('should insert', async () => {
   const result = await runQuery<
-    UpsertDescentMutation,
-    UpsertDescentMutationVariables
+    UpsertLogbookDescentMutation,
+    UpsertLogbookDescentMutationVariables
   >(mutation, { descent }, USER_1);
   expect(result.errors).toBeUndefined();
-  const { section, ...rest } = result.data.upsertDescent!;
+  const { section, ...rest } = result.data.upsertLogbookDescent!;
   expect(section).toMatchSnapshot<any>({
     createdAt: expect.any(Date),
     updatedAt: expect.any(Date),
@@ -109,8 +112,8 @@ it('should insert', async () => {
 
 it('should update', async () => {
   const result = await runQuery<
-    UpsertDescentMutation,
-    UpsertDescentMutationVariables
+    UpsertLogbookDescentMutation,
+    UpsertLogbookDescentMutationVariables
   >(
     mutation,
     {
@@ -123,7 +126,7 @@ it('should update', async () => {
     USER_1,
   );
   expect(result.errors).toBeUndefined();
-  const { section, ...rest } = result.data.upsertDescent!;
+  const { section, ...rest } = result.data.upsertLogbookDescent!;
   expect(section).toMatchSnapshot<any>({
     updatedAt: expect.any(Date),
   });
@@ -139,10 +142,15 @@ it.each<ParentTestCase>([
   [' recursive ', DESCENT_4_SHARE_TOKEN, DESCENT_1, SECTION_1],
 ])(
   'should set%sparent references when token is provided',
-  async (_, shareToken, expectedParentDescentId, expectedParentSectionId) => {
+  async (
+    _,
+    shareToken,
+    expectedParentLogbookDescentId,
+    expectedParentLogbookSectionId,
+  ) => {
     const result = await runQuery<
-      UpsertDescentMutation,
-      UpsertDescentMutationVariables
+      UpsertLogbookDescentMutation,
+      UpsertLogbookDescentMutationVariables
     >(
       mutation,
       {
@@ -152,15 +160,15 @@ it.each<ParentTestCase>([
       USER_2,
     );
     expect(result.errors).toBeUndefined();
-    const id = result.data.upsertDescent?.id!;
-    const sectionId = result.data.upsertDescent?.section.id!;
+    const id = result.data.upsertLogbookDescent?.id!;
+    const sectionId = result.data.upsertLogbookDescent?.section.id!;
     const parentDescId = await db().oneFirst(
-      sql`SELECT parent_id FROM descents WHERE id = ${id}`,
+      sql`SELECT parent_id FROM logbook_descents WHERE id = ${id}`,
     );
-    const parentSectionId = await db().oneFirst(
-      sql`SELECT parent_id FROM sections WHERE id = ${sectionId}`,
+    const parentLogbookSectionId = await db().oneFirst(
+      sql`SELECT parent_id FROM logbook_sections WHERE id = ${sectionId}`,
     );
-    expect(parentDescId).toBe(expectedParentDescentId);
-    expect(parentSectionId).toBe(expectedParentSectionId);
+    expect(parentDescId).toBe(expectedParentLogbookDescentId);
+    expect(parentLogbookSectionId).toBe(expectedParentLogbookSectionId);
   },
 );

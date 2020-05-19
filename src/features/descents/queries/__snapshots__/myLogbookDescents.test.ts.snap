@@ -3,7 +3,7 @@
 exports[`should match snapshot 1`] = `
 Object {
   "data": Object {
-    "myDescents": Object {
+    "myLogbookDescents": Object {
       "edges": Array [
         Object {
           "cursor": "djE6MzoxNTc4MDA5NjAwMDAw",
