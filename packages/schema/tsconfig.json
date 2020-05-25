@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "declaration": false,
+    "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "noEmitHelpers": true,
@@ -16,11 +15,7 @@
     "skipLibCheck": true,
     "strict": true,
     "pretty": true,
-    "rootDir": "./",
-    "baseUrl": "./",
-    "paths": {
-      "~/*": ["packages/server/src/*"]
-    },
     "outDir": "dist"
-  }
+  },
+  "include": ["src"]
 }

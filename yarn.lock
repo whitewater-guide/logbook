@@ -771,6 +771,24 @@
     tslib "~2.0.0"
     upper-case "2.0.1"
 
+"@graphql-codegen/typescript-document-nodes@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-document-nodes/-/typescript-document-nodes-1.14.0.tgz#da154f3b636a3a086d9ffe20de45bf9837e33c7b"
+  integrity sha512-J9ktYxF29P9revPm1eiPr8OaQ2cRVSpSoydxMYRkRFrew9APujlYDJu/SOeIBgR6ryjA03QZ5OMhDYxXFmu+4Q==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "1.14.0"
+    "@graphql-codegen/visitor-plugin-common" "1.14.0"
+    auto-bind "~4.0.0"
+    tslib "~2.0.0"
+
+"@graphql-codegen/typescript-graphql-files-modules@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-graphql-files-modules/-/typescript-graphql-files-modules-1.14.0.tgz#950ca0ca83a471888487283a0b162142b48ba2af"
+  integrity sha512-FSxtEOE0+3dcCEFnL9lwBJ373ustKTMhi2zjSs7pMVIBgC0LHh9vo0TxoV9PsYKuHhwd0meIJd2/++jdBE0YSQ==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "1.14.0"
+    tslib "~2.0.0"
+
 "@graphql-codegen/typescript-operations@1.14.0":
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.14.0.tgz#3b5e378a1c7407968b72f5c3641f16901a6bca66"

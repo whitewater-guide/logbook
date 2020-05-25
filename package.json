@@ -11,7 +11,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "clean:generated": "find . -name \"*.generated.ts\" -delete",
+    "clean:generated": "find packages -name \"*.generated.ts\" -delete",
     "docker:clean": "docker system prune -af --volumes --filter \"label=project=logbook\"",
     "build": "yarn clean && tsc --project tsconfig.build.json",
     "codegen": "graphql-codegen && sql-ts -c sql-ts.json && eslint --fix src/__generated__/sql.ts",
@@ -59,6 +59,8 @@
     "@graphql-codegen/cli": "1.14.0",
     "@graphql-codegen/near-operation-file-preset": "1.14.0",
     "@graphql-codegen/typescript": "1.14.0",
+    "@graphql-codegen/typescript-document-nodes": "^1.14.0",
+    "@graphql-codegen/typescript-graphql-files-modules": "^1.14.0",
     "@graphql-codegen/typescript-operations": "1.14.0",
     "@graphql-codegen/typescript-resolvers": "1.14.0",
     "@rmp135/sql-ts": "^1.3.0",
