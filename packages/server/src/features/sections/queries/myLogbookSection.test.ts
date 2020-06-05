@@ -2,12 +2,12 @@ import {
   MyLogbookSectionQuery,
   MyLogbookSectionQueryVariables,
 } from './myLogbookSection.test.generated';
-import { SECTION_1, USER_1, USER_2 } from 'packages/server/src/test/fixtures';
-import { setupDB, teardownDB } from 'packages/server/src/db';
+import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
+import { setupDB, teardownDB } from '~/db';
 
-import LogbookSectionFragments from '../fragments';
+import { LogbookSectionAll } from '@whitewater-guide/logbook-schema';
 import { gql } from 'apollo-server';
-import { runQuery } from 'packages/server/src/test/apollo-helpers';
+import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);
@@ -18,7 +18,7 @@ const query = gql`
       ...logbookSectionAll
     }
   }
-  ${LogbookSectionFragments.All}
+  ${LogbookSectionAll}
 `;
 
 describe('permissions', () => {

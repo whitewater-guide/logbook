@@ -3,7 +3,7 @@ import {
   USER1_INVALID_JWT,
   USER1_JWT,
   USER_1,
-} from 'packages/server/src/test/fixtures';
+} from '~/test/fixtures';
 
 import agent from 'supertest-koa-agent';
 import { createApp } from './app';

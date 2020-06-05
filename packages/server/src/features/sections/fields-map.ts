@@ -1,6 +1,6 @@
-import FieldsMap from 'packages/server/src/apollo/FieldsMap';
-import { LogbookSection } from 'packages/server/src/__generated__/graphql';
-import { SectionRaw } from 'packages/server/src/__generated__/sql';
+import FieldsMap from '~/apollo/FieldsMap';
+import { LogbookSection } from '~/__generated__/graphql';
+import { SectionRaw } from '~/__generated__/sql';
 import { sql } from 'slonik';
 
 export const LogbookSectionFieldsMap = new FieldsMap<

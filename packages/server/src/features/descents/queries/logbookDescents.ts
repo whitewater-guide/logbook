@@ -1,5 +1,5 @@
-import { QueryLogbookDescentsArgs } from 'packages/server/src/__generated__/graphql';
-import { TopLevelResolver } from 'packages/server/src/apollo/types';
+import { QueryLogbookDescentsArgs } from '~/__generated__/graphql';
+import { TopLevelResolver } from '~/apollo/types';
 
 const descents: TopLevelResolver<QueryLogbookDescentsArgs> = (
   _,

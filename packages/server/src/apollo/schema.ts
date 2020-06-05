@@ -6,9 +6,15 @@ import { resolve } from 'path';
 import resolvers from './resolvers';
 
 export const prepareServiceSchema = async () => {
-  const typeDefs = await readFile(resolve(process.cwd(), 'schema.graphql'), {
-    encoding: 'utf8',
-  });
+  const typeDefs = await readFile(
+    resolve(
+      process.cwd(),
+      'node_modules/@whitewater-guide/logbook-schema/schema.graphql',
+    ),
+    {
+      encoding: 'utf8',
+    },
+  );
   return {
     typeDefs: gql(typeDefs),
     resolvers,

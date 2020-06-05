@@ -8,18 +8,18 @@ import {
   LogbookSectionInput,
   LogbookSectionsFilter,
   Page,
-} from 'packages/server/src/__generated__/graphql';
+} from '~/__generated__/graphql';
 import { ValueExpressionType, sql } from 'slonik';
 
-import { Context } from 'packages/server/src/apollo/context';
+import { Context } from '~/apollo/context';
 import { GraphQLResolveInfo } from 'graphql';
 import { LogbookSectionFieldsMap } from './fields-map';
-import { SectionRaw } from 'packages/server/src/__generated__/sql';
+import { SectionRaw } from '~/__generated__/sql';
 import clamp from 'lodash/clamp';
-import collapseJoinResult from 'packages/server/src/utils/collapseJoinResult';
-import { db } from 'packages/server/src/db';
+import collapseJoinResult from '~/utils/collapseJoinResult';
+import { db } from '~/db';
 import graphqlFields from 'graphql-fields';
-import { itemsToConnection } from 'packages/server/src/apollo/connections';
+import { itemsToConnection } from '~/apollo/connections';
 
 class SectionsService extends DataSource<Context> {
   private _context!: Context;

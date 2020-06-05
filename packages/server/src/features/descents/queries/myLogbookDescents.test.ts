@@ -2,12 +2,12 @@ import {
   ListMyLogbookDescentsQuery,
   ListMyLogbookDescentsQueryVariables,
 } from './myLogbookDescents.test.generated';
-import { setupDB, teardownDB } from 'packages/server/src/db';
+import { setupDB, teardownDB } from '~/db';
 
-import LogbookDescentFragments from '../fragments';
-import { USER_1 } from 'packages/server/src/test/fixtures';
+import { LogbookDescentAll } from '@whitewater-guide/logbook-schema';
+import { USER_1 } from '~/test/fixtures';
 import { gql } from 'apollo-server';
-import { runQuery } from 'packages/server/src/test/apollo-helpers';
+import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);
@@ -27,7 +27,7 @@ const query = gql`
       }
     }
   }
-  ${LogbookDescentFragments.All}
+  ${LogbookDescentAll}
 `;
 
 it('should match snapshot', async () => {

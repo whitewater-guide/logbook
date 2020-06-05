@@ -1,5 +1,5 @@
-import { QueryMyLogbookSectionsArgs } from 'packages/server/src/__generated__/graphql';
-import { TopLevelResolver } from 'packages/server/src/apollo/types';
+import { QueryMyLogbookSectionsArgs } from '~/__generated__/graphql';
+import { TopLevelResolver } from '~/apollo/types';
 
 const myLogbookSections: TopLevelResolver<QueryMyLogbookSectionsArgs> = (
   _,

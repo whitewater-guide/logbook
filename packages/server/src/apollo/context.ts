@@ -1,7 +1,7 @@
 import * as koa from 'koa';
 
-import type { TDescentsService } from 'packages/server/src/features/descents/service';
-import type { TSectionsService } from 'packages/server/src/features/sections/service';
+import type { TDescentsService } from '~/features/descents/service';
+import type { TSectionsService } from '~/features/sections/service';
 import get from 'lodash/get';
 
 export interface Context {

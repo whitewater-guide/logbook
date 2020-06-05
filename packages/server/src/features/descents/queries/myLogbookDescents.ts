@@ -1,10 +1,10 @@
 import {
   LogbookDescentsFilter,
   QueryLogbookDescentsArgs,
-} from 'packages/server/src/__generated__/graphql';
+} from '~/__generated__/graphql';
 
 import { AuthenticationError } from 'apollo-server';
-import { TopLevelResolver } from 'packages/server/src/apollo/types';
+import { TopLevelResolver } from '~/apollo/types';
 
 const myLogbookDescents: TopLevelResolver<QueryLogbookDescentsArgs> = (
   _,

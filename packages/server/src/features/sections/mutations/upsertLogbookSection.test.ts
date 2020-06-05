@@ -1,14 +1,14 @@
-import { SECTION_1, USER_1, USER_2 } from 'packages/server/src/test/fixtures';
+import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
 import {
   UpsertLogbookSectionMutation,
   UpsertLogbookSectionMutationVariables,
 } from './upsertLogbookSection.test.generated';
-import { setupDB, teardownDB } from 'packages/server/src/db';
+import { setupDB, teardownDB } from '~/db';
 
-import LogbookSectionFragments from '../fragments';
-import { LogbookSectionInput } from 'packages/server/src/__generated__/graphql';
+import { LogbookSectionAll } from '@whitewater-guide/logbook-schema';
+import { LogbookSectionInput } from '~/__generated__/graphql';
 import gql from 'graphql-tag';
-import { runQuery } from 'packages/server/src/test/apollo-helpers';
+import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);
@@ -19,7 +19,7 @@ const mutation = gql`
       ...logbookSectionAll
     }
   }
-  ${LogbookSectionFragments.All}
+  ${LogbookSectionAll}
 `;
 
 const section: LogbookSectionInput = {

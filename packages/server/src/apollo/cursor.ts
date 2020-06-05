@@ -1,5 +1,6 @@
 import { GraphQLScalarType, Kind } from 'graphql';
 
+import { Cursor } from '@whitewater-guide/logbook-schema';
 import { isNil } from 'lodash';
 
 const VERSION = 'v1';

@@ -1,9 +1,6 @@
 import * as yup from 'yup';
 
-import {
-  LevelInput,
-  LogbookDescentInput,
-} from 'packages/server/src/__generated__/graphql';
+import { LevelInput, LogbookDescentInput } from '~/__generated__/graphql';
 
 import { LogbookSectionInputSchema } from '../sections/schema';
 import { yupTypes } from '@whitewater-guide/validation';

@@ -21,7 +21,6 @@ EOSQL
 psql -d logbook_test_template -c "create extension if not exists postgis"
 psql -d logbook_test_template -c "create extension if not exists postgis_topology"
 psql -d logbook_test_template -f sql/schema.sql
-psql -d logbook_test_template -f sql/schema.sql
 psql -d logbook_test_template -f sql/seeds.sql
 
 NUM_CORES=$(nproc)

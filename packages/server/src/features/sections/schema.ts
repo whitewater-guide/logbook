@@ -1,9 +1,6 @@
 import * as yup from 'yup';
 
-import {
-  LatLngInput,
-  LogbookSectionInput,
-} from 'packages/server/src/__generated__/graphql';
+import { LatLngInput, LogbookSectionInput } from '~/__generated__/graphql';
 
 import { yupTypes } from '@whitewater-guide/validation';
 

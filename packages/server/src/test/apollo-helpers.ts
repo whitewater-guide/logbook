@@ -1,7 +1,7 @@
-import { Context } from 'packages/server/src/apollo/context';
+import { Context } from '~/apollo/context';
 import { DocumentNode } from 'graphql';
 import { GraphQLResponse } from 'apollo-server-types';
-import { createTestApolloServer } from 'packages/server/src/apollo/server';
+import { createTestApolloServer } from '~/apollo/server';
 import { createTestClient } from 'apollo-server-testing';
 
 type Resp<Data> = Exclude<GraphQLResponse, 'data'> & { data: Data };

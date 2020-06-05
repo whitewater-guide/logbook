@@ -1,5 +1,5 @@
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
-import { DescentRaw, SectionRaw } from 'packages/server/src/__generated__/sql';
+import { DescentRaw, SectionRaw } from '~/__generated__/sql';
 import { ForbiddenError, UserInputError } from 'apollo-server';
 import { IdentifierSqlTokenType, ValueExpressionType, sql } from 'slonik';
 import {
@@ -7,17 +7,17 @@ import {
   LogbookDescentInput,
   LogbookDescentsFilter,
   Page,
-} from 'packages/server/src/__generated__/graphql';
+} from '~/__generated__/graphql';
 
-import { Context } from 'packages/server/src/apollo/context';
+import { Context } from '~/apollo/context';
 import { GraphQLResolveInfo } from 'graphql';
 import { LogbookDescentFieldsMap } from './fields-map';
 import { LogbookSectionFieldsMap } from '../sections/fields-map';
 import clamp from 'lodash/clamp';
-import collapseJoinResults from 'packages/server/src/utils/collapseJoinResult';
-import { db } from 'packages/server/src/db';
+import collapseJoinResults from '~/utils/collapseJoinResult';
+import { db } from '~/db';
 import graphqlFields from 'graphql-fields';
-import { itemsToConnection } from 'packages/server/src/apollo/connections';
+import { itemsToConnection } from '~/apollo/connections';
 import jwt from 'jsonwebtoken';
 
 interface ShareToken {

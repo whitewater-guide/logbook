@@ -3,8 +3,8 @@ import addPingRoute from './ping';
 import bodyParser from 'koa-bodyparser';
 import { corsMiddleware } from './cors';
 import jwt from 'koa-jwt';
-import log from 'packages/server/src/log';
-import { teardownDB } from 'packages/server/src/db';
+import log from '~/log';
+import { teardownDB } from '~/db';
 
 export type App = Koa & {
   shutdown: () => Promise<any>;

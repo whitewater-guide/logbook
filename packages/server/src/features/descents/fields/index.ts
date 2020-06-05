@@ -1,6 +1,6 @@
-import { DescentRaw } from 'packages/server/src/__generated__/sql';
-import { FieldResolvers } from 'packages/server/src/apollo/types';
-import { LogbookDescent } from 'packages/server/src/__generated__/graphql';
+import { DescentRaw } from '~/__generated__/sql';
+import { FieldResolvers } from '~/apollo/types';
+import { LogbookDescent } from '~/__generated__/graphql';
 
 const fields: FieldResolvers<DescentRaw, LogbookDescent> = {
   userId: (d) => d.user_id,

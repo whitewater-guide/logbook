@@ -19,7 +19,7 @@
     "rootDir": "./",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["packages/server/src/*"]
+      "~/*": ["./src/*"]
     },
     "outDir": "dist"
   }

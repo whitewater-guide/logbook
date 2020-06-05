@@ -3,11 +3,11 @@ import * as yup from 'yup';
 import {
   isAuthenticatedResolver,
   isInputValidResolver,
-} from 'packages/server/src/apollo/enhancedResolvers';
+} from '~/apollo/enhancedResolvers';
 
 import { LogbookDescentInputSchema } from '../schema';
-import { MutationUpsertLogbookDescentArgs } from 'packages/server/src/__generated__/graphql';
-import { TopLevelResolver } from 'packages/server/src/apollo/types';
+import { MutationUpsertLogbookDescentArgs } from '~/__generated__/graphql';
+import { TopLevelResolver } from '~/apollo/types';
 
 const Schema = yup.object<MutationUpsertLogbookDescentArgs>({
   descent: LogbookDescentInputSchema.clone().required(),

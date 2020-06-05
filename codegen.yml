@@ -1,50 +1,36 @@
 overwrite: true
-schema: './packages/schema/schema.graphql'
+schema: './schema.graphql'
 generates:
   ./packages/schema/src/__generated__/graphql.ts:
     documents:
       - ./packages/schema/src/**/fragments.graphql
     plugins:
-      - 'typescript'
-      - typescript-operations
+      - typescript
       - typescript-document-nodes
     config:
       fragmentVariableSuffix: ''
-      preResolveTypes: true
       federation: true
       scalars:
         Date: Date
         DateTime: Date
         JSON: '{ [key: string]: any }'
         Cursor: ../common#Cursor
-
-      # ./packages/schema/src/:
-      #   documents:
-      #     - ./packages/schema/src/**/fragments.graphql
-      #   preset: near-operation-file
-      #   presetConfig:
-      #     extension: .generated.ts
-      #     baseTypesPath: __generated__/graphql.ts
-      #   plugins:
-      #     - typescript-operations
-      #     - typescript-document-nodes
-      #   config:
-      #     fragmentVariableSuffix: ''
-      #     preResolveTypes:
+  # TODO: this is currently broken
+  # graphql-codegen cannot use imports from other packages
   # ./packages/server/src/:
   #   documents:
   #     - ./packages/server/src/**/__tests__/*.ts
   #     - ./packages/server/src/**/*.test.ts
-  #     - ./packages/server/src/**/fragments.ts
   #   preset: near-operation-file
   #   presetConfig:
   #     extension: .generated.ts
-  #     baseTypesPath: __generated__/graphql.ts
+  #     baseTypesPath: ./packages/server/src/__generated__/graphql.ts
   #   plugins:
   #     - typescript-operations
 
 config:
   preResolveTypes: true
-# hooks:
-# afterAllFileWrite:
-# - eslint --fix
+
+hooks:
+  afterAllFileWrite:
+    - eslint --fix

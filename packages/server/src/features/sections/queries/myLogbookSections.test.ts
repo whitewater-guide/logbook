@@ -8,13 +8,13 @@ import {
   SECTION_3,
   USER_1,
   USER_2,
-} from 'packages/server/src/test/fixtures';
-import { setupDB, teardownDB } from 'packages/server/src/db';
+} from '~/test/fixtures';
+import { setupDB, teardownDB } from '~/db';
 
-import LogbookSectionFragments from '../fragments';
-import { LogbookSectionsFilter } from 'packages/server/src/__generated__/graphql';
+import { LogbookSectionAll } from '@whitewater-guide/logbook-schema';
+import { LogbookSectionsFilter } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
-import { runQuery } from 'packages/server/src/test/apollo-helpers';
+import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);
@@ -37,7 +37,7 @@ const query = gql`
       }
     }
   }
-  ${LogbookSectionFragments.All}
+  ${LogbookSectionAll}
 `;
 
 it('should match snapshot', async () => {

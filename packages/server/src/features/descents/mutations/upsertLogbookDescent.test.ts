@@ -7,17 +7,17 @@ import {
   SECTION_2,
   USER_1,
   USER_2,
-} from 'packages/server/src/test/fixtures';
+} from '~/test/fixtures';
 import {
   UpsertLogbookDescentMutation,
   UpsertLogbookDescentMutationVariables,
 } from './upsertLogbookDescent.test.generated';
-import { db, setupDB, teardownDB } from 'packages/server/src/db';
+import { db, setupDB, teardownDB } from '~/db';
 
-import LogbookDescentFragments from '../fragments';
-import { LogbookDescentInput } from 'packages/server/src/__generated__/graphql';
+import { LogbookDescentAll } from '@whitewater-guide/logbook-schema';
+import { LogbookDescentInput } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
-import { runQuery } from 'packages/server/src/test/apollo-helpers';
+import { runQuery } from '~/test/apollo-helpers';
 import { sql } from 'slonik';
 
 beforeEach(setupDB);
@@ -32,7 +32,7 @@ const mutation = gql`
       ...logbookDescentAll
     }
   }
-  ${LogbookDescentFragments.All}
+  ${LogbookDescentAll}
 `;
 
 const descent: LogbookDescentInput = {

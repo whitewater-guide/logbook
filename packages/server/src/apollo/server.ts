@@ -3,8 +3,8 @@ import * as Koa from 'koa';
 import { Context, context } from './context';
 
 import { ApolloServer } from 'apollo-server-koa';
-import DescentsService from 'packages/server/src/features/descents/service';
-import SectionsService from 'packages/server/src/features/sections/service';
+import DescentsService from '~/features/descents/service';
+import SectionsService from '~/features/sections/service';
 import { formatError } from './formatError';
 import { loadSchema } from './schema';
 import { logger } from './logger';

@@ -1,13 +1,13 @@
-import { DESCENT_2, USER_1, USER_2 } from 'packages/server/src/test/fixtures';
+import { DESCENT_2, USER_1, USER_2 } from '~/test/fixtures';
 import {
   GetShareTokenQuery,
   GetShareTokenQueryVariables,
 } from './logbookDescentShareToken.test.generated';
-import { setupDB, teardownDB } from 'packages/server/src/db';
+import { setupDB, teardownDB } from '~/db';
 
 import { DESCENT_2_SHARE_TOKEN } from '../../../test/fixtures';
 import { gql } from 'apollo-server';
-import { runQuery } from 'packages/server/src/test/apollo-helpers';
+import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);

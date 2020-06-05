@@ -1,7 +1,7 @@
-import { FieldResolvers } from 'packages/server/src/apollo/types';
-import { LogbookSection } from 'packages/server/src/__generated__/graphql';
+import { FieldResolvers } from '~/apollo/types';
+import { LogbookSection } from '~/__generated__/graphql';
 import { Point } from '@turf/helpers';
-import { SectionRaw } from 'packages/server/src/__generated__/sql';
+import { SectionRaw } from '~/__generated__/sql';
 
 const resolvePoint = (p: any) => {
   if (!p || typeof p !== 'string') {
