@@ -1,12 +1,13 @@
+import { gql } from 'apollo-server';
+
+import { setupDB, teardownDB } from '~/db';
+import { runQuery } from '~/test/apollo-helpers';
+import { USER_1 } from '~/test/fixtures';
+
 import {
   ListMyLogbookDescentsQuery,
   ListMyLogbookDescentsQueryVariables,
 } from './myLogbookDescents.test.generated';
-import { setupDB, teardownDB } from '~/db';
-
-import { USER_1 } from '~/test/fixtures';
-import { gql } from 'apollo-server';
-import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);

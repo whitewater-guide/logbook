@@ -1,25 +1,26 @@
+import { DataSource, DataSourceConfig } from 'apollo-datasource';
 import {
   AuthenticationError,
   ForbiddenError,
   UserInputError,
 } from 'apollo-server';
-import { DataSource, DataSourceConfig } from 'apollo-datasource';
+import { GraphQLResolveInfo } from 'graphql';
+import graphqlFields from 'graphql-fields';
+import clamp from 'lodash/clamp';
+import { sql, ValueExpressionType } from 'slonik';
+
 import {
   LogbookSectionInput,
   LogbookSectionsFilter,
   Page,
 } from '~/__generated__/graphql';
-import { ValueExpressionType, sql } from 'slonik';
-
-import { Context } from '~/apollo/context';
-import { GraphQLResolveInfo } from 'graphql';
-import { LogbookSectionFieldsMap } from './fields-map';
-import { SectionRaw } from '~/__generated__/sql';
-import clamp from 'lodash/clamp';
-import collapseJoinResult from '~/utils/collapseJoinResult';
-import { db } from '~/db';
-import graphqlFields from 'graphql-fields';
+import { LogbookSectionRaw } from '~/__generated__/sql';
 import { itemsToConnection } from '~/apollo/connections';
+import { Context } from '~/apollo/context';
+import { db } from '~/db';
+import collapseJoinResult from '~/utils/collapseJoinResult';
+
+import { LogbookSectionFieldsMap } from './fields-map';
 
 class SectionsService extends DataSource<Context> {
   private _context!: Context;
@@ -104,7 +105,7 @@ class SectionsService extends DataSource<Context> {
   public async getOne(
     info: GraphQLResolveInfo,
     id: string,
-  ): Promise<Partial<SectionRaw> | null> {
+  ): Promise<Partial<LogbookSectionRaw> | null> {
     if (!this._context.uid) {
       throw new AuthenticationError('sections are private');
     }
@@ -112,7 +113,7 @@ class SectionsService extends DataSource<Context> {
     const tree = graphqlFields(info);
     const selection = this.buildSelection(tree);
 
-    const row: Partial<SectionRaw> | null = await db().maybeOne(sql`
+    const row: Partial<LogbookSectionRaw> | null = await db().maybeOne(sql`
       SELECT ${selection}
       FROM logbook_sections
       WHERE logbook_sections.id = ${id}

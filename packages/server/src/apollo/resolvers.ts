@@ -1,7 +1,7 @@
 import { fileLoader, mergeResolvers } from 'merge-graphql-schemas';
+import { resolve } from 'path';
 
 import { CursorScalar } from './cursor';
-import { resolve } from 'path';
 
 const resolversArray = fileLoader(
   resolve(

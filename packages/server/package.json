@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf dist && find . \\( -name \"*.generated.ts\" -o -path \"*__generated__/*\" \\) -delete",
     "codegen": "graphql-codegen && sql-ts -c sql-ts.json && eslint --fix src/__generated__/sql.ts",
-    "build": "yarn clean && tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json",
     "pretest": "./scripts/pretest.sh",
     "test": "NODE_ENV=test jest"
   },
@@ -19,7 +19,7 @@
     "@koa/cors": "^3.1.0",
     "@slonik/migrator": "^0.5.0",
     "@whitewater-guide/logbook-schema": "*",
-    "@whitewater-guide/validation": "^1.0.2",
+    "@whitewater-guide/validation": "^1.1.2",
     "apollo-datasource": "^0.7.0",
     "apollo-server": "^2.13.1",
     "apollo-server-caching": "^0.5.1",
@@ -27,7 +27,7 @@
     "apollo-server-types": "^0.5.0",
     "dataloader": "^2.0.0",
     "fs-extra": "^9.0.0",
-    "graphql": "^15.0.0",
+    "graphql": "^14.6.0",
     "graphql-fields": "^2.0.3",
     "graphql-tag": "^2.10.3",
     "graphql-type-json": "^0.3.1",

@@ -1,10 +1,9 @@
+import { Client } from 'pg';
 import {
+  createPool,
   DatabasePoolConnectionType,
   DatabasePoolType,
-  createPool,
 } from 'slonik';
-
-import { Client } from 'pg';
 
 const cfg = {
   host: process.env.POSTGRES_HOST,

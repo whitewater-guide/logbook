@@ -1,11 +1,12 @@
-import FieldsMap from '~/apollo/FieldsMap';
-import { LogbookSection } from '~/__generated__/graphql';
-import { SectionRaw } from '~/__generated__/sql';
 import { sql } from 'slonik';
+
+import { LogbookSection } from '~/__generated__/graphql';
+import { LogbookSectionRaw } from '~/__generated__/sql';
+import FieldsMap from '~/apollo/FieldsMap';
 
 export const LogbookSectionFieldsMap = new FieldsMap<
   LogbookSection,
-  SectionRaw
+  LogbookSectionRaw
 >([
   ['id', 'id'],
   ['region', 'region'],

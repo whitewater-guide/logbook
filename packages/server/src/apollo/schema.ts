@@ -1,16 +1,13 @@
 import { buildFederatedSchema } from '@apollo/federation';
-import gql from 'graphql-tag';
-import { logger } from './logger';
 import { readFile } from 'fs-extra';
-import { resolve } from 'path';
+import gql from 'graphql-tag';
+
+import { logger } from './logger';
 import resolvers from './resolvers';
 
 export const prepareServiceSchema = async () => {
   const typeDefs = await readFile(
-    resolve(
-      process.cwd(),
-      'node_modules/@whitewater-guide/logbook-schema/schema.graphql',
-    ),
+    require.resolve('@whitewater-guide/logbook-schema/schema.graphql'),
     {
       encoding: 'utf8',
     },

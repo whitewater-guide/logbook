@@ -1,8 +1,7 @@
-import { ListSqlTokenType, ValueExpressionType, sql } from 'slonik';
-
 import get from 'lodash/get';
 import snakeCase from 'lodash/snakeCase';
 import uniq from 'lodash/uniq';
+import { ListSqlTokenType, sql, ValueExpressionType } from 'slonik';
 
 interface SqlSelectionOptions<TSql> {
   table?: string;

@@ -1,12 +1,13 @@
+import { gql } from 'apollo-server';
+
+import { setupDB, teardownDB } from '~/db';
+import { runQuery } from '~/test/apollo-helpers';
+import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
+
 import {
   MyLogbookSectionQuery,
   MyLogbookSectionQueryVariables,
 } from './myLogbookSection.test.generated';
-import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
-import { setupDB, teardownDB } from '~/db';
-
-import { gql } from 'apollo-server';
-import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);

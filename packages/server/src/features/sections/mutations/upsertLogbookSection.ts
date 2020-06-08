@@ -1,16 +1,15 @@
+import { LogbookSectionInputSchema } from '@whitewater-guide/logbook-schema';
 import * as yup from 'yup';
 
+import { MutationUpsertLogbookSectionArgs } from '~/__generated__/graphql';
 import {
   isAuthenticatedResolver,
   isInputValidResolver,
 } from '~/apollo/enhancedResolvers';
-
-import { LogbookSectionInputSchema } from '../schema';
-import { MutationUpsertLogbookSectionArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
 
 const Schema = yup.object<MutationUpsertLogbookSectionArgs>({
-  section: LogbookSectionInputSchema.clone(),
+  section: LogbookSectionInputSchema.clone().required(),
 });
 
 const upsertLogbookSection: TopLevelResolver<MutationUpsertLogbookSectionArgs> = (

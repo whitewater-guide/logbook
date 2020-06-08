@@ -1,6 +1,7 @@
 import cors from '@koa/cors';
-import log from '~/log';
 import { parse } from 'tldts';
+
+import log from '~/log';
 
 const CORS_WHITELIST = process.env.CORS_WHITELIST
   ? process.env.CORS_WHITELIST!.split(',')

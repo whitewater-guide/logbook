@@ -1,10 +1,10 @@
-import { DescentRaw } from '~/__generated__/sql';
-import FieldsMap from '~/apollo/FieldsMap';
 import { LogbookDescent } from '~/__generated__/graphql';
+import { LogbookDescentRaw } from '~/__generated__/sql';
+import FieldsMap from '~/apollo/FieldsMap';
 
 export const LogbookDescentFieldsMap = new FieldsMap<
   LogbookDescent,
-  DescentRaw
+  LogbookDescentRaw
 >([
   ['id', 'id'],
   ['userId', 'user_id'],

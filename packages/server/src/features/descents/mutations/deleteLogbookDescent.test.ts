@@ -1,3 +1,8 @@
+import { gql } from 'apollo-server';
+import { sql } from 'slonik';
+
+import { db, setupDB, teardownDB } from '~/db';
+import { runQuery } from '~/test/apollo-helpers';
 import {
   DESCENT_1,
   DESCENT_4,
@@ -5,15 +10,11 @@ import {
   USER_1,
   USER_2,
 } from '~/test/fixtures';
+
 import {
   DeleteLogbookDescentMutation,
   DeleteLogbookDescentMutationVariables,
 } from './deleteLogbookDescent.test.generated';
-import { db, setupDB, teardownDB } from '~/db';
-
-import { gql } from 'apollo-server';
-import { runQuery } from '~/test/apollo-helpers';
-import { sql } from 'slonik';
 
 beforeEach(setupDB);
 afterEach(teardownDB);

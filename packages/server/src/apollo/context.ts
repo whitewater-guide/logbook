@@ -1,8 +1,8 @@
 import * as koa from 'koa';
+import get from 'lodash/get';
 
 import type { TDescentsService } from '~/features/descents/service';
 import type { TSectionsService } from '~/features/sections/service';
-import get from 'lodash/get';
 
 export interface Context {
   readonly uid?: string;

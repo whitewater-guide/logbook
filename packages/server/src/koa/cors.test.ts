@@ -1,6 +1,7 @@
 import Koa from 'koa';
-import { getCorsMiddleware } from './cors';
 import request from 'supertest';
+
+import { getCorsMiddleware } from './cors';
 
 const expectCors = (app: Koa): any => (
   origin: string,

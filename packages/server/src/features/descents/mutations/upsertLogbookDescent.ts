@@ -1,12 +1,11 @@
+import { LogbookDescentInputSchema } from '@whitewater-guide/logbook-schema';
 import * as yup from 'yup';
 
+import { MutationUpsertLogbookDescentArgs } from '~/__generated__/graphql';
 import {
   isAuthenticatedResolver,
   isInputValidResolver,
 } from '~/apollo/enhancedResolvers';
-
-import { LogbookDescentInputSchema } from '../schema';
-import { MutationUpsertLogbookDescentArgs } from '~/__generated__/graphql';
 import { TopLevelResolver } from '~/apollo/types';
 
 const Schema = yup.object<MutationUpsertLogbookDescentArgs>({

@@ -1,7 +1,8 @@
-import { FieldResolvers } from '~/apollo/types';
-import { LogbookSection } from '~/__generated__/graphql';
 import { Point } from '@turf/helpers';
-import { SectionRaw } from '~/__generated__/sql';
+
+import { LogbookSection } from '~/__generated__/graphql';
+import { LogbookSectionRaw } from '~/__generated__/sql';
+import { FieldResolvers } from '~/apollo/types';
 
 const resolvePoint = (p: any) => {
   if (!p || typeof p !== 'string') {
@@ -18,7 +19,7 @@ const resolvePoint = (p: any) => {
   }
 };
 
-const fields: FieldResolvers<SectionRaw, LogbookSection> = {
+const fields: FieldResolvers<LogbookSectionRaw, LogbookSection> = {
   upstreamData: (d) => d.upstream_data || null,
   upstreamId: (d) => d.upstream_id || null,
   createdAt: (d) => new Date(d.created_at),

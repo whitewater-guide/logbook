@@ -8,7 +8,7 @@ module.exports = {
       modules: true,
     },
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'simple-import-sort'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -26,6 +26,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    'sort-imports': 'error',
+    'simple-import-sort/sort': 'error',
+    'sort-imports': 'off',
+    'import/order': 'off',
   },
 };

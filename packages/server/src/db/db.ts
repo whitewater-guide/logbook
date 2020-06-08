@@ -1,4 +1,4 @@
-import { DatabasePoolConnectionType, createPool } from 'slonik';
+import { createPool, DatabasePoolConnectionType } from 'slonik';
 
 const cfg = {
   host: process.env.POSTGRES_HOST,

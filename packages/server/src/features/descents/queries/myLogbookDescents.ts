@@ -1,9 +1,9 @@
+import { AuthenticationError } from 'apollo-server';
+
 import {
   LogbookDescentsFilter,
   QueryLogbookDescentsArgs,
 } from '~/__generated__/graphql';
-
-import { AuthenticationError } from 'apollo-server';
 import { TopLevelResolver } from '~/apollo/types';
 
 const myLogbookDescents: TopLevelResolver<QueryLogbookDescentsArgs> = (

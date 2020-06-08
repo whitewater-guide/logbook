@@ -1,32 +1,33 @@
 import { DataSource, DataSourceConfig } from 'apollo-datasource';
-import { DescentRaw, SectionRaw } from '~/__generated__/sql';
 import { ForbiddenError, UserInputError } from 'apollo-server';
-import { IdentifierSqlTokenType, ValueExpressionType, sql } from 'slonik';
+import { GraphQLResolveInfo } from 'graphql';
+import graphqlFields from 'graphql-fields';
+import jwt from 'jsonwebtoken';
+import clamp from 'lodash/clamp';
+import { IdentifierSqlTokenType, sql, ValueExpressionType } from 'slonik';
+
 import {
   LogbookDescent,
   LogbookDescentInput,
   LogbookDescentsFilter,
   Page,
 } from '~/__generated__/graphql';
-
-import { Context } from '~/apollo/context';
-import { GraphQLResolveInfo } from 'graphql';
-import { LogbookDescentFieldsMap } from './fields-map';
-import { LogbookSectionFieldsMap } from '../sections/fields-map';
-import clamp from 'lodash/clamp';
-import collapseJoinResults from '~/utils/collapseJoinResult';
-import { db } from '~/db';
-import graphqlFields from 'graphql-fields';
+import { LogbookDescentRaw, LogbookSectionRaw } from '~/__generated__/sql';
 import { itemsToConnection } from '~/apollo/connections';
-import jwt from 'jsonwebtoken';
+import { Context } from '~/apollo/context';
+import { db } from '~/db';
+import collapseJoinResults from '~/utils/collapseJoinResult';
+
+import { LogbookSectionFieldsMap } from '../sections/fields-map';
+import { LogbookDescentFieldsMap } from './fields-map';
 
 interface ShareToken {
   descent: string;
   section: string;
 }
 
-interface DescentJointRow extends DescentRaw {
-  section: SectionRaw;
+interface DescentJointRow extends LogbookDescentRaw {
+  section: LogbookSectionRaw;
 }
 
 class DescentsService extends DataSource<Context> {
@@ -160,7 +161,7 @@ class DescentsService extends DataSource<Context> {
     }
     const selection = this.buildSelection(tree);
 
-    const row: DescentRaw | null = await db().maybeOne(sql`
+    const row: LogbookDescentRaw | null = await db().maybeOne(sql`
       SELECT ${selection}
       FROM logbook_descents
       LEFT OUTER JOIN logbook_sections on logbook_descents.section_id = logbook_sections.id

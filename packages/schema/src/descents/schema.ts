@@ -1,9 +1,8 @@
+import { yupTypes } from '@whitewater-guide/validation';
 import * as yup from 'yup';
 
 import { LevelInput, LogbookDescentInput } from '../__generated__/graphql';
-
 import { LogbookSectionInputSchema } from '../sections/schema';
-import { yupTypes } from '@whitewater-guide/validation';
 
 export const LevelInputSchema = yup.object<LevelInput>({
   unit: yup.string().max(20).notRequired().nullable(),
@@ -11,7 +10,7 @@ export const LevelInputSchema = yup.object<LevelInput>({
 });
 
 export const LogbookDescentInputSchema = yup.object<LogbookDescentInput>({
-  id: yupTypes.uuid(true, true),
+  id: yupTypes.uuid().notRequired().nullable(),
   section: LogbookSectionInputSchema.clone().required(),
   startedAt: yup.date().required(),
   level: LevelInputSchema.clone().notRequired().nullable(),

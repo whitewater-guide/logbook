@@ -1,7 +1,8 @@
-import {
-  ListMyLogbookSectionsQuery,
-  ListMyLogbookSectionsQueryVariables,
-} from './myLogbookSections.test.generated';
+import { gql } from 'apollo-server';
+
+import { LogbookSectionsFilter } from '~/__generated__/graphql';
+import { setupDB, teardownDB } from '~/db';
+import { runQuery } from '~/test/apollo-helpers';
 import {
   SECTION_1,
   SECTION_2,
@@ -9,11 +10,11 @@ import {
   USER_1,
   USER_2,
 } from '~/test/fixtures';
-import { setupDB, teardownDB } from '~/db';
 
-import { LogbookSectionsFilter } from '~/__generated__/graphql';
-import { gql } from 'apollo-server';
-import { runQuery } from '~/test/apollo-helpers';
+import {
+  ListMyLogbookSectionsQuery,
+  ListMyLogbookSectionsQueryVariables,
+} from './myLogbookSections.test.generated';
 
 beforeEach(setupDB);
 afterEach(teardownDB);

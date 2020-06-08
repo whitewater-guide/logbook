@@ -1,25 +1,26 @@
+import { gql } from 'apollo-server';
+
+import { LogbookDescentsFilter } from '~/__generated__/graphql';
+import { setupDB, teardownDB } from '~/db';
+import { runQuery } from '~/test/apollo-helpers';
 import {
   DESCENT_1,
-  DESCENT_10,
   DESCENT_2,
   DESCENT_3,
   DESCENT_4,
   DESCENT_5,
   DESCENT_7,
+  DESCENT_10,
   SECTION_1,
   SECTION_1_UPSTREAM,
   USER_1,
   USER_2,
 } from '~/test/fixtures';
+
 import {
   ListLogbookDescentsQuery,
   ListLogbookDescentsQueryVariables,
 } from './logbookDescents.test.generated';
-import { setupDB, teardownDB } from '~/db';
-
-import { LogbookDescentsFilter } from '~/__generated__/graphql';
-import { gql } from 'apollo-server';
-import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);

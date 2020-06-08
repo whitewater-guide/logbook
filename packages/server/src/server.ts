@@ -1,5 +1,6 @@
-import { App } from './koa';
 import httpShutdown from 'http-shutdown';
+
+import { App } from './koa';
 import log from './log';
 
 const PORT = Number(process.env.PORT) || 3333;

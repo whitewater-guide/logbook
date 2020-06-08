@@ -1,7 +1,8 @@
 import { formatApolloErrors } from 'apollo-server-errors';
-import { logger } from './logger';
 import set from 'lodash/set';
 import shortid from 'shortid';
+
+import { logger } from './logger';
 
 export const formatError = (error: any) => {
   const apolloError = formatApolloErrors([error], { debug: true })[0];

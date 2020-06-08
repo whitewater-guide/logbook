@@ -1,3 +1,9 @@
+import { gql } from 'apollo-server';
+import { sql } from 'slonik';
+
+import { LogbookDescentInput } from '~/__generated__/graphql';
+import { db, setupDB, teardownDB } from '~/db';
+import { runQuery } from '~/test/apollo-helpers';
 import {
   DESCENT_1,
   DESCENT_2,
@@ -8,16 +14,11 @@ import {
   USER_1,
   USER_2,
 } from '~/test/fixtures';
+
 import {
   UpsertLogbookDescentMutation,
   UpsertLogbookDescentMutationVariables,
 } from './upsertLogbookDescent.test.generated';
-import { db, setupDB, teardownDB } from '~/db';
-
-import { LogbookDescentInput } from '~/__generated__/graphql';
-import { gql } from 'apollo-server';
-import { runQuery } from '~/test/apollo-helpers';
-import { sql } from 'slonik';
 
 beforeEach(setupDB);
 afterEach(teardownDB);
@@ -199,10 +200,10 @@ it.each<ParentTestCase>([
     const id = result.data.upsertLogbookDescent?.id;
     const sectionId = result.data.upsertLogbookDescent?.section.id;
     const parentDescId = await db().oneFirst(
-      sql`SELECT parent_id FROM logbook_descents WHERE id = ${id}`,
+      sql`SELECT parent_id FROM logbook_descents WHERE id = ${id!}`,
     );
     const parentLogbookSectionId = await db().oneFirst(
-      sql`SELECT parent_id FROM logbook_sections WHERE id = ${sectionId}`,
+      sql`SELECT parent_id FROM logbook_sections WHERE id = ${sectionId!}`,
     );
     expect(parentDescId).toBe(expectedParentLogbookDescentId);
     expect(parentLogbookSectionId).toBe(expectedParentLogbookSectionId);

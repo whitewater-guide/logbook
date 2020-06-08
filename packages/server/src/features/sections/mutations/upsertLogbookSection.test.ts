@@ -1,13 +1,14 @@
+import gql from 'graphql-tag';
+
+import { LogbookSectionInput } from '~/__generated__/graphql';
+import { setupDB, teardownDB } from '~/db';
+import { runQuery } from '~/test/apollo-helpers';
 import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
+
 import {
   UpsertLogbookSectionMutation,
   UpsertLogbookSectionMutationVariables,
 } from './upsertLogbookSection.test.generated';
-import { setupDB, teardownDB } from '~/db';
-
-import { LogbookSectionInput } from '~/__generated__/graphql';
-import gql from 'graphql-tag';
-import { runQuery } from '~/test/apollo-helpers';
 
 beforeEach(setupDB);
 afterEach(teardownDB);
