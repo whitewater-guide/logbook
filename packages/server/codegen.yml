@@ -12,7 +12,7 @@ generates:
         Date: Date
         DateTime: Date
         JSON: '{ [key: string]: any }'
-        Cursor: ../common#Cursor
+        Cursor: '@whitewater-guide/logbook-schema#Cursor'
 
   ./src/:
     documents:
