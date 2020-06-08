@@ -17,7 +17,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.js"
+    "clean": "rimraf dist && find . \\( -name \"*.generated.ts\" -o -path \"*__generated__/*\" \\) -delete",
+    "build": "rollup --config rollup.config.js",
+    "codegen": "graphql-codegen"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -31,7 +33,7 @@
     "rollup-plugin-clear": "^2.0.7",
     "tslib": "^2.0.0",
     "typescript": "^3.9.2",
-    "yup": "^0.28.5"
+    "yup": "^0.29.1"
   },
   "peerDependencies": {
     "@whitewater-guide/validation": "^1.0.2",

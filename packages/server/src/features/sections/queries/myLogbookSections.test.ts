@@ -11,7 +11,6 @@ import {
 } from '~/test/fixtures';
 import { setupDB, teardownDB } from '~/db';
 
-import { LogbookSectionAll } from '@whitewater-guide/logbook-schema';
 import { LogbookSectionsFilter } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
@@ -27,7 +26,26 @@ const query = gql`
     myLogbookSections(filter: $filter, page: $page) {
       edges {
         node {
-          ...logbookSectionAll
+          id
+
+          region
+          river
+          section
+          difficulty
+          putIn {
+            lat
+            lng
+          }
+          takeOut {
+            lat
+            lng
+          }
+
+          upstreamId
+          upstreamData
+
+          createdAt
+          updatedAt
         }
         cursor
       }
@@ -37,7 +55,6 @@ const query = gql`
       }
     }
   }
-  ${LogbookSectionAll}
 `;
 
 it('should match snapshot', async () => {

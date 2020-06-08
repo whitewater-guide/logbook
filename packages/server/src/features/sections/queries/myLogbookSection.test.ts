@@ -5,7 +5,6 @@ import {
 import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
 import { setupDB, teardownDB } from '~/db';
 
-import { LogbookSectionAll } from '@whitewater-guide/logbook-schema';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -15,10 +14,28 @@ afterEach(teardownDB);
 const query = gql`
   query myLogbookSection($id: ID!) {
     myLogbookSection(id: $id) {
-      ...logbookSectionAll
+      id
+
+      region
+      river
+      section
+      difficulty
+      putIn {
+        lat
+        lng
+      }
+      takeOut {
+        lat
+        lng
+      }
+
+      upstreamId
+      upstreamData
+
+      createdAt
+      updatedAt
     }
   }
-  ${LogbookSectionAll}
 `;
 
 describe('permissions', () => {

@@ -299,7 +299,7 @@ class DescentsService extends DataSource<Context> {
     const upsertLogbookSection = this._context.dataSources?.sections.buildUpsertCTE(
       input.section,
       shared?.section,
-    )!;
+    );
     const upsert = this.buildUpsertCTE(
       input,
       sql.identifier(['upserted_section', 'id']),
@@ -317,7 +317,7 @@ class DescentsService extends DataSource<Context> {
 
     const row = await db().maybeOne(sql`
       WITH upserted_section AS (
-        ${upsertLogbookSection}
+        ${upsertLogbookSection!}
       ),
       upserted_descent AS (
         ${upsert}

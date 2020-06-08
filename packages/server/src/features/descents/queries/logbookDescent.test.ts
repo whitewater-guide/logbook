@@ -6,7 +6,6 @@ import {
 import { setupDB, teardownDB } from '~/db';
 
 import { DESCENT_2_SHARE_TOKEN } from '../../../test/fixtures';
-import { LogbookDescentAll } from '@whitewater-guide/logbook-schema';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
 
@@ -16,10 +15,47 @@ afterEach(teardownDB);
 const query = gql`
   query getLogbookDescent($id: ID, $shareToken: String) {
     logbookDescent(id: $id, shareToken: $shareToken) {
-      ...logbookDescentAll
+      id
+      userId
+
+      startedAt
+      duration
+      level {
+        value
+        unit
+      }
+      comment
+      public
+
+      upstreamData
+
+      createdAt
+      updatedAt
+
+      section {
+        id
+
+        region
+        river
+        section
+        difficulty
+        putIn {
+          lat
+          lng
+        }
+        takeOut {
+          lat
+          lng
+        }
+
+        upstreamId
+        upstreamData
+
+        createdAt
+        updatedAt
+      }
     }
   }
-  ${LogbookDescentAll}
 `;
 
 describe('permissions', () => {

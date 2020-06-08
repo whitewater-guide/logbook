@@ -14,7 +14,6 @@ import {
 } from './upsertLogbookDescent.test.generated';
 import { db, setupDB, teardownDB } from '~/db';
 
-import { LogbookDescentAll } from '@whitewater-guide/logbook-schema';
 import { LogbookDescentInput } from '~/__generated__/graphql';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
@@ -29,10 +28,47 @@ const mutation = gql`
     $shareToken: String
   ) {
     upsertLogbookDescent(descent: $descent, shareToken: $shareToken) {
-      ...logbookDescentAll
+      id
+      userId
+
+      startedAt
+      duration
+      level {
+        value
+        unit
+      }
+      comment
+      public
+
+      upstreamData
+
+      createdAt
+      updatedAt
+
+      section {
+        id
+
+        region
+        river
+        section
+        difficulty
+        putIn {
+          lat
+          lng
+        }
+        takeOut {
+          lat
+          lng
+        }
+
+        upstreamId
+        upstreamData
+
+        createdAt
+        updatedAt
+      }
     }
   }
-  ${LogbookDescentAll}
 `;
 
 const descent: LogbookDescentInput = {
@@ -160,8 +196,8 @@ it.each<ParentTestCase>([
       USER_2,
     );
     expect(result.errors).toBeUndefined();
-    const id = result.data.upsertLogbookDescent?.id!;
-    const sectionId = result.data.upsertLogbookDescent?.section.id!;
+    const id = result.data.upsertLogbookDescent?.id;
+    const sectionId = result.data.upsertLogbookDescent?.section.id;
     const parentDescId = await db().oneFirst(
       sql`SELECT parent_id FROM logbook_descents WHERE id = ${id}`,
     );

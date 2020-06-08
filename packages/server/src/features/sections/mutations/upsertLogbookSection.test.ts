@@ -5,7 +5,6 @@ import {
 } from './upsertLogbookSection.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
-import { LogbookSectionAll } from '@whitewater-guide/logbook-schema';
 import { LogbookSectionInput } from '~/__generated__/graphql';
 import gql from 'graphql-tag';
 import { runQuery } from '~/test/apollo-helpers';
@@ -16,10 +15,28 @@ afterEach(teardownDB);
 const mutation = gql`
   mutation upsertLogbookSection($section: LogbookSectionInput!) {
     upsertLogbookSection(section: $section) {
-      ...logbookSectionAll
+      id
+
+      region
+      river
+      section
+      difficulty
+      putIn {
+        lat
+        lng
+      }
+      takeOut {
+        lat
+        lng
+      }
+
+      upstreamId
+      upstreamData
+
+      createdAt
+      updatedAt
     }
   }
-  ${LogbookSectionAll}
 `;
 
 const section: LogbookSectionInput = {

@@ -1,4 +1,4 @@
-import { ValueExpressionType, sql } from 'slonik';
+import { ListSqlTokenType, ValueExpressionType, sql } from 'slonik';
 
 import get from 'lodash/get';
 import snakeCase from 'lodash/snakeCase';
@@ -23,7 +23,10 @@ class FieldsMap<TGraphql, TSql> {
     this._map = new Map(map);
   }
 
-  public getSqlSelection(tree: any, options: SqlSelectionOptions<TSql>) {
+  public getSqlSelection(
+    tree: any,
+    options: SqlSelectionOptions<TSql>,
+  ): ListSqlTokenType {
     const { path, table, aliasPrefix, requiredColumns = [] } = options;
     const keys = Object.keys(path ? get(tree, path) : tree);
 

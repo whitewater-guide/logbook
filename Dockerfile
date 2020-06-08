@@ -15,11 +15,11 @@ RUN chown -R node:node /opt/app
 
 USER node
 
-COPY --chown=node:node --from=builder /opt/app/package.json /opt/app/yarn.lock /opt/app/schema.graphql ./
-COPY --chown=node:node --from=builder /opt/app/dist ./dist
+COPY --chown=node:node --from=builder /opt/app/packages/server/package.json /opt/app/packages/server/yarn.lock ./
+COPY --chown=node:node --from=builder /opt/app/packages/server/dist ./dist
 
 RUN yarn install --production --frozen-lockfile
 
-ENTRYPOINT [ "node", "./dist/index.js" ]
+ENTRYPOINT [ "node", "./packages/server/dist/index.js" ]
 
 

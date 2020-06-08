@@ -4,7 +4,6 @@ import {
 } from './myLogbookDescents.test.generated';
 import { setupDB, teardownDB } from '~/db';
 
-import { LogbookDescentAll } from '@whitewater-guide/logbook-schema';
 import { USER_1 } from '~/test/fixtures';
 import { gql } from 'apollo-server';
 import { runQuery } from '~/test/apollo-helpers';
@@ -17,7 +16,45 @@ const query = gql`
     myLogbookDescents(filter: $filter, page: $page) {
       edges {
         node {
-          ...logbookDescentAll
+          id
+          userId
+
+          startedAt
+          duration
+          level {
+            value
+            unit
+          }
+          comment
+          public
+
+          upstreamData
+
+          createdAt
+          updatedAt
+
+          section {
+            id
+
+            region
+            river
+            section
+            difficulty
+            putIn {
+              lat
+              lng
+            }
+            takeOut {
+              lat
+              lng
+            }
+
+            upstreamId
+            upstreamData
+
+            createdAt
+            updatedAt
+          }
         }
         cursor
       }
@@ -27,7 +64,6 @@ const query = gql`
       }
     }
   }
-  ${LogbookDescentAll}
 `;
 
 it('should match snapshot', async () => {
