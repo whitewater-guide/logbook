@@ -6,7 +6,6 @@ module.exports = {
     release: true,
   },
   hooks: {
-    'before:init': ['yarn codegen', 'yarn build', 'yarn test'],
     'after:release': './docker.sh ${version}',
   },
   plugins: {

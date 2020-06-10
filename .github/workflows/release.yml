@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Release
+      - name: Prepare
         env:
           GITHUB_EVENT: ${{ github.event_name }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -63,4 +63,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           CORS_WHITELIST: localhost
           JWT_SECRET: __jwt__secret__
-        run: yarn release
+        run: |
+          yarn codegen
+          yarn build
+          yarn test
