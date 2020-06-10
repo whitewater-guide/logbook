@@ -17,7 +17,7 @@
     "test": "lerna run test --stream --",
     "docker:clean": "docker system prune -af --volumes --filter \"label=project=logbook\"",
     "lint": "eslint --fix \"**/*.ts\"",
-    "release": "lerna publish -y --conventional-commits"
+    "release": "lerna publish from-package -y --conventional-commits --no-verify-access"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",

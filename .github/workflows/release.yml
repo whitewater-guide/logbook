@@ -54,7 +54,6 @@ jobs:
 
       - name: Prepare
         env:
-          GITHUB_EVENT: ${{ github.event_name }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           POSTGRES_HOST: localhost
@@ -68,5 +67,8 @@ jobs:
           yarn build
           yarn test --ci --forceExit
       - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: ${{ github.event_name == 'push' }}
         run: yarn release
