@@ -14,7 +14,7 @@
     "clean": "lerna run clean --stream",
     "codegen": "lerna run codegen --stream",
     "build": "lerna run build --stream",
-    "test": "lerna run test --stream",
+    "test": "lerna run test --stream --",
     "docker:clean": "docker system prune -af --volumes --filter \"label=project=logbook\"",
     "lint": "eslint --fix \"**/*.ts\"",
     "release": "release-it --ci"
