@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=$1
+VERSION=$(node -p -e "require('./package.json').version")
 
 docker build -t docker.pkg.github.com/whitewater-guide/logbook/server:latest .
 docker tag docker.pkg.github.com/whitewater-guide/logbook/server:latest docker.pkg.github.com/whitewater-guide/logbook/server:${VERSION}

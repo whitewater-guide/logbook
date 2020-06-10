@@ -74,3 +74,4 @@ jobs:
         run: |
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
           yarn release
+          ./docker.sh
