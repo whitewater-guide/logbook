@@ -1,0 +1,33 @@
+overwrite: true
+schema: '../schema/schema.graphql'
+generates:
+  # graphql-codegen currently does not allow to import typedefs from other package
+  ./src/__generated__/graphql.ts:
+    plugins:
+      - typescript
+    config:
+      fragmentVariableSuffix: ''
+      federation: true
+      scalars:
+        Date: Date
+        DateTime: Date
+        JSON: '{ [key: string]: any }'
+        Cursor: '@whitewater-guide/logbook-schema#Cursor'
+
+  ./src/:
+    documents:
+      - ./src/**/__tests__/*.ts
+      - ./src/**/*.test.ts
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.ts
+      baseTypesPath: ./__generated__/graphql.ts
+    plugins:
+      - typescript-operations
+
+config:
+  preResolveTypes: true
+
+hooks:
+  afterAllFileWrite:
+    - eslint --fix

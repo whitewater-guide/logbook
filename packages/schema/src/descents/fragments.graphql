@@ -1,0 +1,25 @@
+fragment logbookDescentAllButSection on LogbookDescent {
+  id
+  userId
+
+  startedAt
+  duration
+  level {
+    value
+    unit
+  }
+  comment
+  public
+
+  upstreamData
+
+  createdAt
+  updatedAt
+}
+
+fragment logbookDescentAll on LogbookDescent {
+  ...logbookDescentAllButSection
+  section {
+    ...logbookSectionAll
+  }
+}

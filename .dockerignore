@@ -1,3 +1,6 @@
+.devcontainer
+.vscode
+.github
 node_modules
 dist
 Dockerfile
