@@ -1,7 +1,9 @@
 import pino from 'pino';
 
 const log = pino({
-  level: process.env.NODE_ENV === 'test' ? 'silent' : process.env.LOG_LEVEL,
+  level:
+    (process.env.NODE_ENV === 'test' ? 'silent' : process.env.LOG_LEVEL) ||
+    'info',
   prettyPrint:
     process.env.NODE_ENV === 'development'
       ? {
