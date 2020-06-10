@@ -2,7 +2,7 @@
 
 set -e
 
-# This script;
+# This script:
 # 1. Creates template database
 # 2. Initializes schema and seeds data
 # 3. Create N databases from this template, so that test can run in parallel, where N is number of cores
@@ -22,6 +22,12 @@ psql -d logbook_test_template -c "create extension if not exists postgis"
 psql -d logbook_test_template -c "create extension if not exists postgis_topology"
 psql -d logbook_test_template -f sql/schema.sql
 psql -d logbook_test_template -f sql/seeds.sql
+
+# This code will stop execution unless argument is provided
+# Because on codegen step we don't need to go further
+if [ $# -eq 0 ] then
+    exit 0
+fi
 
 NUM_CORES=$(nproc)
 

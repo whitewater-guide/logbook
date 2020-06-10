@@ -26,9 +26,6 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-        volumes:
-          - ${{ github.workspace }}/packages/server/sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-          - ${{ github.workspace }}/packages/server/sql/seeds.sql:/docker-entrypoint-initdb.d/seeds.sql
 
     steps:
       - name: Check out

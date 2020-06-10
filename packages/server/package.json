@@ -9,9 +9,10 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist && find . \\( -name \"*.generated.ts\" -o -path \"*__generated__/*\" \\) -delete",
+    "precodegen": "./scripts/prepare-db.sh",
     "codegen": "graphql-codegen && sql-ts -c sql-ts.json && eslint --fix src/__generated__/sql.ts",
     "build": "tsc --project tsconfig.build.json",
-    "pretest": "./scripts/pretest.sh",
+    "pretest": "./scripts/prepare-db.sh pretest",
     "test": "NODE_ENV=test jest"
   },
   "dependencies": {

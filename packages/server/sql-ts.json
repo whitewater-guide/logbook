@@ -4,7 +4,7 @@
     "host": "postgres.local",
     "user": "postgres",
     "password": "postgres",
-    "database": "logbook"
+    "database": "logbook_test_template"
   },
   "schemas": ["public"],
   "interfaceNameFormat": "${table}Raw",
