@@ -17,7 +17,7 @@
     "test": "lerna run test --stream --",
     "docker:clean": "docker system prune -af --volumes --filter \"label=project=logbook\"",
     "lint": "eslint --fix \"**/*.ts\"",
-    "release": "release-it --ci"
+    "release": "lerna publish -y --conventional-commits"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
@@ -26,7 +26,6 @@
     "@graphql-codegen/typescript": "1.15.1",
     "@graphql-codegen/typescript-document-nodes": "^1.14.0",
     "@graphql-codegen/typescript-operations": "1.15.1",
-    "@release-it/conventional-changelog": "^1.1.4",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
     "@typescript-eslint/parser": "^3.1.0",
     "commitlint": "^8.3.5",
@@ -40,8 +39,6 @@
     "lerna": "^3.22.0",
     "lint-staged": "^10.2.4",
     "prettier": "^2.0.5",
-    "release-it": "^13.6.2",
-    "release-it-yarn-workspaces": "^1.4.0",
     "rimraf": "^3.0.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.2"
