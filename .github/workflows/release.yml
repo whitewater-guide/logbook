@@ -67,3 +67,6 @@ jobs:
           yarn codegen
           yarn build
           yarn test --ci --forceExit
+      - name: Release
+        if: ${{ github.event_name == 'push' }}
+        run: yarn release
