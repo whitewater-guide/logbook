@@ -25,7 +25,7 @@ psql -d logbook_test_template -f sql/seeds.sql
 
 # This code will stop execution unless argument is provided
 # Because on codegen step we don't need to go further
-if [ $# -eq 0 ] then
+if [ $# -eq 0 ]; then
     exit 0
 fi
 
