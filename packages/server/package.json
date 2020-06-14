@@ -6,7 +6,14 @@
   "repository": "https://github.com/whitewater-guide/logbook",
   "author": "whitewater.guide",
   "license": "MIT",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "sql"
+  ],
   "scripts": {
     "clean": "rimraf dist && find . \\( -name \"*.generated.ts\" -o -path \"*__generated__/*\" \\) -delete",
     "precodegen": "./scripts/prepare-db.sh",

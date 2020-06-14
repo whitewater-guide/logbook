@@ -5,12 +5,10 @@ import { createApp } from './koa';
 import log from './log';
 import startServer from './server';
 
-async function startup() {
+export default async function startup() {
   initYup();
   const app = createApp();
   await createApolloServer(app);
   startServer(app);
   log.info('Startup complete');
 }
-
-export default startup;
