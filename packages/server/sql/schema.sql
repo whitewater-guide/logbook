@@ -62,11 +62,15 @@ CREATE TABLE IF NOT EXISTS logbook_descents (
     upstream_data   JSONB
 );
 
--- TODO indexes
-
 ALTER TABLE logbook_descents
 ADD CONSTRAINT logbook_descent_parent_id FOREIGN KEY (parent_id) REFERENCES logbook_descents (id)
 ON DELETE SET NULL;
+
+CREATE INDEX logbook_descents_idx_ord ON logbook_sections(ord_id);
+CREATE INDEX logbook_descents_idx_user ON logbook_sections(user_id);
+CREATE INDEX logbook_descents_idx_started ON logbook_sections(started_at);
+CREATE INDEX logbook_descents_idx_public ON logbook_sections(public);
+CREATE INDEX logbook_descents_idx_section_id ON logbook_sections(section_id);
 
 CREATE TRIGGER set_logbook_descent_timestamp
 BEFORE UPDATE ON logbook_descents
