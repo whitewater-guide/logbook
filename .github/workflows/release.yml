@@ -28,6 +28,11 @@ jobs:
           - 5432:5432
 
     steps:
+      - name: Setup Git
+        run: |
+          git config --local user.email "info@whitewater.guide"
+          git config --local user.name "ww-github"
+
       - name: Check out
         uses: actions/checkout@v2
 
