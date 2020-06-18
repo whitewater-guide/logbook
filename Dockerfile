@@ -9,4 +9,6 @@ COPY --chown=node:node . .
 
 RUN yarn install --production --frozen-lockfile
 
-ENTRYPOINT [ "node", "./packages/server/dist/index.js" ]
+WORKDIR /opt/app/packages/server
+
+ENTRYPOINT [ "node", "./dist/index.js" ]
