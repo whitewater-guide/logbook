@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.2 (2020-06-18)
+
+
+### Bug Fixes
+
+* simplify cors ([8499fe5](https://github.com/whitewater-guide/logbook/commit/8499fe5936f601791e85eab9653bdc1783c3c96a))
+
+
+
+
+
 ## 1.0.1 (2020-06-14)
 
 
