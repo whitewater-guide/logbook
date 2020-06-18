@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=$(node -p -e "require('./package.json').version")
+VERSION=$(node -p -e "require('./lerna.json').version")
 
 docker build -t docker.pkg.github.com/whitewater-guide/logbook/server:latest .
 docker tag docker.pkg.github.com/whitewater-guide/logbook/server:latest docker.pkg.github.com/whitewater-guide/logbook/server:${VERSION}
