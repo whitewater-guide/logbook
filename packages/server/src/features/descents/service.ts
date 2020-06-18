@@ -10,7 +10,7 @@ import {
   LogbookDescent,
   LogbookDescentInput,
   LogbookDescentsFilter,
-  PageInput,
+  Page,
 } from '~/__generated__/graphql';
 import { LogbookDescentRaw, LogbookSectionRaw } from '~/__generated__/sql';
 import { itemsToConnection } from '~/apollo/connections';
@@ -196,7 +196,7 @@ class DescentsService extends DataSource<Context> {
   public async getMany(
     info: GraphQLResolveInfo,
     filter?: LogbookDescentsFilter | null,
-    page?: PageInput | null,
+    page?: Page | null,
   ) {
     const tree = graphqlFields(info);
     const after = page?.after;

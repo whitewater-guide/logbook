@@ -12,7 +12,7 @@ import { sql, ValueExpressionType } from 'slonik';
 import {
   LogbookSectionInput,
   LogbookSectionsFilter,
-  PageInput,
+  Page,
 } from '~/__generated__/graphql';
 import { LogbookSectionRaw } from '~/__generated__/sql';
 import { itemsToConnection } from '~/apollo/connections';
@@ -129,7 +129,7 @@ class SectionsService extends DataSource<Context> {
   public async getMany(
     info: GraphQLResolveInfo,
     filter?: LogbookSectionsFilter | null,
-    page?: PageInput | null,
+    page?: Page | null,
   ) {
     if (!this._context.uid) {
       throw new AuthenticationError('sections are private');

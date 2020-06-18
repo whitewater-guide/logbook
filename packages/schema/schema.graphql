@@ -11,9 +11,11 @@ extend type Section @key(fields: "id") {
   id: ID! @external
 }
 
-input PageInput {
+input Page {
   limit: Int
   after: Cursor
+  # This field is not used, it's here for compatibility with core whitewater.guide schema
+  offset: Int
 }
 
 type PageInfo {
@@ -149,17 +151,17 @@ type Query {
 
   logbookDescents(
     filter: LogbookDescentsFilter
-    page: PageInput
+    page: Page
   ): LogbookDescentsConnection
   myLogbookDescents(
     filter: LogbookDescentsFilter
-    page: PageInput
+    page: Page
   ): LogbookDescentsConnection
 
   myLogbookSection(id: ID!): LogbookSection
   myLogbookSections(
     filter: LogbookSectionsFilter
-    page: PageInput
+    page: Page
   ): LogbookSectionsConnection
 
   # TODO: get export/import as csv link
