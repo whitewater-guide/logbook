@@ -1,6 +1,6 @@
 {
   "name": "@whitewater-guide/logbook-schema",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "schema of whitewater.guide's logbook",
   "main": "dist/cjs/index.js",
   "module": "dist/ems/index.js",
