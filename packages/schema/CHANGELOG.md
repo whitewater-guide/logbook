@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.3 (2020-06-18)
+
+
+### Bug Fixes
+
+* use proper version for docker images ([f0d4997](https://github.com/whitewater-guide/logbook/commit/f0d49973c1a2fbe34516dfc9b4cbd8529aecf7d9))
+
+
+
+
+
 ## 1.0.2 (2020-06-18)
 
 
