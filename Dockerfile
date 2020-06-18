@@ -11,7 +11,7 @@ RUN yarn install --production --frozen-lockfile
 
 WORKDIR /opt/app/packages/server
 
-RUN rf -rf src \
+RUN rm -rf src \
  && rm -rf sql
 
 ENTRYPOINT [ "node", "./dist/index.js" ]
