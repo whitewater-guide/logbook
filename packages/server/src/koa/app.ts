@@ -1,3 +1,4 @@
+import cors from '@koa/cors';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import jwt from 'koa-jwt';
@@ -5,7 +6,6 @@ import jwt from 'koa-jwt';
 import { teardownDB } from '~/db';
 import log from '~/log';
 
-import { corsMiddleware } from './cors';
 import addPingRoute from './ping';
 
 export type App = Koa & {
@@ -18,7 +18,13 @@ export const createApp = (): App => {
   app.proxy = process.env.NODE_ENV === 'production';
   app.on('error', (err) => log.error(err));
 
-  app.use(corsMiddleware);
+  app.use(
+    cors({
+      credentials: true,
+      maxAge: 60 * 60 * 24, // this is for OPTIONS requests
+      origin: '*',
+    }),
+  );
   app.use(bodyParser());
   app.use(jwt({ secret: process.env.JWT_SECRET, passthrough: true }));
 

@@ -5,8 +5,6 @@ declare namespace NodeJS {
     POSTGRES_USER: string;
     POSTGRES_DB: string;
     POSTGRES_PASSWORD: string;
-    CORS_WHITELIST?: string;
-    APP_DOMAIN?: string;
     APOLLO_EXPOSE_SCHEMA?: string;
     APOLLO_EXPOSE_PLAYGROUND?: string;
     JWT_SECRET: string;
