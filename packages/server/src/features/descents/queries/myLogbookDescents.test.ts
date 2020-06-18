@@ -13,7 +13,10 @@ beforeEach(setupDB);
 afterEach(teardownDB);
 
 const query = gql`
-  query listMyLogbookDescents($filter: LogbookDescentsFilter, $page: Page) {
+  query listMyLogbookDescents(
+    $filter: LogbookDescentsFilter
+    $page: PageInput
+  ) {
     myLogbookDescents(filter: $filter, page: $page) {
       edges {
         node {

@@ -23,7 +23,10 @@ const getIds = (result: ListMyLogbookSectionsQuery): string[] =>
   result.myLogbookSections?.edges.map(({ node }) => node.id) || [];
 
 const query = gql`
-  query listMyLogbookSections($filter: LogbookSectionsFilter, $page: Page) {
+  query listMyLogbookSections(
+    $filter: LogbookSectionsFilter
+    $page: PageInput
+  ) {
     myLogbookSections(filter: $filter, page: $page) {
       edges {
         node {

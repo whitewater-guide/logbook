@@ -11,7 +11,7 @@ extend type Section @key(fields: "id") {
   id: ID! @external
 }
 
-input Page {
+input PageInput {
   limit: Int
   after: Cursor
 }
@@ -149,17 +149,17 @@ type Query {
 
   logbookDescents(
     filter: LogbookDescentsFilter
-    page: Page
+    page: PageInput
   ): LogbookDescentsConnection
   myLogbookDescents(
     filter: LogbookDescentsFilter
-    page: Page
+    page: PageInput
   ): LogbookDescentsConnection
 
   myLogbookSection(id: ID!): LogbookSection
   myLogbookSections(
     filter: LogbookSectionsFilter
-    page: Page
+    page: PageInput
   ): LogbookSectionsConnection
 
   # TODO: get export/import as csv link
