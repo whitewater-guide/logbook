@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.4 (2020-06-18)
+
+
+### Bug Fixes
+
+* workdir ([f96c30e](https://github.com/whitewater-guide/logbook/commit/f96c30e0e72807397c7d36bb432c5bef5254b89a))
+
+
+
+
+
 ## 1.0.3 (2020-06-18)
 
 
