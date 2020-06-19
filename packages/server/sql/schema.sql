@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE OR REPLACE FUNCTION trigger_set_timestamp()
+CREATE OR REPLACE FUNCTION logbook_trigger_set_timestamp()
 RETURNS TRIGGER AS $$
 BEGIN
     NEW.updated_at = NOW();
@@ -37,10 +37,11 @@ CREATE INDEX logbook_sections_idx_created ON logbook_sections(created_at);
 CREATE INDEX logbook_sections_idx_difficulty ON logbook_sections(difficulty);
 CREATE INDEX logbook_sections_idx_fullname ON logbook_sections ((region || ' ' || river || ' ' || section) varchar_pattern_ops);
 
+DROP TRIGGER IF EXISTS set_logbook_sections_timestamp on logbook_sections;
 CREATE TRIGGER set_logbook_sections_timestamp
 BEFORE UPDATE ON logbook_sections
 FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
+EXECUTE PROCEDURE logbook_trigger_set_timestamp();
 
 CREATE TABLE IF NOT EXISTS logbook_descents (
     id              UUID            PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -72,7 +73,9 @@ CREATE INDEX logbook_descents_idx_started ON logbook_descents(started_at);
 CREATE INDEX logbook_descents_idx_public ON logbook_descents(public);
 CREATE INDEX logbook_descents_idx_section_id ON logbook_descents(section_id);
 
+
+DROP TRIGGER IF EXISTS set_logbook_descent_timestamp on logbook_descents;
 CREATE TRIGGER set_logbook_descent_timestamp
 BEFORE UPDATE ON logbook_descents
 FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
+EXECUTE PROCEDURE logbook_trigger_set_timestamp();

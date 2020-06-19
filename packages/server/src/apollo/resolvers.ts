@@ -1,3 +1,5 @@
+import { GraphQLDateTime } from 'graphql-iso-date';
+import GraphQLJSON from 'graphql-type-json';
 import { fileLoader, mergeResolvers } from 'merge-graphql-schemas';
 import { resolve } from 'path';
 
@@ -17,4 +19,6 @@ const merged = mergeResolvers(resolversArray);
 export default {
   ...merged,
   Cursor: CursorScalar,
+  Date: GraphQLDateTime,
+  JSON: GraphQLJSON,
 };
