@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.8 (2020-06-19)
+
+
+### Bug Fixes
+
+* date scalar ([0bc02fc](https://github.com/whitewater-guide/logbook/commit/0bc02fc99d52c91d0ad4636ca8a4e5d22dbe9498))
+
+
+
+
+
 ## 1.0.7 (2020-06-18)
 
 **Note:** Version bump only for package @whitewater-guide/logbook-server
