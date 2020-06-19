@@ -1,4 +1,4 @@
-scalar Date
+scalar DateTime
 scalar JSON
 scalar Cursor
 
@@ -47,8 +47,8 @@ type LogbookSection @key(fields: "id") {
   upstreamSection: Section
   upstreamData: JSON
 
-  createdAt: Date
-  updatedAt: Date
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input LogbookSectionInput {
@@ -97,7 +97,7 @@ type LogbookDescent @key(fields: "id") {
   user: User
 
   section: LogbookSection!
-  startedAt: Date!
+  startedAt: DateTime!
   duration: Int
   level: Level
   comment: String
@@ -105,8 +105,8 @@ type LogbookDescent @key(fields: "id") {
 
   upstreamData: JSON
 
-  createdAt: Date
-  updatedAt: Date
+  createdAt: DateTime
+  updatedAt: DateTime
 
   # TODO: boat type as object
 }
@@ -115,7 +115,7 @@ input LogbookDescentInput {
   id: ID
 
   section: LogbookSectionInput!
-  startedAt: Date!
+  startedAt: DateTime!
   duration: Int
 
   level: LevelInput
@@ -135,8 +135,8 @@ type LogbookDescentsConnection {
 }
 
 input LogbookDescentsFilter {
-  startDate: Date
-  endDate: Date
+  startDate: DateTime
+  endDate: DateTime
   difficulty: [Float!]
 
   userID: String

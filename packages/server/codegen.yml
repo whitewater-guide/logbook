@@ -9,7 +9,6 @@ generates:
       fragmentVariableSuffix: ''
       federation: true
       scalars:
-        Date: Date
         DateTime: Date
         JSON: '{ [key: string]: any }'
         Cursor: '@whitewater-guide/logbook-schema#Cursor'
