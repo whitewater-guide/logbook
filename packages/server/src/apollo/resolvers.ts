@@ -19,6 +19,6 @@ const merged = mergeResolvers(resolversArray);
 export default {
   ...merged,
   Cursor: CursorScalar,
-  Date: GraphQLDateTime,
+  DateTime: GraphQLDateTime,
   JSON: GraphQLJSON,
 };
