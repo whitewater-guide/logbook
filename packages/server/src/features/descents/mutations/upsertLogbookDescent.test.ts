@@ -3,7 +3,7 @@ import { sql } from 'slonik';
 
 import { LogbookDescentInput } from '~/__generated__/graphql';
 import { db, setupDB, teardownDB } from '~/db';
-import { runQuery } from '~/test/apollo-helpers';
+import { expectTimestamp, runQuery } from '~/test/apollo-helpers';
 import {
   DESCENT_1,
   DESCENT_2,
@@ -79,7 +79,7 @@ const descent: LogbookDescentInput = {
     section: 'Lower',
     difficulty: 2,
   },
-  startedAt: new Date(2000, 1, 1),
+  startedAt: new Date(2000, 1, 1).toISOString() as any,
   duration: 3600,
   comment: 'comment',
   level: {
@@ -116,7 +116,7 @@ it('should fail on validation check', async () => {
       section: 'L',
       difficulty: 222,
     },
-    startedAt: new Date(2000, 1, 1),
+    startedAt: new Date(2000, 1, 1).toISOString() as any,
   };
   const result = await runQuery<
     UpsertLogbookDescentMutation,
@@ -136,13 +136,13 @@ it('should insert', async () => {
   expect(result.errors).toBeUndefined();
   const { section, ...rest } = result.data.upsertLogbookDescent!;
   expect(section).toMatchSnapshot<any>({
-    createdAt: expect.any(Date),
-    updatedAt: expect.any(Date),
+    createdAt: expectTimestamp(),
+    updatedAt: expectTimestamp(),
     id: expect.any(String),
   });
   expect(rest).toMatchSnapshot<any>({
-    createdAt: expect.any(Date),
-    updatedAt: expect.any(Date),
+    createdAt: expectTimestamp(),
+    updatedAt: expectTimestamp(),
     id: expect.any(String),
   });
 });
@@ -165,20 +165,20 @@ it('should update', async () => {
   expect(result.errors).toBeUndefined();
   const { section, ...rest } = result.data.upsertLogbookDescent!;
   expect(section).toMatchSnapshot<any>({
-    updatedAt: expect.any(Date),
+    updatedAt: expectTimestamp(),
   });
   expect(rest).toMatchSnapshot<any>({
-    updatedAt: expect.any(Date),
+    updatedAt: expectTimestamp(),
   });
 });
 
 type ParentTestCase = [string, string, string, string];
 
 it.each<ParentTestCase>([
-  [' ', DESCENT_2_SHARE_TOKEN, DESCENT_2, SECTION_2],
-  [' recursive ', DESCENT_4_SHARE_TOKEN, DESCENT_1, SECTION_1],
+  ['', DESCENT_2_SHARE_TOKEN, DESCENT_2, SECTION_2],
+  ['recursive ', DESCENT_4_SHARE_TOKEN, DESCENT_1, SECTION_1],
 ])(
-  'should set%sparent references when token is provided',
+  'should set %sparent references when token is provided',
   async (
     _,
     shareToken,

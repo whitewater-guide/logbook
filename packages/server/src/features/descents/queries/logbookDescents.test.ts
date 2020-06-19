@@ -110,14 +110,14 @@ it.each<FilterTestCase>([
   ['difficulty', { difficulty: [2.5, 3] }, [DESCENT_7, DESCENT_3, DESCENT_2]],
   [
     'open date range',
-    { startDate: new Date('2020-01-03T00:00:00.000Z') },
+    { startDate: new Date('2020-01-03T00:00:00.000Z').toISOString() as any },
     [DESCENT_7, DESCENT_5, DESCENT_3],
   ],
   [
     'closed date range',
     {
-      startDate: new Date('2020-01-02T00:00:00.000Z'),
-      endDate: new Date('2020-01-05T00:00:00.000Z'),
+      startDate: new Date('2020-01-02T00:00:00.000Z').toISOString() as any,
+      endDate: new Date('2020-01-05T00:00:00.000Z').toISOString() as any,
     },
     [DESCENT_5, DESCENT_3, DESCENT_2],
   ],

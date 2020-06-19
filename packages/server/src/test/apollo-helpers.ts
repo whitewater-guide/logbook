@@ -28,3 +28,6 @@ export const runQuery = async <
     return client.query({ query, variables }) as any;
   }
 };
+
+export const expectTimestamp = () =>
+  expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3,6}Z/);

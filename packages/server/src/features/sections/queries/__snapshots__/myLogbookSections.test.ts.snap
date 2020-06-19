@@ -8,7 +8,7 @@ Object {
         Object {
           "cursor": "djE6MTpOb3J3YXkgU2pvYSBBbW90",
           "node": Object {
-            "createdAt": 2020-01-01T00:00:00.000Z,
+            "createdAt": "2020-01-01T00:00:00.000Z",
             "difficulty": 3.5,
             "id": "45e70501-5d20-449f-b854-52b06b138831",
             "putIn": Object {
@@ -22,7 +22,7 @@ Object {
               "lat": 49,
               "lng": 1,
             },
-            "updatedAt": 2020-01-01T00:00:00.000Z,
+            "updatedAt": "2020-01-01T00:00:00.000Z",
             "upstreamData": Object {
               "upstream": "upstream section 1 data",
             },
@@ -32,7 +32,7 @@ Object {
         Object {
           "cursor": "djE6MzpOb3J3YXkgU2pvYSBBc2VuZ2p1dmV0",
           "node": Object {
-            "createdAt": 2020-01-03T00:00:00.000Z,
+            "createdAt": "2020-01-03T00:00:00.000Z",
             "difficulty": 2.5,
             "id": "7565d9ee-0fc0-4b49-be34-a62d59223067",
             "putIn": null,
@@ -40,7 +40,7 @@ Object {
             "river": "Sjoa",
             "section": "Asengjuvet",
             "takeOut": null,
-            "updatedAt": 2020-01-03T00:00:00.000Z,
+            "updatedAt": "2020-01-03T00:00:00.000Z",
             "upstreamData": null,
             "upstreamId": null,
           },
@@ -48,7 +48,7 @@ Object {
         Object {
           "cursor": "djE6MjpOb3J3YXkgU2pvYSBQbGF5cnVu",
           "node": Object {
-            "createdAt": 2020-01-02T00:00:00.000Z,
+            "createdAt": "2020-01-02T00:00:00.000Z",
             "difficulty": 3,
             "id": "e7d03e01-4927-4ae1-82bf-a9e195e59db6",
             "putIn": null,
@@ -56,7 +56,7 @@ Object {
             "river": "Sjoa",
             "section": "Playrun",
             "takeOut": null,
-            "updatedAt": 2020-01-02T00:00:00.000Z,
+            "updatedAt": "2020-01-02T00:00:00.000Z",
             "upstreamData": null,
             "upstreamId": null,
           },

@@ -3,7 +3,7 @@
 exports[`should return descent 1`] = `
 Object {
   "comment": "descent 1 comment",
-  "createdAt": 2020-01-01T00:00:00.000Z,
+  "createdAt": "2020-01-01T00:00:00.000Z",
   "duration": 3600,
   "id": "97998f67-74f2-43db-a4e4-198c2ca540a7",
   "level": Object {
@@ -12,7 +12,7 @@ Object {
   },
   "public": true,
   "section": Object {
-    "createdAt": 2020-01-01T00:00:00.000Z,
+    "createdAt": "2020-01-01T00:00:00.000Z",
     "difficulty": 3.5,
     "id": "45e70501-5d20-449f-b854-52b06b138831",
     "putIn": Object {
@@ -26,14 +26,14 @@ Object {
       "lat": 49,
       "lng": 1,
     },
-    "updatedAt": 2020-01-01T00:00:00.000Z,
+    "updatedAt": "2020-01-01T00:00:00.000Z",
     "upstreamData": Object {
       "upstream": "upstream section 1 data",
     },
     "upstreamId": "d749dbc1-166f-41d1-91ac-e4658d30d90f",
   },
-  "startedAt": 2020-01-01T00:00:00.000Z,
-  "updatedAt": 2020-01-01T00:00:00.000Z,
+  "startedAt": "2020-01-01T00:00:00.000Z",
+  "updatedAt": "2020-01-01T00:00:00.000Z",
   "upstreamData": Object {
     "upstream": "descent 1 upstream data",
   },

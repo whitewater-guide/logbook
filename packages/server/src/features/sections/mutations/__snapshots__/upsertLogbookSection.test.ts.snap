@@ -140,7 +140,7 @@ Object {
 
 exports[`should insert section 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "difficulty": 5,
   "id": Any<String>,
   "putIn": Object {
@@ -154,7 +154,7 @@ Object {
     "lat": 20,
     "lng": 20,
   },
-  "updatedAt": Any<Date>,
+  "updatedAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "upstreamData": Object {
     "foo": "bar ",
   },
@@ -164,7 +164,7 @@ Object {
 
 exports[`should update section 1`] = `
 Object {
-  "createdAt": 2020-01-01T00:00:00.000Z,
+  "createdAt": "2020-01-01T00:00:00.000Z",
   "difficulty": 5,
   "id": "45e70501-5d20-449f-b854-52b06b138831",
   "putIn": Object {
@@ -178,7 +178,7 @@ Object {
     "lat": 20,
     "lng": 20,
   },
-  "updatedAt": Any<Date>,
+  "updatedAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "upstreamData": Object {
     "foo": "bar ",
   },

@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 import { LogbookSectionInput } from '~/__generated__/graphql';
 import { setupDB, teardownDB } from '~/db';
-import { runQuery } from '~/test/apollo-helpers';
+import { expectTimestamp, runQuery } from '~/test/apollo-helpers';
 import { SECTION_1, USER_1, USER_2 } from '~/test/fixtures';
 
 import {
@@ -88,8 +88,8 @@ it('should insert section', async () => {
   >(mutation, { section }, USER_1);
   expect(result.errors).toBeUndefined();
   expect(result.data.upsertLogbookSection).toMatchSnapshot<any>({
-    createdAt: expect.any(Date),
-    updatedAt: expect.any(Date),
+    createdAt: expectTimestamp(),
+    updatedAt: expectTimestamp(),
     id: expect.any(String),
   });
 });
@@ -101,7 +101,7 @@ it('should update section', async () => {
   >(mutation, { section: { ...section, id: SECTION_1 } }, USER_1);
   expect(result.errors).toBeUndefined();
   expect(result.data.upsertLogbookSection).toMatchSnapshot<any>({
-    updatedAt: expect.any(Date),
+    updatedAt: expectTimestamp(),
     id: SECTION_1,
   });
 });

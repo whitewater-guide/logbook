@@ -80,7 +80,7 @@ Object {
 
 exports[`should insert 1`] = `
 Object {
-  "createdAt": Any<Date>,
+  "createdAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "difficulty": 2,
   "id": Any<String>,
   "putIn": null,
@@ -88,7 +88,7 @@ Object {
   "river": "Bzhuzha",
   "section": "Lower",
   "takeOut": null,
-  "updatedAt": Any<Date>,
+  "updatedAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "upstreamData": null,
   "upstreamId": null,
 }
@@ -97,7 +97,7 @@ Object {
 exports[`should insert 2`] = `
 Object {
   "comment": "comment",
-  "createdAt": Any<Date>,
+  "createdAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "duration": 3600,
   "id": Any<String>,
   "level": Object {
@@ -105,8 +105,8 @@ Object {
     "value": 20,
   },
   "public": true,
-  "startedAt": 2000-02-01T00:00:00.000Z,
-  "updatedAt": Any<Date>,
+  "startedAt": "2000-02-01T00:00:00.000Z",
+  "updatedAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "upstreamData": Object {
     "foo": "bar",
   },
@@ -116,7 +116,7 @@ Object {
 
 exports[`should update 1`] = `
 Object {
-  "createdAt": 2020-01-01T00:00:00.000Z,
+  "createdAt": "2020-01-01T00:00:00.000Z",
   "difficulty": 2,
   "id": "45e70501-5d20-449f-b854-52b06b138831",
   "putIn": null,
@@ -124,7 +124,7 @@ Object {
   "river": "Bzhuzha",
   "section": "Lower",
   "takeOut": null,
-  "updatedAt": Any<Date>,
+  "updatedAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "upstreamData": null,
   "upstreamId": null,
 }
@@ -133,7 +133,7 @@ Object {
 exports[`should update 2`] = `
 Object {
   "comment": "comment",
-  "createdAt": 2020-01-01T00:00:00.000Z,
+  "createdAt": "2020-01-01T00:00:00.000Z",
   "duration": 3600,
   "id": "97998f67-74f2-43db-a4e4-198c2ca540a7",
   "level": Object {
@@ -141,8 +141,8 @@ Object {
     "value": 20,
   },
   "public": true,
-  "startedAt": 2000-02-01T00:00:00.000Z,
-  "updatedAt": Any<Date>,
+  "startedAt": "2000-02-01T00:00:00.000Z",
+  "updatedAt": StringMatching /\\\\d\\{4\\}-\\\\d\\{2\\}-\\\\d\\{2\\}T\\\\d\\{2\\}:\\\\d\\{2\\}:\\\\d\\{2\\}\\\\\\.\\\\d\\{3,6\\}Z/,
   "upstreamData": Object {
     "foo": "bar",
   },
