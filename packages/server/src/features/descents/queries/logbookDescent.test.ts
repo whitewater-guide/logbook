@@ -118,3 +118,12 @@ it('should return descent', async () => {
   expect(result.errors).toBeUndefined();
   expect(result.data?.logbookDescent).toMatchSnapshot();
 });
+
+it('should return null when no id is provided', async () => {
+  const result = await runQuery<
+    GetLogbookDescentQuery,
+    GetLogbookDescentQueryVariables
+  >(query, {});
+  expect(result.errors).toBeUndefined();
+  expect(result.data?.logbookDescent).toBeNull();
+});

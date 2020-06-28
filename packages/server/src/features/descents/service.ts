@@ -155,9 +155,7 @@ class DescentsService extends DataSource<Context> {
       identifier = decoded.descent;
     }
     if (!identifier) {
-      throw new UserInputError(
-        'either descent id or share token must be provided',
-      );
+      return null;
     }
     const selection = this.buildSelection(tree);
 
