@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.1 (2020-06-28)
+
+
+### Bug Fixes
+
+* allow both empty id and share token in descentquery ([57ee1d5](https://github.com/whitewater-guide/logbook/commit/57ee1d5d1c42259dbbcb9f3b36f528188a8d9b1a))
+
+
+
+
+
 # 1.1.0 (2020-06-28)
 
 
