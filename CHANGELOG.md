@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.2 (2020-06-28)
+
+
+### Bug Fixes
+
+* add duration do descent validation schema ([294b92f](https://github.com/whitewater-guide/logbook/commit/294b92f02a55342b3f516f793106a6f64dc6fc7b))
+
+
+
+
+
 ## 1.1.1 (2020-06-28)
 
 
