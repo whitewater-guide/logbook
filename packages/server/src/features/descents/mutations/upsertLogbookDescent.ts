@@ -9,8 +9,8 @@ import {
 import { TopLevelResolver } from '~/apollo/types';
 
 const Schema = yup.object<MutationUpsertLogbookDescentArgs>({
-  descent: LogbookDescentInputSchema.clone().required(),
-  shareToken: yup.string().notRequired().nullable(),
+  descent: LogbookDescentInputSchema.clone().defined().nullable(false) as any,
+  shareToken: yup.string().notRequired().nullable(true),
 });
 
 const upsertLogbookDescent: TopLevelResolver<MutationUpsertLogbookDescentArgs> = (

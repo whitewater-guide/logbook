@@ -11,7 +11,7 @@ generates:
       fragmentVariableSuffix: ''
       federation: true
       scalars:
-        DateTime: Date
+        DateTime: string
         JSON: '{ [key: string]: any }'
         Cursor: ../common#Cursor
 

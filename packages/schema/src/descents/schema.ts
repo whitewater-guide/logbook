@@ -12,7 +12,7 @@ export const LevelInputSchema = yup.object<LevelInput>({
 export const LogbookDescentInputSchema = yup.object<LogbookDescentInput>({
   id: yupTypes.uuid().notRequired().nullable(),
   section: LogbookSectionInputSchema.clone().required(),
-  startedAt: yup.date().required(),
+  startedAt: yup.date().required() as any,
   level: LevelInputSchema.clone().notRequired().nullable(),
   comment: yup.string().notRequired().nullable(),
   public: yup.bool().notRequired().nullable(),

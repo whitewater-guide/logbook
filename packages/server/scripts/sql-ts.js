@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs-extra');
 
 const config = {
-  dialect: 'postgres',
+  client: 'postgres',
   connection: {
     host: process.env.POSTGRES_HOST || 'postgres.local',
     user: 'postgres',
