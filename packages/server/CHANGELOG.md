@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.10 (2020-06-28)
+
+
+### Bug Fixes
+
+* use string for date in generated schema ([470ba19](https://github.com/whitewater-guide/logbook/commit/470ba1995bddf9c43f21d264229135c5f0dd6ce8))
+
+
+
+
+
 ## 1.0.9 (2020-06-19)
 
 
