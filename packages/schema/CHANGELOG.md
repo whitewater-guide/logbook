@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2020-06-28)
+
+
+### Features
+
+* export stringifyLogbookSection ([f4dbf52](https://github.com/whitewater-guide/logbook/commit/f4dbf5243f81bd4774b1a7f2b4f765ab4926e605))
+
+
+
+
+
 ## 1.0.10 (2020-06-28)
 
 
